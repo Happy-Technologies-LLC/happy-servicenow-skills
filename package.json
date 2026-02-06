@@ -1,5 +1,5 @@
 {
-  "name": "@anthropic/happy-servicenow-skills",
+  "name": "happy-servicenow-skills",
   "version": "1.0.0",
   "description": "Platform-agnostic AI skills library for ServiceNow - works with Claude, ChatGPT, and any agentic AI system",
   "main": "src/index.js",
@@ -32,17 +32,18 @@
     "change-management",
     "cmdb",
     "automation",
-    "happy-technologies"
+    "happy-technologies",
+    "skills-sh"
   ],
   "author": "Happy Technologies LLC",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Happy-Technologies-LLC/happy-servicenow-skills.git"
+    "url": "https://github.com/nickzitzer/happy-servicenow-skills.git"
   },
-  "homepage": "https://github.com/Happy-Technologies-LLC/happy-servicenow-skills#readme",
+  "homepage": "https://github.com/nickzitzer/happy-servicenow-skills#readme",
   "bugs": {
-    "url": "https://github.com/Happy-Technologies-LLC/happy-servicenow-skills/issues"
+    "url": "https://github.com/nickzitzer/happy-servicenow-skills/issues"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
