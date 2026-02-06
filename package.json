@@ -1,6 +1,6 @@
 {
   "name": "happy-servicenow-skills",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Platform-agnostic AI skills library for ServiceNow - works with Claude, ChatGPT, and any agentic AI system",
   "main": "src/index.js",
   "type": "module",
