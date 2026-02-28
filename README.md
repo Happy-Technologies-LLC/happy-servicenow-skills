@@ -18,7 +18,7 @@
 
 <p align="center">
   <a href="https://happy-tech.biz">Website</a> |
-  <a href="https://github.com/nickzitzer/happy-servicenow-skills">GitHub</a> |
+  <a href="https://github.com/Happy-Technologies-LLC/happy-servicenow-skills">GitHub</a> |
   <a href="https://www.npmjs.com/package/happy-servicenow-skills">npm</a> |
   <a href="#-available-skills">Skills</a> |
   <a href="#-creating-custom-skills">Contributing</a>
@@ -44,7 +44,7 @@ Skills = The recipes
 npm install happy-servicenow-skills
 
 # skills.sh
-npx skills add nickzitzer/happy-servicenow-skills --all
+npx skills add Happy-Technologies-LLC/happy-servicenow-skills --all
 ```
 
 ### Usage with Claude Code

@@ -39,11 +39,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nickzitzer/happy-servicenow-skills.git"
+    "url": "https://github.com/Happy-Technologies-LLC/happy-servicenow-skills.git"
   },
-  "homepage": "https://github.com/nickzitzer/happy-servicenow-skills#readme",
+  "homepage": "https://github.com/Happy-Technologies-LLC/happy-servicenow-skills#readme",
   "bugs": {
-    "url": "https://github.com/nickzitzer/happy-servicenow-skills/issues"
+    "url": "https://github.com/Happy-Technologies-LLC/happy-servicenow-skills/issues"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",

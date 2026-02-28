@@ -96,13 +96,13 @@ Use these skills when you need to:
 
 ```bash
 # Install all skills
-npx skills add nickzitzer/happy-servicenow-skills --all
+npx skills add Happy-Technologies-LLC/happy-servicenow-skills --all
 
 # Install specific category
-npx skills add nickzitzer/happy-servicenow-skills -s "itsm/*"
+npx skills add Happy-Technologies-LLC/happy-servicenow-skills -s "itsm/*"
 
 # Install single skill
-npx skills add nickzitzer/happy-servicenow-skills -s "development/business-rules"
+npx skills add Happy-Technologies-LLC/happy-servicenow-skills -s "development/business-rules"
 ```
 
 ## Usage with npm
