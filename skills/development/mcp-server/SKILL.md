@@ -510,6 +510,7 @@ curl -X POST https://[instance].service-now.com/api/x_mcp/mcp_server/tools/call 
 8. **Implement pagination** -- use cursor-based pagination for large result sets
 9. **Version your API** -- include version in resource path for backward compatibility
 10. **Test with multiple agent platforms** -- ensure compatibility across Claude, ChatGPT, etc.
+11. **Keep large reference corpora optional** -- use live/source-backed lookup by default and make local indexing, SQLite, embeddings, and vector search explicit opt-ins
 
 ## Troubleshooting
 
@@ -566,3 +567,4 @@ Access controls:
 - `admin/application-scope` - Scoped application development
 - `genai/build-agent` - Building AI agents that consume MCP tools
 - `genai/skill-kit-custom` - Custom Now Assist skill development
+- `development/servicenow-docs-mcp` - ServiceNowDocs search and optional local indexing for Happy Platform MCP

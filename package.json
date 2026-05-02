@@ -1,6 +1,6 @@
 {
   "name": "happy-platform-skills",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Reusable development patterns and automation recipes for enterprise platforms - works with Claude, ChatGPT, and any agentic AI system",
   "main": "src/index.js",
   "type": "module",
