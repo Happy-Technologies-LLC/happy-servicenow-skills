@@ -138,7 +138,7 @@ console.log(skill.instructions);
 | `hrsd/case-summarization-approvals` | Summarize cases/requests for approvers |
 | `hrsd/interview-relevance` | Interview note and job description skill matching |
 
-### Development (19 skills)
+### Development (20 skills)
 
 | Skill | Description |
 |-------|-------------|
@@ -160,6 +160,7 @@ console.log(skill.instructions);
 | `development/ui-generation` | Generate UI components from descriptions |
 | `development/mcp-server` | Configure platform MCP server integration |
 | `development/mcp-server-installation` | Install and connect Happy Platform MCP |
+| `development/servicenow-docs-mcp` | Add ServiceNowDocs search and optional local indexing to Happy Platform MCP |
 | `development/fluent-sdk` | Hybrid ServiceNow development with NowSDK Fluent and MCP |
 
 ### GenAI Platform (19 skills)
