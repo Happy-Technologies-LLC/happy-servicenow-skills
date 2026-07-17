@@ -20,10 +20,17 @@
   <a href="https://github.com/Happy-Technologies-LLC/happy-platform-skills">GitHub</a> |
   <a href="https://www.npmjs.com/package/happy-platform-skills">npm</a> |
   <a href="#available-skills">Skills</a> |
-  <a href="CONTRIBUTING.md">Contributing</a>
+  <a href="CONTRIBUTING.md">Contributing</a> |
+  <a href="#support">Support</a>
 </p>
 
 ---
+
+## Support
+
+If you find this project useful, consider supporting its development. Contributions support Happy Technologies LLC.
+
+[Buy Me a Coffee](https://buymeacoffee.com/nickzitzer)
 
 ## What Are Platform Skills?
 
