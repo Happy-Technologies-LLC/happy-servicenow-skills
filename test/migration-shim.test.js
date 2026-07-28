@@ -4,6 +4,7 @@ import { spawnSync } from 'child_process';
 import { tmpdir } from 'os';
 import { join } from 'path';
 import semver from 'semver';
+import { parseNpmPublishDryRunVersion } from '../scripts/package-verification-lib.mjs';
 
 const repositoryRoot = new URL('..', import.meta.url).pathname;
 const shimRoot = new URL('../migration/happy-servicenow-skills', import.meta.url).pathname;
@@ -59,7 +60,10 @@ describe('happy-servicenow-skills migration shim', () => {
     expect(packageJson.bugs.url).toBe('https://github.com/Happy-Technologies-LLC/happy-platform-skills/issues');
     expect(shimPublishDryRun.status).toBe(0);
     expect(shimPublishDryRun.stderr).not.toMatch(/npm warn publish/i);
-    expect(JSON.parse(shimPublishDryRun.stdout)['happy-servicenow-skills'].version).toBe('1.2.1');
+    expect(parseNpmPublishDryRunVersion(
+      shimPublishDryRun.stdout,
+      'happy-servicenow-skills'
+    )).toBe('1.2.1');
   });
 
   test('packs and installs the deliverable 1.2.1 compatibility release', async () => {
