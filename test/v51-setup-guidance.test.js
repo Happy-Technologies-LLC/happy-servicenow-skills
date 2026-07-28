@@ -25,15 +25,18 @@ function fencedExamples(markdown) {
 function inlineCodeSnippets(markdown) {
   const prose = markdown.replace(/^```[^\n]*\n[\s\S]*?^```[ \t]*$/gm, '');
   return prose.split('\n').flatMap(line =>
-    [...line.matchAll(/(?<!`)`([^`\n]+)`(?!`)/g)]
-      .map(match => ({ snippet: match[1], line }))
+    line.split(/\s*(?:;|\bbut\b|\bhowever\b|\byet\b|\bnevertheless\b)\s*/i)
+      .flatMap(clause =>
+        [...clause.matchAll(/(?<!`)`([^`\n]+)`(?!`)/g)]
+          .map(match => ({ snippet: match[1], line: clause }))
+      )
   );
 }
 
 function containsSecretCommand(example) {
   const secretOption = /--(?:password|client-secret|(?:access-|api-)?token|api-key|apikey)(?:=\S+|[ \t]+\S+)/i;
-  const curlUserOption = /\bcurl\b[\s\S]*?(?:^|[ \t])(?:-u|--user)(?:=\S+|[ \t]+\S+)/im;
-  const headerOption = /(?:-H|--header)(?:=|[ \t]+)["']?(?:Authorization|X-API-Key)["']?\s*:/i;
+  const curlUserOption = /\bcurl\b[\s\S]*?(?:^|[ \t])(?:-u(?:=|[ \t]+)?\S+|--user(?:=\S+|[ \t]+\S+))/im;
+  const headerOption = /(?:-H(?:=|[ \t]*)|--header(?:=|[ \t]+))["']?(?:Authorization|X-API-Key)["']?\s*:/i;
   const rawCredentialHeader = /(?:^|\s)["']?(?:Authorization|X-API-Key)["']?\s*:/im;
   return [secretOption, curlUserOption, headerOption, rawCredentialHeader]
     .some(pattern => pattern.test(example));
@@ -99,7 +102,9 @@ describe('Happy Platform MCP v5.1 setup guidance', () => {
     ['API key argument', '```bash\nprobe --api-key=VALUE\n```'],
     ['multiline curl short user option', ['```bash', 'curl https://example.invalid \\', '  -u user:VALUE', '```'].join('\n')],
     ['multiline curl long user option', ['```bash', 'curl https://example.invalid \\', '  --user=user:VALUE', '```'].join('\n')],
+    ['concatenated curl short user option', '```bash\ncurl -uuser:VALUE https://example.invalid\n```'],
     ['authorization header', '```bash\ncurl -H "Authorization: Bearer VALUE" https://example.invalid\n```'],
+    ['concatenated authorization header', '```bash\ncurl -HAuthorization:"Bearer VALUE" https://example.invalid\n```'],
     ['equals authorization header', '```bash\ncurl --header="Authorization: Bearer VALUE" https://example.invalid\n```'],
     ['API key header', '```bash\ncurl -H "X-API-Key: VALUE" https://example.invalid\n```']
   ])('detects unsafe fenced %s', (_name, markdown) => {
@@ -121,6 +126,11 @@ describe('Happy Platform MCP v5.1 setup guidance', () => {
     ['credential header', 'Run `curl --header="Authorization: Bearer VALUE" https://example.invalid` now.']
   ])('detects an inline %s outside a fence', (_name, markdown) => {
     expect(unsafeSecretExamples(markdown)).toHaveLength(1);
+  });
+
+  test('does not let an earlier policy warning exempt a later unsafe inline command', () => {
+    const mixed = 'Never use the old flow; run `probe --password VALUE` now.';
+    expect(unsafeSecretExamples(mixed)).toHaveLength(1);
   });
 
   test('installation documents the supported local CLI and storage model', () => {
