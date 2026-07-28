@@ -1,6 +1,6 @@
 ---
 name: detect-conversation-type
-version: 1.0.1
+version: 1.0.2
 description: Detect and classify conversation types including inquiry, complaint, request, feedback, and escalation. Route to appropriate handling workflows based on intent, sentiment, and urgency analysis
 author: Happy Technologies LLC
 tags: [genai, conversation, classification, intent-detection, routing, sentiment, virtual-agent, engagement]
@@ -140,10 +140,10 @@ Some conversations contain multiple intents. Identify all:
 
 **MCP Approach:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  query: "laptop delivery delay complaint escalation"
-  table: sys_cb_topic
+  query: 123TEXTQUERY321=laptop delivery delay complaint escalation
+  table_name: sys_cb_topic
   limit: 10
 ```
 

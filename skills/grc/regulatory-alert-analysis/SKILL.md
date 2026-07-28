@@ -1,6 +1,6 @@
 ---
 name: regulatory-alert-analysis
-version: 1.0.1
+version: 1.0.2
 description: Analyze regulatory alerts for business impact, identify affected policies, controls, and citations, and generate impact assessments with recommended actions for compliance teams
 author: Happy Technologies LLC
 tags: [grc, regulatory, alert, compliance, impact-assessment, citations, policy, regulatory-change]
@@ -120,10 +120,10 @@ GET /api/now/table/sn_compliance_citation?sysparm_query=active=true^regulationLI
 
 **Find policies linked to the affected regulation:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: sn_compliance_policy
-  query: "active policies related to [regulation name] or [regulatory topic]"
+  table_name: sn_compliance_policy
+  query: active=true^short_descriptionLIKE[regulation_keyword]^ORdescriptionLIKE[regulation_keyword]
   limit: 25
 ```
 
@@ -547,10 +547,10 @@ If not found, check for `sn_compliance_alert`, `sn_grc_regulatory_alert`, or `sn
 **Scenario:** New GDPR amendment on AI transparency requires analysis
 
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: sn_regulatory_alert
-  query: "GDPR amendments or updates related to artificial intelligence or automated processing"
+  table_name: sn_regulatory_alert
+  query: 123TEXTQUERY321=GDPR artificial intelligence automated processing
   limit: 10
 ```
 

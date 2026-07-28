@@ -1,6 +1,6 @@
 ---
 name: csm-suggested-steps
-version: 1.0.1
+version: 1.0.2
 description: Generate suggested resolution steps for CSM cases based on product, issue type, and historical resolutions from similar cases
 author: Happy Technologies LLC
 tags: [csm, resolution, suggested-steps, agent-assist, case-resolution, recommendations, automation]
@@ -155,10 +155,10 @@ Find KB articles that can supplement resolution steps.
 
 **Using MCP:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  query: [case_short_description] [case_product]
-  table: kb_knowledge
+  query: workflow_state=published^123TEXTQUERY321=[case_short_description] [case_product]
+  table_name: kb_knowledge
   limit: 5
 ```
 
@@ -344,10 +344,10 @@ SUGGESTED STEPS (Confidence: High - 18 similar cases)
 **Input Case:** CS0056790 - "Incorrect charges on monthly invoice"
 
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  query: incorrect charges monthly invoice billing dispute
-  table: sn_customerservice_case
+  query: stateIN6,7^resolution_codeISNOTEMPTY^123TEXTQUERY321=incorrect charges monthly invoice billing dispute^ORDERBYDESCclosed_at
+  table_name: sn_customerservice_case
   limit: 10
 ```
 

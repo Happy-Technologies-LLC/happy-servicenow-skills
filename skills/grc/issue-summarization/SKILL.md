@@ -1,6 +1,6 @@
 ---
 name: issue-summarization
-version: 1.0.1
+version: 1.0.2
 description: Summarize GRC issues with context including related risks, controls, compliance gaps, and business impact to generate executive-ready summaries for audit committees
 author: Happy Technologies LLC
 tags: [grc, issue, summarization, compliance, risk, audit, executive-reporting]
@@ -321,12 +321,12 @@ Parameters:
 
 ### Step 6: Generate Audit Committee Narrative
 
-**Using Natural Language Search to find issues by theme:**
+**Using an encoded full-text query to find issues by theme:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: sn_grc_issue
-  query: "high priority compliance issues related to data privacy or access controls opened in the last quarter"
+  table_name: sn_grc_issue
+  query: priorityIN1,2^sys_created_on>=javascript:gs.monthsAgoStart(3)^123TEXTQUERY321=data privacy access controls
   limit: 25
 ```
 
@@ -437,10 +437,10 @@ Check for alternative relationship fields such as `item`, `content`, or custom r
 **Scenario:** Compliance manager needs a monthly overview for the risk committee
 
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: sn_grc_issue
-  query: "all open GRC issues with high or critical priority created or updated this month"
+  table_name: sn_grc_issue
+  query: active=true^priorityIN1,2^sys_created_on>=javascript:gs.beginningOfThisMonth()^ORsys_updated_on>=javascript:gs.beginningOfThisMonth()
   limit: 50
 ```
 

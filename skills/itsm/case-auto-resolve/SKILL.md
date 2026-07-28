@@ -1,6 +1,6 @@
 ---
 name: case-auto-resolve
-version: 1.0.1
+version: 1.0.2
 description: Auto-resolve common cases and incidents using pattern matching, knowledge base lookups, and historical resolution data to enable zero-touch service desk operations
 author: Happy Technologies LLC
 tags: [itsm, incident, case, auto-resolve, zero-touch, automation, pattern-matching, knowledge-base]
@@ -54,10 +54,10 @@ Query for new or open incidents that match auto-resolvable categories.
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: incident
-  query: "active incidents in new state with category software or hardware or network where short description contains password reset or access request or VPN or printer"
+  table_name: incident
+  query: active=true^state=1^categoryINsoftware,hardware,network^short_descriptionLIKEpassword reset^ORshort_descriptionLIKEaccess request^ORshort_descriptionLIKEVPN^ORshort_descriptionLIKEprinter
   fields: sys_id,number,short_description,description,category,subcategory,priority,state,contact_type
   limit: 50
 ```

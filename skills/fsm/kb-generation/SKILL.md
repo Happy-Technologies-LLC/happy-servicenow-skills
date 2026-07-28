@@ -1,6 +1,6 @@
 ---
 name: fsm-kb-generation
-version: 1.0.1
+version: 1.0.2
 description: Generate field service knowledge articles from completed work orders including repair procedures, parts lists, safety notes, and troubleshooting guides
 author: Happy Technologies LLC
 tags: [fsm, knowledge, work-order, repair, parts, safety, troubleshooting, field-service, kb]
@@ -189,10 +189,10 @@ Parameters:
 ```
 
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  query: "[equipment type] repair [symptom description]"
-  table: wm_order
+  query: 123TEXTQUERY321=[equipment type] repair [symptom description]
+  table_name: wm_order
   fields: number,short_description,close_notes
 ```
 

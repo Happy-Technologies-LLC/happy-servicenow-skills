@@ -1,6 +1,6 @@
 ---
 name: hr-email-recommendation
-version: 1.0.1
+version: 1.0.2
 description: Generate recommended email responses for HR cases considering confidentiality, policy references, and empathetic tone
 author: Happy Technologies LLC
 tags: [hrsd, email, recommendation, hr-cases, communication, confidentiality, policy, empathy]
@@ -108,10 +108,10 @@ Search for policy documentation and FAQ articles related to the case topic.
 
 **Using MCP:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: kb_knowledge
-  query: "[case topic or keyword from short_description]"
+  table_name: kb_knowledge
+  query: workflow_state=published^short_descriptionLIKE[topic_keyword]^ORtextLIKE[topic_keyword]
   fields: sys_id,number,short_description,text,kb_knowledge_base,kb_category,workflow_state
   limit: 5
 ```
@@ -306,10 +306,10 @@ Parameters:
   fields: number,short_description,description,hr_service,subject_person.name
 
 # 2. Find relevant KB article
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: kb_knowledge
-  query: "benefits open enrollment deadlines"
+  table_name: kb_knowledge
+  query: workflow_state=published^123TEXTQUERY321=benefits open enrollment deadlines
   fields: number,short_description,text
   limit: 3
 

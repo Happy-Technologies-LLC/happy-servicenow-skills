@@ -1,6 +1,6 @@
 ---
 name: incident-sentiment
-version: 1.0.1
+version: 1.0.2
 description: Analyze incident sentiment from work notes, customer communications, and activity entries to track escalation risk and customer satisfaction
 author: Happy Technologies LLC
 tags: [itsm, incident, sentiment, escalation, customer-satisfaction, nlp, work-notes, analytics]
@@ -55,10 +55,10 @@ Query active incidents, prioritizing those with recent activity or approaching S
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: incident
-  query: "active incidents with priority 1 or 2 that have been updated in the last 24 hours"
+  table_name: incident
+  query: active=true^priorityIN1,2^sys_updated_onONLast 24 hours@javascript:gs.daysAgoStart(1)@javascript:gs.daysAgoEnd(0)
   fields: sys_id,number,short_description,priority,state,assigned_to,assignment_group,sla_due,sys_updated_on
   limit: 30
 ```

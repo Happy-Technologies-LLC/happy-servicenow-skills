@@ -1,6 +1,6 @@
 ---
 name: product-compliance
-version: 1.0.1
+version: 1.0.2
 description: Summarize software product compliance status including license counts, entitlement gaps, compliance violations, and recommended remediation actions
 author: Happy Technologies LLC
 tags: [sam, software-asset, compliance, licensing, entitlement, remediation, audit]
@@ -66,10 +66,10 @@ Parameters:
 
 For broader searches by publisher:
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: samp_sw_product
-  query: "Find all licensable software products from Microsoft"
+  table_name: samp_sw_product
+  query: display_nameLIKEMicrosoft^is_licensable=true
 ```
 
 **Using REST API:**

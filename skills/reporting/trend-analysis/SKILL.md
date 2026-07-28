@@ -1,6 +1,6 @@
 ---
 name: trend-analysis
-version: 1.0.1
+version: 1.0.2
 description: Incident volume trends, category distribution, seasonal patterns, and predictive indicators
 author: Happy Technologies LLC
 tags: [reporting, trends, analytics, forecasting, patterns, capacity, planning]
@@ -318,10 +318,10 @@ Any day outside 14-38 range = Anomaly requiring investigation
 **Query Recent Anomalies:**
 If daily count exceeds threshold, investigate:
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: incident
-  query: "incidents created today grouped by category"
+  table_name: incident
+  query: sys_created_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()^ORDERBYcategory
   fields: sys_id,category,short_description,cmdb_ci
   limit: 100
 ```
@@ -566,10 +566,10 @@ CRM subcategory driving entire increase!
 
 **Step 3: Analyze CRM incidents**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: incident
-  query: "software incidents for CRM created this month"
+  table_name: incident
+  query: category=software^cmdb_ci.nameLIKECRM^sys_created_on>=javascript:gs.beginningOfThisMonth()
   fields: sys_id,short_description,sys_created_on
   limit: 100
 ```

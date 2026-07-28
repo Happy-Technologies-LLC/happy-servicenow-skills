@@ -1,6 +1,6 @@
 ---
 name: sla-analysis
-version: 1.0.1
+version: 1.0.2
 description: SLA performance tracking including breach detection, achievement metrics, and trend analysis
 author: Happy Technologies LLC
 tags: [reporting, sla, performance, metrics, breach, compliance, itil]
@@ -265,10 +265,10 @@ Parameters:
 
 **Step 1: Get breach summary**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: task_sla
-  query: "active SLAs that have breached"
+  table_name: task_sla
+  query: active=true^has_breached=true
   fields: task,sla,percentage,business_time_left
   limit: 20
 ```

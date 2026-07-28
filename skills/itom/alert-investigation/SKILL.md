@@ -1,6 +1,6 @@
 ---
 name: alert-investigation
-version: 1.0.1
+version: 1.0.2
 description: Deep investigation of operational alerts including CI tracing, recent change correlation, related alert analysis, knowledge base review, and remediation suggestions using LEAP methodology
 author: Happy Technologies LLC
 tags: [itom, alerts, investigation, root-cause, correlation, remediation, LEAP, event-management, change-correlation]
@@ -189,10 +189,10 @@ Look for existing KB articles that match the alert description or CI class.
 
 **Using MCP:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: kb_knowledge
-  query: [alert_description] remediation [ci_class_name]
+  table_name: kb_knowledge
+  query: workflow_state=published^123TEXTQUERY321=[alert_description] remediation [ci_class_name]
 ```
 
 Or query KB directly:
@@ -331,10 +331,10 @@ Parameters:
   limit: 15
 
 # LEAP Step 4 - PROPOSE: Search KB
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: kb_knowledge
-  query: database connection pool exhausted remediation Oracle
+  table_name: kb_knowledge
+  query: workflow_state=published^123TEXTQUERY321=database connection pool exhausted remediation Oracle
 ```
 
 ### Example 2: Change-Induced Alert Investigation

@@ -1,6 +1,6 @@
 ---
 name: cmdb-search-analysis
-version: 1.0.1
+version: 1.0.2
 description: Analyze CMDB search requests, interpret natural language CI queries, and provide structured search results with relationships and dependency context
 author: Happy Technologies LLC
 tags: [cmdb, search, analysis, ci, natural-language, query, relationships, discovery]
@@ -88,12 +88,12 @@ GET /api/now/cmdb/meta?sysparm_type=class_hierarchy&sysparm_ci_type=cmdb_ci
 
 Translate the natural language request into a ServiceNow encoded query string.
 
-**Using natural language search:**
+**Using an encoded query:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  query: "production Linux servers in the New York datacenter with critical business classification"
-  table: cmdb_ci_server
+  query: environment=production^osLIKELinux^location.nameLIKENew York^business_criticality=1
+  table_name: cmdb_ci_server
   limit: 25
 ```
 
@@ -389,10 +389,10 @@ Parameters:
 
 ```
 # 1. Find the payroll application CI
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  query: "payroll application"
-  table: cmdb_ci_appl
+  query: nameLIKEpayroll^ORshort_descriptionLIKEpayroll
+  table_name: cmdb_ci_appl
   limit: 5
 
 # 2. Find downstream database dependencies

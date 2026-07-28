@@ -1,6 +1,6 @@
 ---
 name: health-log-analytics
-version: 1.0.1
+version: 1.0.2
 description: Health log analytics for anomaly detection, capacity planning, performance trending, log source configuration, and threshold management in ServiceNow ITOM
 author: Happy Technologies LLC
 tags: [itom, health-log-analytics, anomaly-detection, capacity-planning, performance, metrics, thresholds, hla]
@@ -410,10 +410,10 @@ Parameters:
 ### Example 3: Weekly Performance Summary
 
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: em_alert
-  query: "critical health log analytics alerts created in the last 7 days"
+  table_name: em_alert
+  query: severity=1^source=Health Log Analytics^sys_created_on>=javascript:gs.daysAgoStart(7)
   fields: number,ci,severity,metric_name,description,sys_created_on
   limit: 25
 ```

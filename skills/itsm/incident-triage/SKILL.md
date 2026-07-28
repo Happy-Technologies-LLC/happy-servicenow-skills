@@ -1,6 +1,6 @@
 ---
 name: incident-triage
-version: 1.0.1
+version: 1.0.2
 description: "Triage, prioritize, and assign ServiceNow incidents using impact/urgency matrix and category-based routing. Use when an alert fires, a ticket lands unassigned, an outage is reported, an escalation is needed, severity must be classified, an on-call team must be paged, or an SLA is at risk."
 author: Happy Technologies LLC
 tags: [itsm, incident, triage, assignment, priority, itil]
@@ -27,10 +27,10 @@ estimated_time: 5-15 minutes
 Query for active incidents that are unassigned or in "New" state.
 
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: incident
-  query: "active high priority incidents where assigned to is empty"
+  table_name: incident
+  query: active=true^priorityIN1,2^assigned_toISEMPTY
   fields: number,short_description,description,impact,urgency,category,priority
   limit: 20
 ```

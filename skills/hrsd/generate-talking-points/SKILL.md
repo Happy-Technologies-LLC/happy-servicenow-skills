@@ -1,6 +1,6 @@
 ---
 name: generate-talking-points
-version: 1.0.1
+version: 1.0.2
 description: Generate manager talking points for employee reviews, 1:1 meetings, and performance discussions based on talent profiles, goals, feedback, and performance metrics
 author: Happy Technologies LLC
 tags: [hrsd, talent, performance, talking-points, review, goals, feedback, manager, one-on-one]
@@ -239,12 +239,12 @@ Parameters:
 
 ### Step 5: Search for Context by Theme
 
-**Using Natural Language Search for additional context:**
+**Using an encoded query for additional context:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: sn_hr_talent_feedback
-  query: "recent positive feedback about leadership and collaboration for [employee_name]"
+  table_name: sn_hr_talent_feedback
+  query: user.nameLIKE[employee_name]^rating>=4^123TEXTQUERY321=leadership collaboration^sys_created_on>=javascript:gs.daysAgoStart(90)
   limit: 10
 ```
 
@@ -320,10 +320,10 @@ Parameters:
 **Scenario:** Manager needs a quick context refresh before a 30-minute 1:1
 
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: sn_hr_talent_feedback
-  query: "recent feedback for [employee_name] in the last two weeks"
+  table_name: sn_hr_talent_feedback
+  query: user.nameLIKE[employee_name]^sys_created_on>=javascript:gs.daysAgoStart(14)
   limit: 5
 ```
 

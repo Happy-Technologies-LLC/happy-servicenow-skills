@@ -1,6 +1,6 @@
 ---
 name: itsm-suggested-steps
-version: 1.0.1
+version: 1.0.2
 description: Generate suggested resolution steps for incidents based on category, symptoms, historical similar tickets, and knowledge base articles
 author: Happy Technologies LLC
 tags: [itsm, incident, resolution, suggested-steps, knowledge-base, similar-tickets, troubleshooting]
@@ -81,10 +81,10 @@ Query published KB articles matching the incident's symptoms and category.
 
 **Using MCP:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: kb_knowledge
-  query: "[incident short_description keywords] [category]"
+  table_name: kb_knowledge
+  query: workflow_state=published^active=true^short_descriptionLIKE[keyword1]^ORshort_descriptionLIKE[keyword2]^ORtextLIKE[keyword1]
   fields: sys_id,number,short_description,text,kb_category,rating,sys_view_count,workflow_state
   limit: 10
 ```

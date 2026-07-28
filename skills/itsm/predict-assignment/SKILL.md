@@ -1,6 +1,6 @@
 ---
 name: predict-assignment
-version: 1.0.1
+version: 1.0.2
 description: Predict assignment group and category for incoming incidents using historical patterns, keyword analysis, and resolution data to accelerate routing
 author: Happy Technologies LLC
 tags: [itsm, incident, assignment, prediction, routing, pattern-matching, zero-touch, automation]
@@ -55,10 +55,10 @@ Fetch the new or unassigned incident that needs routing.
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: incident
-  query: "active incidents in new state where assignment group is empty"
+  table_name: incident
+  query: active=true^state=1^assignment_groupISEMPTY
   fields: sys_id,number,short_description,description,category,subcategory,contact_type,caller_id,cmdb_ci,priority
   limit: 25
 ```

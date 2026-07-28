@@ -1,6 +1,6 @@
 ---
 name: chat-recommendation
-version: 1.0.1
+version: 1.0.2
 description: Generate recommended chat responses for CSM agents based on case context, knowledge base matches, customer history, and similar resolved cases
 author: Happy Technologies LLC
 tags: [csm, chat, recommendation, agent-assist, knowledge-base, customer-service]
@@ -124,10 +124,10 @@ Query the knowledge base using case keywords, category, and product to find appl
 
 **Using MCP:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  query: [short_description + category + product keywords]
-  table: kb_knowledge
+  query: workflow_state=published^kb_category.label=[case_category]^textLIKE[key_terms]^ORshort_descriptionLIKE[key_terms]
+  table_name: kb_knowledge
   limit: 5
 ```
 
@@ -160,13 +160,12 @@ Parameters:
   limit: 5
 ```
 
-For broader matching using natural language:
+For broader matching with an encoded query:
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  query: [short_description of current case]
-  table: sn_customerservice_case
-  filter: stateIN6,7
+  query: category=<category>^subcategory=<subcategory>^stateIN6,7^resolution_codeISNOTEMPTY^ORDERBYDESCclosed_at
+  table_name: sn_customerservice_case
   limit: 5
 ```
 
@@ -287,7 +286,7 @@ support portal for quick self-service."
 ### "No KB articles found"
 
 **Cause:** Knowledge base may not have articles matching the case category or product
-**Solution:** Broaden the search by using only key terms from the short_description. Try `SN-Natural-Language-Search` with natural language. Also check if articles exist in a different knowledge base using `kb_knowledge_baseLIKE[name]`.
+**Solution:** Broaden the encoded `SN-Query-Table` search using only key terms from the short description. Also check if articles exist in a different knowledge base using `kb_knowledge_baseLIKE[name]`.
 
 ### "No similar resolved cases found"
 
@@ -322,10 +321,10 @@ Parameters:
 
 **Step 2 - Search KB:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  query: product return defective item return policy
-  table: kb_knowledge
+  query: workflow_state=published^123TEXTQUERY321=product return defective item return policy
+  table_name: kb_knowledge
   limit: 3
 ```
 

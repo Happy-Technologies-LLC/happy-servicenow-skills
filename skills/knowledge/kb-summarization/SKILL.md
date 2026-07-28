@@ -1,6 +1,6 @@
 ---
 name: kb-summarization
-version: 1.0.1
+version: 1.0.2
 description: Summarize knowledge articles for quick consumption including executive summaries, TL;DR versions, key takeaway bullets, topic extraction, and readability-optimized condensed formats
 author: Happy Technologies LLC
 tags: [knowledge, summarization, kb-articles, executive-summary, tldr, content, knowledge-management]
@@ -71,10 +71,10 @@ GET /api/now/table/kb_knowledge/<article_sys_id>
 
 For searching by keyword:
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  query: "VPN connection troubleshooting"
-  table: kb_knowledge
+  query: workflow_state=published^123TEXTQUERY321=VPN connection troubleshooting
+  table_name: kb_knowledge
   limit: 5
 ```
 

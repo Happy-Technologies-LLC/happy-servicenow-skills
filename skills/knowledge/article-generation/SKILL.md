@@ -1,6 +1,6 @@
 ---
 name: article-generation
-version: 1.0.1
+version: 1.0.2
 description: Generate knowledge articles from resolved incidents, problem records, and change implementations with proper KB structure including symptoms, cause, resolution, and related articles
 author: Happy Technologies LLC
 tags: [knowledge, article, generation, incident, problem, change, authoring, knowledge-management]
@@ -108,10 +108,10 @@ Before creating a new article, verify no existing article covers the same topic.
 
 **Using MCP:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: kb_knowledge
-  query: "published articles about Outlook calendar sync errors on mobile devices"
+  table_name: kb_knowledge
+  query: workflow_state=published^short_descriptionLIKEoutlook^short_descriptionLIKEcalendar^ORshort_descriptionLIKEsync
   fields: sys_id,number,short_description,kb_knowledge_base,kb_category,workflow_state,sys_updated_on
   limit: 10
 ```

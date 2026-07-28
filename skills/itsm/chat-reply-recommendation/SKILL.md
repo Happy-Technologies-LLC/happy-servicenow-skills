@@ -1,6 +1,6 @@
 ---
 name: itsm-chat-reply-recommendation
-version: 1.0.1
+version: 1.0.2
 description: Generate recommended chat replies for ITSM agents based on incident context, knowledge base matches, and resolution history
 author: Happy Technologies LLC
 tags: [itsm, chat, recommendation, virtual-agent, live-agent, incident, knowledge, resolution]
@@ -95,10 +95,10 @@ Find relevant knowledge articles matching the incident description.
 
 **Using MCP:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: kb_knowledge
-  query: "[keywords from incident short_description and description]"
+  table_name: kb_knowledge
+  query: workflow_state=published^short_descriptionLIKE[keyword1]^ORtextLIKE[keyword1]
   fields: sys_id,number,short_description,text,kb_category,workflow_state,rating
   limit: 5
 ```
@@ -296,10 +296,10 @@ Parameters:
   fields: number,short_description,caller_id.name,category
 
 # 2. Find KB article
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: kb_knowledge
-  query: "password reset self-service"
+  table_name: kb_knowledge
+  query: workflow_state=published^123TEXTQUERY321=password reset self-service
   fields: number,short_description,text
   limit: 3
 

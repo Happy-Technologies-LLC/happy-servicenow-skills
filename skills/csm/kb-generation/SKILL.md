@@ -1,6 +1,6 @@
 ---
 name: csm-kb-generation
-version: 1.0.1
+version: 1.0.2
 description: Generate knowledge articles from resolved CSM cases with customer-facing language, structured content, screenshot placeholders, and FAQ sections
 author: Happy Technologies LLC
 tags: [csm, knowledge, kb-generation, case-resolution, customer-facing, faq, documentation]
@@ -128,10 +128,10 @@ Search for duplicate or related articles to avoid redundancy.
 
 **Using MCP:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  query: [case_short_description]
-  table: kb_knowledge
+  query: workflow_state=published^123TEXTQUERY321=[case_short_description]
+  table_name: kb_knowledge
   limit: 5
 ```
 

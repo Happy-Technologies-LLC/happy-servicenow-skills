@@ -1,6 +1,6 @@
 ---
 name: itsm-kb-generation
-version: 1.0.1
+version: 1.0.2
 description: Generate knowledge articles from resolved incidents and problems, structured with symptoms, cause, resolution, and workaround sections
 author: Happy Technologies LLC
 tags: [itsm, knowledge, kb-generation, incident, problem, resolution, workaround, self-service]
@@ -161,10 +161,10 @@ Avoid duplicates by searching for existing knowledge on the topic.
 
 **Using MCP:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: kb_knowledge
-  query: "[keywords from incident short_description]"
+  table_name: kb_knowledge
+  query: short_descriptionLIKE[keyword]^ORtextLIKE[keyword]^workflow_stateINpublished,draft
   fields: sys_id,number,short_description,workflow_state,sys_updated_on
   limit: 10
 ```
@@ -420,10 +420,10 @@ Parameters:
   limit: 10
 
 # 2. Check for existing KB
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: kb_knowledge
-  query: "VPN connection troubleshooting"
+  table_name: kb_knowledge
+  query: workflow_state=published^123TEXTQUERY321=VPN connection troubleshooting
   fields: number,short_description,workflow_state
   limit: 5
 

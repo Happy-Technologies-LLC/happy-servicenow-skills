@@ -1,6 +1,6 @@
 ---
 name: content-recommendation
-version: 1.0.1
+version: 1.0.2
 description: Recommend relevant knowledge articles based on incident or case context by matching keywords, categories, and historical resolution patterns to surface the most useful articles
 author: Happy Technologies LLC
 tags: [knowledge, recommendation, incident, case, search, matching, knowledge-management]
@@ -106,10 +106,10 @@ Extract key terms from the incident short description and description, then sear
 
 **Using MCP:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: kb_knowledge
-  query: "published articles about VPN connection timeout error when connecting to corporate network"
+  table_name: kb_knowledge
+  query: workflow_state=published^short_descriptionLIKEvpn^ORtextLIKEvpn^short_descriptionLIKEtimeout^ORtextLIKEtimeout^short_descriptionLIKEconnection^ORtextLIKEconnection
   fields: sys_id,number,short_description,text,kb_knowledge_base,kb_category,sys_view_count,rating
   limit: 15
 ```

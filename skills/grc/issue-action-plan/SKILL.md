@@ -1,6 +1,6 @@
 ---
 name: issue-action-plan
-version: 1.0.1
+version: 1.0.2
 description: Generate comprehensive action plans for GRC issues including remediation steps, responsible parties, timelines, and success criteria prioritized by risk rating and compliance impact
 author: Happy Technologies LLC
 tags: [grc, issue, action-plan, remediation, compliance, risk, governance]
@@ -375,10 +375,10 @@ Verify the `state` field choices and adjust the query filter accordingly.
 **Scenario:** Audit finding reveals SOX-critical access control failure
 
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: sn_grc_issue
-  query: "critical SOX compliance issues with high risk rating that are open"
+  table_name: sn_grc_issue
+  query: active=true^priority=1^risk_ratingIN1,2^123TEXTQUERY321=SOX
   limit: 10
 ```
 

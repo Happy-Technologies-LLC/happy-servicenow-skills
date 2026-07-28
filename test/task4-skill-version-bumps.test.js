@@ -4,6 +4,7 @@ import { readFile } from 'fs/promises';
 import matter from 'gray-matter';
 
 const task4Base = 'b5462ef';
+const semanticRewriteBase = 'c08c48a';
 
 function compareSemver(left, right) {
   const a = left.split('.').map(Number);
@@ -24,6 +25,20 @@ describe('Task 4 skill version migration', () => {
     const failures = [];
     for (const path of paths) {
       const base = matter(execFileSync('git', ['show', `${task4Base}:${path}`], { encoding: 'utf8' })).data.version;
+      const current = matter(await readFile(new URL(`../${path}`, import.meta.url), 'utf8')).data.version;
+      if (compareSemver(current, base) <= 0) failures.push(`${path}: ${base} -> ${current}`);
+    }
+    expect(failures).toEqual([]);
+  });
+
+  test('every semantic-rewrite skill receives another patch bump', async () => {
+    const paths = execFileSync('git', [
+      'diff', '--name-only', semanticRewriteBase, '--', 'skills/*/SKILL.md'
+    ], { encoding: 'utf8' }).trim().split('\n').filter(Boolean);
+    expect(paths.length).toBeGreaterThan(30);
+    const failures = [];
+    for (const path of paths) {
+      const base = matter(execFileSync('git', ['show', `${semanticRewriteBase}:${path}`], { encoding: 'utf8' })).data.version;
       const current = matter(await readFile(new URL(`../${path}`, import.meta.url), 'utf8')).data.version;
       if (compareSemver(current, base) <= 0) failures.push(`${path}: ${base} -> ${current}`);
     }

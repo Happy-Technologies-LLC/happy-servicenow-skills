@@ -1,6 +1,6 @@
 ---
 name: duplicate-detection
-version: 1.0.1
+version: 1.0.2
 description: Identify duplicate knowledge articles using content similarity analysis, compare titles and metadata across knowledge bases, and recommend merge or deduplication strategies
 author: Happy Technologies LLC
 tags: [knowledge, duplicate, deduplication, content-analysis, quality, knowledge-management]
@@ -71,10 +71,10 @@ Duplicates often use different phrasing. Search for common synonyms and alternat
 
 **Using MCP:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: kb_knowledge
-  query: "published knowledge articles about resetting passwords or changing credentials or account lockout"
+  table_name: kb_knowledge
+  query: workflow_state=published^short_descriptionLIKEpassword^ORshort_descriptionLIKEcredential^ORshort_descriptionLIKElockout
   fields: sys_id,number,short_description,text,kb_knowledge_base,author
   limit: 30
 ```

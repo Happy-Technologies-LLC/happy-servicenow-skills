@@ -1,6 +1,6 @@
 ---
 name: resolution-notes
-version: 1.0.1
+version: 1.0.2
 description: Generate comprehensive resolution notes for closing CSM cases including issue summary, root cause analysis, steps taken, resolution details, and preventive measures
 author: Happy Technologies LLC
 tags: [csm, resolution, notes, case-closure, root-cause, documentation]
@@ -159,10 +159,10 @@ Check if a KB article exists for this issue or if one should be created.
 
 **Using MCP:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  query: [short_description + resolution keywords]
-  table: kb_knowledge
+  query: workflow_state=published^short_descriptionLIKE[key_terms]
+  table_name: kb_knowledge
   limit: 5
 ```
 

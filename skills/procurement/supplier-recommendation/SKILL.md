@@ -1,6 +1,6 @@
 ---
 name: supplier-recommendation
-version: 1.0.1
+version: 1.0.2
 description: Recommend suppliers based on historical performance, pricing competitiveness, compliance status, category expertise, scorecard analysis, and risk factors
 author: Happy Technologies LLC
 tags: [procurement, supplier, vendor, recommendation, scorecard, risk, performance]
@@ -66,10 +66,10 @@ Parameters:
 
 For broader search by name:
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  query: "IT hardware suppliers in the United States"
-  table: core_company
+  query: vendor=true^vendor_type=IT Hardware^country=US^ORDERBYname
+  table_name: core_company
 ```
 
 **Using REST API:**

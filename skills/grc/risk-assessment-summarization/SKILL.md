@@ -1,6 +1,6 @@
 ---
 name: risk-assessment-summarization
-version: 1.0.1
+version: 1.0.2
 description: Summarize risk assessments with scoring, trends, heat map data, and mitigation recommendations covering inherent vs residual risk analysis
 author: Happy Technologies LLC
 tags: [grc, risk, assessment, summarization, heat-map, mitigation, inherent-risk, residual-risk]
@@ -435,10 +435,10 @@ Check for alternative scoring fields like `calculated_risk`, `risk_score_calcula
 **Scenario:** CRO needs a consolidated risk posture report for the board
 
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: sn_grc_risk
-  query: "all active risks with high or critical risk scores grouped by category"
+  table_name: sn_grc_risk
+  query: active=true^risk_score>=70^ORDERBYcategory
   limit: 50
 ```
 

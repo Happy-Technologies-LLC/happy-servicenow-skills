@@ -1,6 +1,6 @@
 ---
 name: activity-response
-version: 1.0.1
+version: 1.0.2
 description: Generate contextual responses for CSM case activities including work notes, customer communications, and status updates with suggested next actions
 author: Happy Technologies LLC
 tags: [csm, activity, response, work-notes, status-update, agent-assist, next-actions]
@@ -147,10 +147,10 @@ Find KB articles that can support the activity response with solutions or refere
 
 **Using MCP:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  query: [short_description keywords]
-  table: kb_knowledge
+  query: workflow_state=published^short_descriptionLIKE<key_terms>
+  table_name: kb_knowledge
   limit: 3
 ```
 
@@ -381,10 +381,10 @@ Parameters:
 
 **Step 2 - Search KB:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  query: intermittent network connectivity drops VPN
-  table: kb_knowledge
+  query: workflow_state=published^123TEXTQUERY321=intermittent network connectivity drops VPN
+  table_name: kb_knowledge
   limit: 3
 ```
 

@@ -1,6 +1,6 @@
 ---
 name: email-recommendation
-version: 1.0.1
+version: 1.0.2
 description: Generate professional email responses for customer service cases by analyzing case details, customer sentiment, communication history, and knowledge base articles
 author: Happy Technologies LLC
 tags: [csm, email, recommendation, response-generation, customer-service, communication]
@@ -150,10 +150,10 @@ Find relevant KB articles to reference or include in the email response.
 
 **Using MCP:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  query: [short_description + key terms from description]
-  table: kb_knowledge
+  query: workflow_state=published^short_descriptionLIKE[key_terms]^ORtextLIKE[key_terms]
+  table_name: kb_knowledge
   limit: 5
 ```
 
@@ -364,10 +364,10 @@ Parameters:
 
 **Step 2 - Search KB:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  query: software license activation failure error code
-  table: kb_knowledge
+  query: workflow_state=published^123TEXTQUERY321=software license activation failure error code
+  table_name: kb_knowledge
   limit: 3
 ```
 

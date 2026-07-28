@@ -1,6 +1,6 @@
 ---
 name: itsm-email-recommendation
-version: 1.0.1
+version: 1.0.2
 description: Generate professional email responses for IT service cases with technical context, resolution steps, and next actions
 author: Happy Technologies LLC
 tags: [itsm, email, recommendation, incident, communication, resolution, professional, support]
@@ -109,10 +109,10 @@ Search for KB articles to reference in the email.
 
 **Using MCP:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: kb_knowledge
-  query: "[keywords from incident description]"
+  table_name: kb_knowledge
+  query: workflow_state=published^short_descriptionLIKE[keyword1]^ORtextLIKE[keyword1]
   fields: sys_id,number,short_description,text
   limit: 5
 ```
@@ -397,10 +397,10 @@ Parameters:
   fields: number,short_description,close_code,close_notes,caller_id.name
 
 # 2. Find relevant KB article
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
-  table: kb_knowledge
-  query: "[resolution topic]"
+  table_name: kb_knowledge
+  query: workflow_state=published^123TEXTQUERY321=[resolution topic]
   fields: number,short_description
   limit: 3
 ```

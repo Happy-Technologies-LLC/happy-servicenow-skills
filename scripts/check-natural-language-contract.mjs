@@ -29,8 +29,8 @@ const failures = [];
 
 for (const entry of fixture.supported) {
   const result = parseNaturalLanguage(entry.query, entry.table);
-  if (result.encodedQuery !== entry.encodedQuery || result.unmatchedText !== '') {
-    failures.push(`${entry.query}: expected ${entry.encodedQuery} with no unmatched text; got ${result.encodedQuery} / ${result.unmatchedText}`);
+  if (result.encodedQuery !== entry.encodedQuery || result.unmatchedText !== entry.unmatchedText) {
+    failures.push(`${entry.query}: expected ${entry.encodedQuery} / ${entry.unmatchedText}; got ${result.encodedQuery} / ${result.unmatchedText}`);
   }
 }
 
