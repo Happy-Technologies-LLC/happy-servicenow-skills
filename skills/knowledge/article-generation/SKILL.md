@@ -110,7 +110,7 @@ Before creating a new article, verify no existing article covers the same topic.
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: kb_knowledge
+  table: kb_knowledge
   query: "published articles about Outlook calendar sync errors on mobile devices"
   fields: sys_id,number,short_description,kb_knowledge_base,kb_category,workflow_state,sys_updated_on
   limit: 10

@@ -108,7 +108,7 @@ Extract key terms from the incident short description and description, then sear
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: kb_knowledge
+  table: kb_knowledge
   query: "published articles about VPN connection timeout error when connecting to corporate network"
   fields: sys_id,number,short_description,text,kb_knowledge_base,kb_category,sys_view_count,rating
   limit: 15

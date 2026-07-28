@@ -330,7 +330,7 @@ Check for fields like `type`, `category`, or `classification` that categorize in
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: sn_hr_hs_incident
+  table: sn_hr_hs_incident
   query: "all workplace incidents reported in the last 30 days including near misses and first aid cases"
   limit: 50
 ```

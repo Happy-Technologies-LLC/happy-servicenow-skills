@@ -267,7 +267,7 @@ Parameters:
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: task_sla
+  table: task_sla
   query: "active SLAs that have breached"
   fields: task,sla,percentage,business_time_left
   limit: 20

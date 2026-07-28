@@ -73,7 +73,7 @@ Duplicates often use different phrasing. Search for common synonyms and alternat
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: kb_knowledge
+  table: kb_knowledge
   query: "published knowledge articles about resetting passwords or changing credentials or account lockout"
   fields: sys_id,number,short_description,text,kb_knowledge_base,author
   limit: 30

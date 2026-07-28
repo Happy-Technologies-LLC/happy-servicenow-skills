@@ -57,7 +57,7 @@ Fetch the new or unassigned incident that needs routing.
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: incident
+  table: incident
   query: "active incidents in new state where assignment group is empty"
   fields: sys_id,number,short_description,description,category,subcategory,contact_type,caller_id,cmdb_ci,priority
   limit: 25

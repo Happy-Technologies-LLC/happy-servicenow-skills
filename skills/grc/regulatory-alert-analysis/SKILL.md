@@ -122,7 +122,7 @@ GET /api/now/table/sn_compliance_citation?sysparm_query=active=true^regulationLI
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: sn_compliance_policy
+  table: sn_compliance_policy
   query: "active policies related to [regulation name] or [regulatory topic]"
   limit: 25
 ```
@@ -549,7 +549,7 @@ If not found, check for `sn_compliance_alert`, `sn_grc_regulatory_alert`, or `sn
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: sn_regulatory_alert
+  table: sn_regulatory_alert
   query: "GDPR amendments or updates related to artificial intelligence or automated processing"
   limit: 10
 ```

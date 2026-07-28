@@ -482,7 +482,7 @@ If not found, check for alternative tables like `sn_compliance_objective` or `sn
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: sn_compliance_control_objective
+  table: sn_compliance_control_objective
   query: "SOX Section 404 control objectives for internal control over financial reporting"
   limit: 30
 ```

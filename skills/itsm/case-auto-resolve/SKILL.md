@@ -56,7 +56,7 @@ Query for new or open incidents that match auto-resolvable categories.
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: incident
+  table: incident
   query: "active incidents in new state with category software or hardware or network where short description contains password reset or access request or VPN or printer"
   fields: sys_id,number,short_description,description,category,subcategory,priority,state,contact_type
   limit: 50

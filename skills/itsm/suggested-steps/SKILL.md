@@ -83,7 +83,7 @@ Query published KB articles matching the incident's symptoms and category.
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: kb_knowledge
+  table: kb_knowledge
   query: "[incident short_description keywords] [category]"
   fields: sys_id,number,short_description,text,kb_category,rating,sys_view_count,workflow_state
   limit: 10

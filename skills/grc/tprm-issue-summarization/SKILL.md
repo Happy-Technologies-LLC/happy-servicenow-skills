@@ -291,7 +291,7 @@ Search for issues with regulatory or compliance implications.
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: sn_tprm_issue
+  table: sn_tprm_issue
   query: "third-party vendor issues related to data privacy, GDPR, SOC 2, regulatory compliance, or security controls"
   limit: 30
 ```
@@ -384,7 +384,7 @@ Verify the vendor reference field name. Some configurations use `entity` or `com
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: sn_tprm_issue
+  table: sn_tprm_issue
   query: "all open third-party risk issues with critical or high priority updated in the last quarter"
   limit: 50
 ```

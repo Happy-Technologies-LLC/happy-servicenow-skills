@@ -93,7 +93,7 @@ Translate the natural language request into a ServiceNow encoded query string.
 Tool: SN-Natural-Language-Search
 Parameters:
   query: "production Linux servers in the New York datacenter with critical business classification"
-  tables: cmdb_ci_server
+  table: cmdb_ci_server
   limit: 25
 ```
 
@@ -392,7 +392,7 @@ Parameters:
 Tool: SN-Natural-Language-Search
 Parameters:
   query: "payroll application"
-  tables: cmdb_ci_appl
+  table: cmdb_ci_appl
   limit: 5
 
 # 2. Find downstream database dependencies

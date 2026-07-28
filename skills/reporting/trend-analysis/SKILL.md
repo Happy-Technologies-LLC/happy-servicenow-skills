@@ -320,7 +320,7 @@ If daily count exceeds threshold, investigate:
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: incident
+  table: incident
   query: "incidents created today grouped by category"
   fields: sys_id,category,short_description,cmdb_ci
   limit: 100
@@ -568,7 +568,7 @@ CRM subcategory driving entire increase!
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: incident
+  table: incident
   query: "software incidents for CRM created this month"
   fields: sys_id,short_description,sys_created_on
   limit: 100

@@ -97,7 +97,7 @@ Find relevant knowledge articles matching the incident description.
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: kb_knowledge
+  table: kb_knowledge
   query: "[keywords from incident short_description and description]"
   fields: sys_id,number,short_description,text,kb_category,workflow_state,rating
   limit: 5
@@ -298,7 +298,7 @@ Parameters:
 # 2. Find KB article
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: kb_knowledge
+  table: kb_knowledge
   query: "password reset self-service"
   fields: number,short_description,text
   limit: 3

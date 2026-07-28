@@ -111,7 +111,7 @@ Search for KB articles to reference in the email.
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: kb_knowledge
+  table: kb_knowledge
   query: "[keywords from incident description]"
   fields: sys_id,number,short_description,text
   limit: 5
@@ -399,7 +399,7 @@ Parameters:
 # 2. Find relevant KB article
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: kb_knowledge
+  table: kb_knowledge
   query: "[resolution topic]"
   fields: number,short_description
   limit: 3

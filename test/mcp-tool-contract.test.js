@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import { mkdtemp, readFile, rm, writeFile, mkdir } from 'fs/promises';
+import { mkdtemp, readFile, readdir, rm, writeFile, mkdir } from 'fs/promises';
 import { spawnSync } from 'child_process';
 import { tmpdir } from 'os';
 import { join } from 'path';
@@ -7,6 +7,49 @@ import { SkillValidator } from '../src/validator.js';
 
 const contractUrl = new URL('../contracts/happy-platform-mcp-5.1.0.json', import.meta.url);
 const contract = JSON.parse(await readFile(contractUrl, 'utf8'));
+
+async function catalogMarkdown() {
+  const skillsUrl = new URL('../skills/', import.meta.url);
+  const paths = (await readdir(skillsUrl, { recursive: true }))
+    .filter(path => path.endsWith('.md'));
+  return Promise.all(paths.map(async path => ({
+    path: `skills/${path}`,
+    content: await readFile(new URL(path, skillsUrl), 'utf8')
+  })));
+}
+
+function naturalLanguageSearchSchemaErrors(path, markdown) {
+  const errors = [];
+  for (const match of markdown.matchAll(/^```[^\n]*\n([\s\S]*?)^```[ \t]*$/gm)) {
+    const lines = match[1].split('\n');
+    const baseLine = markdown.slice(0, match.index).split('\n').length;
+    let active = null;
+    const flush = () => {
+      if (!active || active.tool !== 'SN-Natural-Language-Search') return;
+      const parameters = active.lines.join('\n');
+      if (/^\s*(?:table_name|tables)\s*:/m.test(parameters)) errors.push(`${path}:${active.line}: obsolete table argument`);
+      if (!/^\s*table\s*:/m.test(parameters)) errors.push(`${path}:${active.line}: missing table argument`);
+    };
+    lines.forEach((line, index) => {
+      const toolMatch = line.match(/^\s*Tool:\s*(SN-[A-Za-z0-9-]+)\s*$/);
+      if (toolMatch) {
+        flush();
+        active = { tool: toolMatch[1], line: baseLine + index + 1, lines: [] };
+      } else if (active) {
+        active.lines.push(line);
+      }
+    });
+    flush();
+  }
+
+  for (const match of markdown.matchAll(/\bSN-Natural-Language-Search\s*\(([^)]*)\)/g)) {
+    const args = match[1];
+    const line = markdown.slice(0, match.index).split('\n').length;
+    if (/\b(?:table_name|tables)\s*:/.test(args)) errors.push(`${path}:${line}: obsolete inline table argument`);
+    if (!/\btable\s*:/.test(args)) errors.push(`${path}:${line}: missing inline table argument`);
+  }
+  return errors;
+}
 
 function skill({ tools = ['SN-Query-Table'], body = 'Tool: SN-Query-Table' } = {}) {
   return `---
@@ -68,11 +111,43 @@ describe('Happy Platform MCP v5.1.0 tool contract', () => {
       tools: ['SN-Get-Record', 'SN-Natural-Language-Search', 'SN-Docs-Search'],
       body: [
         'Tool: SN-Get-Record',
-        'SN-Natural-Language-Search({ table_name: "incident", query: "active incidents" })',
+        'SN-Natural-Language-Search({ table: "incident", query: "active incidents" })',
         'Tool: SN-Docs-Search'
       ].join('\n')
     }), 'fixtures/supported');
     expect(result.errors).toEqual([]);
+  });
+
+  test('natural-language search examples use the v5.1 table argument', async () => {
+    const errors = (await catalogMarkdown()).flatMap(({ path, content }) =>
+      naturalLanguageSearchSchemaErrors(path, content));
+    expect(errors).toEqual([]);
+  });
+
+  test.each([
+    ['singular legacy key', '```text\nTool: SN-Natural-Language-Search\nParameters:\n  table_name: incident\n  query: active incidents\n```'],
+    ['plural legacy key', '```text\nTool: SN-Natural-Language-Search\nParameters:\n  tables: cmdb_ci\n  query: production servers\n```'],
+    ['missing non-incident target', '```text\nTool: SN-Natural-Language-Search\nParameters:\n  query: published knowledge articles\n```'],
+    ['legacy inline key', '`SN-Natural-Language-Search({ table_name: "problem", query: "open problems" })`']
+  ])('detects natural-language search schema drift: %s', (_label, markdown) => {
+    expect(naturalLanguageSearchSchemaErrors('fixture.md', markdown)).not.toEqual([]);
+  });
+
+  test('accepts table for non-incident search without flagging an adjacent query-table block', () => {
+    const markdown = `\`\`\`text
+Tool: SN-Natural-Language-Search
+Parameters:
+  table: kb_knowledge
+  query: published VPN articles
+
+Tool: SN-Query-Table
+Parameters:
+  table_name: incident
+  query: active=true
+\`\`\`
+
+\`SN-Natural-Language-Search({ table: "problem", query: "open problems" })\``;
+    expect(naturalLanguageSearchSchemaErrors('fixture.md', markdown)).toEqual([]);
   });
 
   test('the complete catalog, root skill, README, and authoring docs satisfy the contract', async () => {

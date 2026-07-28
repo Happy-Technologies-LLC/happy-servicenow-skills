@@ -101,7 +101,7 @@ Parameters:
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: sys_audit
+  table: sys_audit
   query: "show changes to admin user accounts in the last week"
   limit: 50
 ```
@@ -110,7 +110,7 @@ Parameters:
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: sys_audit
+  table: sys_audit
   query: "password field changes in last 24 hours"
   limit: 100
 ```

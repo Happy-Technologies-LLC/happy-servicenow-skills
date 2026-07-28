@@ -39,7 +39,7 @@ Natural language search translates plain English queries into ServiceNow encoded
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: incident
+  table: incident
   query: show me active high priority incidents
   limit: 10
 ```
@@ -67,7 +67,7 @@ The NL engine supports several query patterns. Master these for effective search
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: incident
+  table: incident
   query: incidents where priority is 1 and state not equals Closed
   limit: 20
 ```
@@ -85,7 +85,7 @@ Parameters:
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: incident
+  table: incident
   query: incidents where description contains database and short description starts with Error
   limit: 10
 ```
@@ -103,7 +103,7 @@ Parameters:
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: incident
+  table: incident
   query: active incidents where assigned to is empty and priority is 1
   limit: 10
 ```
@@ -122,7 +122,7 @@ Parameters:
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: incident
+  table: incident
   query: high priority incidents created last 7 days
   limit: 20
 ```
@@ -139,7 +139,7 @@ Parameters:
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: incident
+  table: incident
   query: incidents where priority is 1 or priority is 2 and state is New
   limit: 15
 ```
@@ -156,7 +156,7 @@ Parameters:
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: incident
+  table: incident
   query: active incidents sort by priority descending
   limit: 25
 ```
@@ -169,7 +169,7 @@ Combine patterns for sophisticated searches.
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: incident
+  table: incident
   query: active high priority incidents assigned to is empty created last 7 days where description contains network sort by created date descending
   limit: 20
   fields: number,short_description,priority,state,sys_created_on
@@ -183,7 +183,7 @@ the intent by executing a small, field-limited natural-language search:
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: incident
+  table: incident
   query: active incidents where priority is 1 and assigned to is empty
   fields: sys_id,number,priority,assigned_to
   limit: 5
@@ -312,7 +312,7 @@ Find active P1 incidents:
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: incident
+  table: incident
   query: active incidents with priority 1
   fields: number,short_description,state,assigned_to
   limit: 10
@@ -325,7 +325,7 @@ Find unassigned high priority work:
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: incident
+  table: incident
   query: active incidents where priority is 1 or priority is 2 and assigned to is empty
   fields: number,short_description,priority,sys_created_on
   limit: 20
@@ -338,7 +338,7 @@ Find recent emergency changes:
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: change_request
+  table: change_request
   query: emergency changes created last 7 days
   fields: number,short_description,state,start_date,end_date
   limit: 15
@@ -351,7 +351,7 @@ Find network-related problems:
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: problem
+  table: problem
   query: problems where description contains network and state not equals closed sort by priority
   fields: number,short_description,state,priority
   limit: 10
@@ -364,7 +364,7 @@ Validate a complex query against a small result set before increasing scope:
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: incident
+  table: incident
   query: active high priority incidents assigned to Network Team created today
   fields: sys_id,number,priority,assignment_group,sys_created_on
   limit: 5

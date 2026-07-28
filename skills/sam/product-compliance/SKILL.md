@@ -68,6 +68,7 @@ For broader searches by publisher:
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
+  table: samp_sw_product
   query: "Find all licensable software products from Microsoft"
 ```
 

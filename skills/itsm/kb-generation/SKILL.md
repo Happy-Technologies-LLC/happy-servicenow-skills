@@ -163,7 +163,7 @@ Avoid duplicates by searching for existing knowledge on the topic.
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: kb_knowledge
+  table: kb_knowledge
   query: "[keywords from incident short_description]"
   fields: sys_id,number,short_description,workflow_state,sys_updated_on
   limit: 10
@@ -422,7 +422,7 @@ Parameters:
 # 2. Check for existing KB
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: kb_knowledge
+  table: kb_knowledge
   query: "VPN connection troubleshooting"
   fields: number,short_description,workflow_state
   limit: 5

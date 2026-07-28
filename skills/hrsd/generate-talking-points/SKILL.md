@@ -243,7 +243,7 @@ Parameters:
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: sn_hr_talent_feedback
+  table: sn_hr_talent_feedback
   query: "recent positive feedback about leadership and collaboration for [employee_name]"
   limit: 10
 ```
@@ -322,7 +322,7 @@ Parameters:
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: sn_hr_talent_feedback
+  table: sn_hr_talent_feedback
   query: "recent feedback for [employee_name] in the last two weeks"
   limit: 5
 ```

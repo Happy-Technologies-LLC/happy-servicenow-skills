@@ -412,7 +412,7 @@ Parameters:
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: em_alert
+  table: em_alert
   query: "critical health log analytics alerts created in the last 7 days"
   fields: number,ci,severity,metric_name,description,sys_created_on
   limit: 25

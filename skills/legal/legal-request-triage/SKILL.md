@@ -58,7 +58,7 @@ Query for active legal requests that are in a new or unassigned state.
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: sn_legal_request
+  table: sn_legal_request
   query: "new legal requests that are not yet assigned or triaged"
   fields: number,short_description,description,state,priority,request_type,requested_by,opened_at,assignment_group,assigned_to
   limit: 25

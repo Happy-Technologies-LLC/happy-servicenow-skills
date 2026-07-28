@@ -191,6 +191,7 @@ Look for existing KB articles that match the alert description or CI class.
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
+  table: kb_knowledge
   query: [alert_description] remediation [ci_class_name]
 ```
 
@@ -332,6 +333,7 @@ Parameters:
 # LEAP Step 4 - PROPOSE: Search KB
 Tool: SN-Natural-Language-Search
 Parameters:
+  table: kb_knowledge
   query: database connection pool exhausted remediation Oracle
 ```
 

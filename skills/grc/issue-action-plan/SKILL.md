@@ -377,7 +377,7 @@ Verify the `state` field choices and adjust the query filter accordingly.
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: sn_grc_issue
+  table: sn_grc_issue
   query: "critical SOX compliance issues with high risk rating that are open"
   limit: 10
 ```

@@ -110,7 +110,7 @@ Search for policy documentation and FAQ articles related to the case topic.
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: kb_knowledge
+  table: kb_knowledge
   query: "[case topic or keyword from short_description]"
   fields: sys_id,number,short_description,text,kb_knowledge_base,kb_category,workflow_state
   limit: 5
@@ -308,7 +308,7 @@ Parameters:
 # 2. Find relevant KB article
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: kb_knowledge
+  table: kb_knowledge
   query: "benefits open enrollment deadlines"
   fields: number,short_description,text
   limit: 3

@@ -29,7 +29,7 @@ Query for active incidents that are unassigned or in "New" state.
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: incident
+  table: incident
   query: "active high priority incidents where assigned to is empty"
   fields: number,short_description,description,impact,urgency,category,priority
   limit: 20

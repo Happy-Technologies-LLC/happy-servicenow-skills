@@ -155,7 +155,7 @@ GET /api/now/table/ast_contract?sysparm_query=contract_type=saas^vendor=[acme_sy
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: ast_contract
+  table: ast_contract
   query: "SaaS contracts with Acme expiring in the next 6 months worth over 100 thousand dollars"
   limit: 25
 ```

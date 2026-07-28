@@ -57,7 +57,7 @@ Query active incidents, prioritizing those with recent activity or approaching S
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: incident
+  table: incident
   query: "active incidents with priority 1 or 2 that have been updated in the last 24 hours"
   fields: sys_id,number,short_description,priority,state,assigned_to,assignment_group,sla_due,sys_updated_on
   limit: 30

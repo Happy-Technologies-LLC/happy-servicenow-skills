@@ -325,7 +325,7 @@ Parameters:
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: sn_grc_issue
+  table: sn_grc_issue
   query: "high priority compliance issues related to data privacy or access controls opened in the last quarter"
   limit: 25
 ```
@@ -439,7 +439,7 @@ Check for alternative relationship fields such as `item`, `content`, or custom r
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: sn_grc_issue
+  table: sn_grc_issue
   query: "all open GRC issues with high or critical priority created or updated this month"
   limit: 50
 ```

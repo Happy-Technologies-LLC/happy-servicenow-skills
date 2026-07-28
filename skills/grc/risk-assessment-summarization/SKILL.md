@@ -437,7 +437,7 @@ Check for alternative scoring fields like `calculated_risk`, `risk_score_calcula
 ```
 Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: sn_grc_risk
+  table: sn_grc_risk
   query: "all active risks with high or critical risk scores grouped by category"
   limit: 50
 ```
