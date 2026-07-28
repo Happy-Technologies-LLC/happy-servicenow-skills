@@ -28,7 +28,7 @@ describe('2.4.0 package metadata', () => {
     expect(rootSkill).toMatch(/184 skills across 23 categories/);
     expect(rootSkill).toMatch(/exactly 55 live MCP tools/);
     expect(rootSkill).toMatch(/six docs-only tools/);
-    expect(changelog).toMatch(/^## 2\.4\.0 - 2026-07-27$/m);
+    expect(changelog).toMatch(/^## 2\.4\.0 - 2026-07-28$/m);
     expect(changelog).not.toMatch(/^## 2\.4\.0 - Unreleased$/m);
   });
 });
