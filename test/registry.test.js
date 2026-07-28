@@ -26,4 +26,17 @@ describe('SkillRegistry.discover', () => {
     expect(registry.getStats()).toEqual(firstStats);
     expect(snapshotIndexes(registry)).toEqual(firstIndexes);
   });
+
+  test('shares concurrent discovery without duplicating secondary indexes', async () => {
+    const registry = new SkillRegistry();
+
+    await Promise.all([registry.discover(), registry.discover(), registry.discover()]);
+
+    for (const index of Object.values(registry.index)) {
+      for (const paths of index.values()) {
+        expect(new Set(paths).size).toBe(paths.length);
+      }
+    }
+    expect(registry.getStats().totalSkills).toBe(184);
+  });
 });

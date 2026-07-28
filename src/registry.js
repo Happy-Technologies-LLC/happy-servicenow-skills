@@ -22,6 +22,7 @@ export class SkillRegistry {
       byComplexity: new Map()
     };
     this.discovered = false;
+    this.discoveryPromise = null;
   }
 
   /**
@@ -29,6 +30,20 @@ export class SkillRegistry {
    * @returns {Promise<void>}
    */
   async discover() {
+    if (this.discoveryPromise) {
+      return this.discoveryPromise;
+    }
+
+    this.discoveryPromise = this.discoverOnce();
+
+    try {
+      await this.discoveryPromise;
+    } finally {
+      this.discoveryPromise = null;
+    }
+  }
+
+  async discoverOnce() {
     this.skills.clear();
     for (const index of Object.values(this.index)) {
       index.clear();

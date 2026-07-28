@@ -18,6 +18,7 @@
     "list": "node src/cli.js list",
     "search": "node src/cli.js search",
     "publish:dry-run": "npm publish --dry-run",
+    "verify:package": "node scripts/verify-package.mjs",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "keywords": [
@@ -60,19 +61,18 @@
   "dependencies": {
     "gray-matter": "^4.0.3",
     "chalk": "^5.3.0",
-    "commander": "^12.1.0"
+    "commander": "^12.1.0",
+    "js-yaml": "3.15.0"
   },
   "devDependencies": {
     "jest": "^30.0.0"
-  },
-  "overrides": {
-    "js-yaml": "3.15.0"
   },
   "engines": {
     "node": ">=20.0.0"
   },
   "files": [
     "src/**/*",
+    "scripts/verify-package.mjs",
     "skills/**/*",
     "templates/**/*",
     "docs/**/*",
