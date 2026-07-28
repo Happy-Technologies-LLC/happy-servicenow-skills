@@ -24,13 +24,15 @@ function fencedExamples(markdown) {
 
 function inlineCodeSnippets(markdown) {
   const prose = markdown.replace(/^```[^\n]*\n[\s\S]*?^```[ \t]*$/gm, '');
-  return prose.split('\n').flatMap(line =>
-    line.split(/\s*(?:;|\bbut\b|\bhowever\b|\byet\b|\bnevertheless\b)\s*/i)
-      .flatMap(clause =>
-        [...clause.matchAll(/(?<!`)`([^`\n]+)`(?!`)/g)]
-          .map(match => ({ snippet: match[1], line: clause }))
-      )
-  );
+  return prose.split('\n').flatMap(line => {
+    return [...line.matchAll(/(?<!`)`([^`\n]+)`(?!`)/g)].map(match => {
+      const prefix = line.slice(0, match.index);
+      const boundaries = [...prefix.matchAll(/[.;,!?]|\b(?:but|however|yet|nevertheless|instead)\b/gi)];
+      const lastBoundary = boundaries.at(-1);
+      const contextStart = lastBoundary ? lastBoundary.index + lastBoundary[0].length : 0;
+      return { snippet: match[1], context: prefix.slice(contextStart) };
+    });
+  });
 }
 
 function containsSecretCommand(example) {
@@ -45,9 +47,9 @@ function containsSecretCommand(example) {
 function unsafeSecretExamples(markdown) {
   const unsafe = fencedExamples(markdown).filter(containsSecretCommand);
 
-  for (const { snippet, line } of inlineCodeSnippets(markdown)) {
+  for (const { snippet, context } of inlineCodeSnippets(markdown)) {
     if (!containsSecretCommand(snippet)) continue;
-    const policyWarning = /\b(?:do not|don't|never|must not|avoid)\b/i.test(line);
+    const policyWarning = /\b(?:do not|don't|never|must not|avoid)\b/i.test(context);
     if (!policyWarning) unsafe.push(snippet);
   }
 
@@ -120,6 +122,10 @@ describe('Happy Platform MCP v5.1 setup guidance', () => {
     expect(unsafeSecretExamples('Never run `probe --password VALUE`; use a masked prompt.')).toEqual([]);
   });
 
+  test('allows a directly negated inline command', () => {
+    expect(unsafeSecretExamples('Do not run `probe --password VALUE`.')).toEqual([]);
+  });
+
   test.each([
     ['secret option', 'Run `happy-platform-mcp instance add --password VALUE` now.'],
     ['curl user option', 'Run `curl -u user:VALUE https://example.invalid` now.'],
@@ -131,6 +137,14 @@ describe('Happy Platform MCP v5.1 setup guidance', () => {
   test('does not let an earlier policy warning exempt a later unsafe inline command', () => {
     const mixed = 'Never use the old flow; run `probe --password VALUE` now.';
     expect(unsafeSecretExamples(mixed)).toHaveLength(1);
+  });
+
+  test.each([
+    ['period', 'Never use the old flow. Run `probe --password VALUE` now.'],
+    ['comma', 'Never use the old flow, run `probe --password VALUE` now.'],
+    ['comma and instead', 'Never use the old flow, instead run `probe --password VALUE` now.']
+  ])('does not extend negation across a %s boundary', (_name, markdown) => {
+    expect(unsafeSecretExamples(markdown)).toHaveLength(1);
   });
 
   test('installation documents the supported local CLI and storage model', () => {
