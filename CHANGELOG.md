@@ -2,7 +2,7 @@
 
 All notable changes to Happy Platform Skills are documented here.
 
-## 2.4.0 - 2026-07-27
+## 2.4.0 - 2026-07-28
 
 ### Added
 
