@@ -1,54 +1,81 @@
 # Releasing
 
-Use this flow when publishing a new `happy-platform-skills` npm version.
+Use this flow to publish `happy-platform-skills` from a clean release branch.
+Never publish an artifact that is not represented by a reviewed commit.
 
 ## Versioning
 
-- Patch: documentation-only or small fixes.
+- Patch: documentation-only changes and compatible fixes.
 - Minor: new skills, changed discovery behavior, or new CLI behavior.
-- Major: breaking package, CLI, or skill layout changes.
+- Major: breaking package, CLI, or skill-layout changes.
 
-## Checklist
+Keep the version synchronized in `package.json`, `package-lock.json`, the root
+`SKILL.md`, and `CHANGELOG.md`.
 
-1. Ensure the worktree is clean except intended release changes.
-2. Bump the version:
+## 1. Prepare and verify the release tree
 
-   ```bash
-   npm version <version> --no-git-tag-version
-   ```
+Start from the intended mainline commit with a clean worktree, then update the
+version without creating a tag:
 
-3. Verify the package:
+```bash
+npm version <version> --no-git-tag-version
+```
 
-   ```bash
-   npm run validate
-   npx skills add . --list --full-depth
-   npm run publish:dry-run
-   ```
+Run every release gate:
 
-4. Confirm npm authentication:
+```bash
+npm ci
+npm test -- --runInBand
+npm run validate
+npm run contract:check
+npm run contract:nl-check
+npm audit --omit=dev
+npm run verify:package
+npm run publish:dry-run
+npx skills add . --list --full-depth
+```
 
-   ```bash
-   npm whoami
-   ```
+Review the complete change set and package manifest. Stage all intended release
+files, then inspect the staged tree before committing:
 
-5. Publish:
+```bash
+git diff --check
+git status --short
+git add --all
+git diff --cached --stat
+git diff --cached
+git commit -m "Release v<version>"
+```
 
-   ```bash
-   npm publish
-   ```
+Confirm the release commit is clean and contains the synchronized versions:
 
-6. Commit, tag, and push:
+```bash
+git status --short
+git show --stat --oneline HEAD
+node -p "require('./package.json').version"
+npm run verify:package
+```
 
-   ```bash
-   git add package.json package-lock.json SKILL.md src/cli.js docs/RELEASING.md
-   git commit -m "Release v<version>"
-   git tag v<version>
-   git push origin main
-   git push origin v<version>
-   ```
+## 2. Authenticate and publish the committed artifact
 
-7. Confirm the registry version:
+```bash
+npm whoami
+npm publish --access public
+```
 
-   ```bash
-   npm view happy-platform-skills version
-   ```
+Confirm npm serves the expected version before creating the release tag:
+
+```bash
+npm view happy-platform-skills version
+```
+
+## 3. Tag and push the exact published commit
+
+```bash
+git tag -a v<version> -m "Release v<version>"
+git push origin HEAD:main
+git push origin v<version>
+```
+
+Do not move an existing release tag. If publishing fails, fix the issue in a
+new reviewed commit and rerun the gates before retrying.

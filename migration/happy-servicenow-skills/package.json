@@ -6,8 +6,7 @@
   "type": "module",
   "exports": {
     ".": "./index.js",
-    "./skills/*": "./node_modules/happy-platform-skills/skills/*",
-    "./loader": "./node_modules/happy-platform-skills/src/loader.js"
+    "./loader": "./loader.js"
   },
   "bin": {
     "sn-skills": "./cli.js"

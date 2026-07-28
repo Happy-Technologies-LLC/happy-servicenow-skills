@@ -124,7 +124,7 @@ export class SkillLoader {
       },
 
       toPrompt() {
-        return `# ${this.name}\n\n${this.description}\n\n## Procedure\n${this.procedure}\n\n## Best Practices\n${this.bestPractices}`;
+        return this.rawContent.trim();
       }
     };
   }

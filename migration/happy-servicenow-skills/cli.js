@@ -11,4 +11,4 @@ console.warn(
 );
 
 // Forward to the real CLI
-import('happy-platform-skills/src/cli.js');
+import('happy-platform-skills/cli');

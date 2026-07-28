@@ -44,3 +44,40 @@ describe('SkillLoader.load', () => {
     ).rejects.toThrow('outside the skills directory');
   });
 });
+
+describe('SkillLoader.parse prompt formatting', () => {
+  test('preserves the complete authored body without YAML frontmatter', () => {
+    const source = [
+      '---',
+      'name: prompt-fixture',
+      'version: 1.0.0',
+      'description: Prompt fixture description',
+      '---',
+      '',
+      '# Prompt Fixture',
+      '',
+      'Introductory authored guidance.',
+      '',
+      '## Overview',
+      'Keep the overview.',
+      '',
+      '## Procedure',
+      'Keep the procedure.',
+      '',
+      '## Safety Constraints',
+      'Keep custom sections too.',
+      '',
+      '## References',
+      'Keep the final authored section.'
+    ].join('\n');
+
+    const skill = SkillLoader.parse(source, 'test/prompt-fixture');
+    const prompt = skill.toPrompt();
+
+    expect(prompt).toBe(skill.rawContent.trim());
+    expect(prompt).toContain('## Safety Constraints');
+    expect(prompt).toContain('## References');
+    expect(prompt).not.toContain('version: 1.0.0');
+    expect(prompt).not.toContain('---');
+  });
+});

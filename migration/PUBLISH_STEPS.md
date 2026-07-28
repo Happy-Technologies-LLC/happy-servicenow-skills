@@ -1,4 +1,8 @@
-# Migration Publish Steps
+# Migration Publish Steps (Historical)
+
+The rename completed with `happy-platform-skills@2.0.0` and the deprecated
+`happy-servicenow-skills@1.2.0` compatibility package. Do not republish either
+version. Current releases use `docs/RELEASING.md`.
 
 Follow these steps in order to transition from `happy-servicenow-skills` to `happy-platform-skills` on npm.
 
@@ -45,3 +49,10 @@ This adds a visible deprecation warning in `npm search`, `npm install`, and npmj
 - **`npm outdated`** — Shows the deprecation message.
 - **Existing `require`/`import` calls** — Continue to work via the shim's re-exports, with a console warning.
 - **`npx sn-skills`** — Still works (aliased in both old shim and new package), with a deprecation notice.
+
+## Compatibility verification
+
+The shim supports the package root, `happy-servicenow-skills/loader`, and the
+legacy CLI. Its former raw `skills/*` export was an invalid Node.js package
+target; consumers of raw skill assets must use the `happy-platform-skills`
+package name.

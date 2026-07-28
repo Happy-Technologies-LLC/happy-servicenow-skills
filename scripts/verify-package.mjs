@@ -5,6 +5,8 @@ import { spawnSync } from 'child_process';
 import { tmpdir } from 'os';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
+import { SkillRegistry } from '../src/registry.js';
+import { assertSameSkillPaths } from './package-verification-lib.mjs';
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -38,7 +40,9 @@ try {
 
   const requiredPaths = [
     'package.json',
+    'SKILL.md',
     'README.md',
+    'CHANGELOG.md',
     'LICENSE',
     'NOTICE',
     'src/index.js',
@@ -47,6 +51,7 @@ try {
     'src/validator.js',
     'src/cli.js',
     'scripts/verify-package.mjs',
+    'scripts/package-verification-lib.mjs',
     'scripts/refresh-mcp-tool-contract.mjs',
     'scripts/check-natural-language-contract.mjs',
     'contracts/happy-platform-mcp-5.1.0.json',
@@ -59,12 +64,16 @@ try {
   for (const requiredPath of requiredPaths) {
     assert(packagedPaths.has(requiredPath), `Package is missing required path: ${requiredPath}`);
   }
-  assert(!packagedPaths.has('SKILL.md'), 'Root SKILL.md must remain excluded until its package policy is decided');
 
-  const packagedSkillCount = [...packagedPaths]
+  const packagedSkillPaths = new Set([...packagedPaths]
     .filter(path => /^skills\/[^/]+\/[^/]+\/SKILL\.md$/.test(path))
-    .length;
-  assert(packagedSkillCount > 0, 'Package contains no discoverable skills');
+    .map(path => path.replace(/^skills\//, '').replace(/\/SKILL\.md$/, '')));
+  assert(packagedSkillPaths.size > 0, 'Package contains no discoverable skills');
+
+  const sourceRegistry = new SkillRegistry();
+  await sourceRegistry.discover();
+  const sourceSkillPaths = new Set(sourceRegistry.getAll().map(skill => skill.path));
+  assertSameSkillPaths(sourceSkillPaths, packagedSkillPaths);
 
   const consumerDir = join(temporaryRoot, 'consumer');
   await mkdir(consumerDir);
@@ -95,10 +104,10 @@ try {
   assert(run(legacyBin, ['--version'], consumerDir) === installedPackageJson.version, 'sn-skills version output is incorrect');
 
   const listedSkills = JSON.parse(run(hpsBin, ['list', '--json'], consumerDir));
-  assert(listedSkills.length === packagedSkillCount,
-    `CLI discovered ${listedSkills.length} skills; package contains ${packagedSkillCount}`);
+  const discoveredSkillPaths = new Set(listedSkills.map(skill => skill.path));
+  assertSameSkillPaths(sourceSkillPaths, discoveredSkillPaths);
 
-  console.log(`Package verification passed: ${packResult.entryCount} files, ${packagedSkillCount} skills`);
+  console.log(`Package verification passed: ${packResult.entryCount} files, ${sourceSkillPaths.size} exact skill paths`);
 } catch (error) {
   console.error(error.message);
   process.exitCode = 1;
