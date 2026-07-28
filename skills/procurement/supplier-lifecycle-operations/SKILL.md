@@ -1,6 +1,6 @@
 ---
 name: supplier-lifecycle-operations
-version: 1.0.0
+version: 1.0.1
 description: Manage supplier onboarding, qualification, performance monitoring, and offboarding with auditable lifecycle controls
 author: Happy Technologies LLC
 tags: [procurement, supplier, lifecycle, onboarding, qualification, performance, offboarding]

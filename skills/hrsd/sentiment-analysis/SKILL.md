@@ -1,6 +1,6 @@
 ---
 name: hrsd-sentiment-analysis
-version: 1.0.0
+version: 1.0.1
 description: Analyze employee sentiment from HR cases, surveys, and interactions to track trends, identify flight risk indicators, and flag cases needing manager attention
 author: Happy Technologies LLC
 tags: [hrsd, sentiment, analysis, employee-experience, flight-risk, surveys, trends]

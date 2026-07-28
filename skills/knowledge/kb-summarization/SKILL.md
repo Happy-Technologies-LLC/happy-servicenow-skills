@@ -1,6 +1,6 @@
 ---
 name: kb-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize knowledge articles for quick consumption including executive summaries, TL;DR versions, key takeaway bullets, topic extraction, and readability-optimized condensed formats
 author: Happy Technologies LLC
 tags: [knowledge, summarization, kb-articles, executive-summary, tldr, content, knowledge-management]

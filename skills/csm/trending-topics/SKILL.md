@@ -1,6 +1,6 @@
 ---
 name: trending-topics
-version: 1.0.0
+version: 1.0.1
 description: Identify trending customer service topics by analyzing case patterns, channel distribution, and sentiment shifts across the CSM portfolio
 author: Happy Technologies LLC
 tags: [csm, trending, analytics, patterns, sentiment, channel-analysis, case-volume, reporting]

@@ -1,6 +1,6 @@
 ---
 name: contract-analysis
-version: 1.0.0
+version: 1.0.1
 description: Analyze contracts for key terms, obligations, risks, renewal dates, and compliance requirements with metadata extraction and clause flagging
 author: Happy Technologies LLC
 tags: [legal, contract, analysis, risk, compliance, terms, renewal, legal-service-delivery]

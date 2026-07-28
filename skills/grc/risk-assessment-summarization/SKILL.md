@@ -1,6 +1,6 @@
 ---
 name: risk-assessment-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize risk assessments with scoring, trends, heat map data, and mitigation recommendations covering inherent vs residual risk analysis
 author: Happy Technologies LLC
 tags: [grc, risk, assessment, summarization, heat-map, mitigation, inherent-risk, residual-risk]

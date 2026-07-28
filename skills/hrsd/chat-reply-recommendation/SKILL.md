@@ -1,6 +1,6 @@
 ---
 name: hrsd-chat-reply-recommendation
-version: 1.0.0
+version: 1.0.1
 description: Generate recommended replies for HR agents handling employee inquiries via chat, considering HR policies, case history, and confidentiality requirements
 author: Happy Technologies LLC
 tags: [hrsd, chat, reply, recommendation, agent-assist, hr-policy, confidentiality]

@@ -1,6 +1,6 @@
 ---
 name: sourcing-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize sourcing events including bid comparisons, vendor evaluations, negotiation status, award recommendations, and RFP/RFQ process support
 author: Happy Technologies LLC
 tags: [procurement, sourcing, rfp, rfq, bid-analysis, vendor-evaluation, negotiation]

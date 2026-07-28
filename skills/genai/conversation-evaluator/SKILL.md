@@ -1,6 +1,6 @@
 ---
 name: conversation-evaluator
-version: 1.0.0
+version: 1.0.1
 description: Evaluate virtual agent conversations for quality including coherence, accuracy, slot filling, intent matching, and hallucination detection
 author: Happy Technologies LLC
 tags: [genai, virtual-agent, conversation, evaluation, quality, coherence, hallucination, intent-matching]

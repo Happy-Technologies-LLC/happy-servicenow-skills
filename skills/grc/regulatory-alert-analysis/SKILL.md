@@ -1,6 +1,6 @@
 ---
 name: regulatory-alert-analysis
-version: 1.0.0
+version: 1.0.1
 description: Analyze regulatory alerts for business impact, identify affected policies, controls, and citations, and generate impact assessments with recommended actions for compliance teams
 author: Happy Technologies LLC
 tags: [grc, regulatory, alert, compliance, impact-assessment, citations, policy, regulatory-change]

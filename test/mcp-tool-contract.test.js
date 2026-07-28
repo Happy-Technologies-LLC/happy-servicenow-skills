@@ -48,16 +48,34 @@ function naturalLanguageSearchSchemaErrors(path, markdown) {
     if (/\b(?:table_name|tables)\s*:/.test(args)) errors.push(`${path}:${line}: obsolete inline table argument`);
     if (!/\btable\s*:/.test(args)) errors.push(`${path}:${line}: missing inline table argument`);
   }
+
+  for (const match of markdown.matchAll(/^.*\bSN-Natural-Language-Search\b.*$/gm)) {
+    const lineText = match[0];
+    if (/^\s*Tool:\s*SN-Natural-Language-Search\s*$/.test(lineText)) continue;
+    const line = markdown.slice(0, match.index).split('\n').length;
+    if (/\b(?:table_name|tables)\s*[:=]/.test(lineText)) errors.push(`${path}:${line}: obsolete prose table argument`);
+    const hasOperativeQueryArgument = /(?:\bquery\s*[:=]|`query`)/i.test(lineText);
+    if (hasOperativeQueryArgument && !/\btable\b/.test(lineText)) errors.push(`${path}:${line}: missing prose table argument`);
+  }
+
+  for (const match of markdown.matchAll(/^```(?:json|jsonc)?\s*\n([\s\S]*?)^```[ \t]*$/gm)) {
+    const block = match[1];
+    if (!/["'](?:name|tool)["']\s*:\s*["']SN-Natural-Language-Search["']/.test(block)) continue;
+    const line = markdown.slice(0, match.index).split('\n').length;
+    if (/["'](?:table_name|tables)["']\s*:/.test(block)) errors.push(`${path}:${line}: obsolete JSON table argument`);
+    if (!/["']table["']\s*:/.test(block)) errors.push(`${path}:${line}: missing JSON table argument`);
+  }
   return errors;
 }
 
 function skill({ tools = ['SN-Query-Table'], body = 'Tool: SN-Query-Table' } = {}) {
+  const serializedTools = tools.map(tool => tool === null ? 'null' : String(tool)).join(', ');
   return `---
 name: contract-fixture
 version: 1.0.0
 description: Contract fixture
 tools:
-  mcp: [${tools.join(', ')}]
+  mcp: [${serializedTools}]
 ---
 
 ## Procedure
@@ -118,6 +136,23 @@ describe('Happy Platform MCP v5.1.0 tool contract', () => {
     expect(result.errors).toEqual([]);
   });
 
+  test.each([
+    ['other server tool', ['Jira-Get-Issue']],
+    ['number', [42]],
+    ['null', [null]]
+  ])('rejects invalid tools.mcp entry: %s', (_label, mcp) => {
+    const result = new SkillValidator().validate(skill({ tools: mcp }), 'fixtures/invalid-mcp-entry');
+    expect(result.valid).toBe(false);
+    expect(result.errors.join('\n')).toMatch(/tools\.mcp/);
+  });
+
+  test('accepts exact supported tools.mcp strings', () => {
+    const result = new SkillValidator().validate(skill({
+      tools: ['SN-Query-Table', 'SN-Natural-Language-Search']
+    }), 'fixtures/valid-mcp-entry');
+    expect(result.errors).toEqual([]);
+  });
+
   test('natural-language search examples use the v5.1 table argument', async () => {
     const errors = (await catalogMarkdown()).flatMap(({ path, content }) =>
       naturalLanguageSearchSchemaErrors(path, content));
@@ -130,6 +165,14 @@ describe('Happy Platform MCP v5.1.0 tool contract', () => {
     ['missing non-incident target', '```text\nTool: SN-Natural-Language-Search\nParameters:\n  query: published knowledge articles\n```'],
     ['legacy inline key', '`SN-Natural-Language-Search({ table_name: "problem", query: "open problems" })`']
   ])('detects natural-language search schema drift: %s', (_label, markdown) => {
+    expect(naturalLanguageSearchSchemaErrors('fixture.md', markdown)).not.toEqual([]);
+  });
+
+  test.each([
+    ['JSON invocation', '```json\n{"name":"SN-Natural-Language-Search","arguments":{"table_name":"incident","query":"P1"}}\n```'],
+    ['quick-reference row', '| `SN-Natural-Language-Search` | `table_name: incident`, `query` |'],
+    ['prose invocation', 'Call `SN-Natural-Language-Search` with `table_name: incident` and a query.']
+  ])('detects natural-language schema drift in %s', (_label, markdown) => {
     expect(naturalLanguageSearchSchemaErrors('fixture.md', markdown)).not.toEqual([]);
   });
 
@@ -161,7 +204,7 @@ Parameters:
       'docs/SKILL_SPEC.md'
     ]));
     const contractErrors = results.flatMap(result => result.errors
-      .filter(error => /Unsupported MCP tool/.test(error))
+      .filter(error => /unsupported (?:MCP )?tool/i.test(error))
       .map(error => `${result.path}: ${error}`));
     expect(contractErrors).toEqual([]);
   });
@@ -188,6 +231,28 @@ Parameters:
       await writeFile(output, '{}\n');
       const stale = spawnSync(process.execPath, [script.pathname, '--source', sourceRoot, '--output', output, '--check'], { encoding: 'utf8' });
       expect(stale.status).not.toBe(0);
+
+      const sentinel = '{"sentinel":true}\n';
+      await writeFile(output, sentinel);
+      await writeFile(join(sourceRoot, 'package.json'), JSON.stringify({ version: '5.2.0' }));
+      const mismatch = spawnSync(process.execPath, [
+        script.pathname,
+        '--source', sourceRoot,
+        '--output', output,
+        '--expected-version', '5.1.0'
+      ], { encoding: 'utf8' });
+      expect(mismatch.status).not.toBe(0);
+      expect(await readFile(output, 'utf8')).toBe(sentinel);
+
+      const versionedOutput = join(temporaryRoot, 'happy-platform-mcp-5.1.0.json');
+      await writeFile(versionedOutput, sentinel);
+      const filenameMismatch = spawnSync(process.execPath, [
+        script.pathname,
+        '--source', sourceRoot,
+        '--output', versionedOutput
+      ], { encoding: 'utf8' });
+      expect(filenameMismatch.status).not.toBe(0);
+      expect(await readFile(versionedOutput, 'utf8')).toBe(sentinel);
     } finally {
       await rm(temporaryRoot, { recursive: true, force: true });
     }

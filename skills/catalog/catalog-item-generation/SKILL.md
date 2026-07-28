@@ -1,6 +1,6 @@
 ---
 name: catalog-item-generation
-version: 1.0.0
+version: 1.0.1
 description: Generate catalog items from natural language descriptions including variables, workflows, and approval rules
 author: Happy Technologies LLC
 tags: [catalog, item-generation, service-catalog, variables, workflows, approval, automation]

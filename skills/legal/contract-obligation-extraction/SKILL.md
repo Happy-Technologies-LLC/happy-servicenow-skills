@@ -1,6 +1,6 @@
 ---
 name: contract-obligation-extraction
-version: 1.0.0
+version: 1.0.1
 description: Extract obligations from contract documents including deadlines, deliverables, payment terms, SLA commitments, and termination conditions with compliance tracking
 author: Happy Technologies LLC
 tags: [legal, contract, obligation, extraction, compliance, tracking, deadlines, legal-service-delivery]

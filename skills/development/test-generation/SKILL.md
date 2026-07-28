@@ -1,6 +1,6 @@
 ---
 name: test-generation
-version: 1.0.0
+version: 1.0.1
 description: Generate ATF (Automated Test Framework) tests from requirements or existing functionality including test steps, assertions, and test data
 author: Happy Technologies LLC
 tags: [development, testing, atf, automated-testing, test-framework, test-generation, quality, assertions]

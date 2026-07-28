@@ -1,6 +1,6 @@
 ---
 name: script-includes
-version: 1.0.0
+version: 1.0.1
 description: Comprehensive guide to developing Script Includes - class-based, client-callable (GlideAjax), inheritance patterns, and best practices
 author: Happy Technologies LLC
 tags: [development, script-includes, scripting, server-side, classes, reusability]

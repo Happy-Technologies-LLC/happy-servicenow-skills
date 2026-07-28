@@ -1,6 +1,6 @@
 ---
 name: insights-clustering
-version: 1.0.0
+version: 1.0.1
 description: Cluster and analyze insights from incidents, conversations, and cases grouping by topic, sentiment, and resolution pattern to generate actionable POV summaries
 author: Happy Technologies LLC
 tags: [genai, insights, clustering, analytics, sentiment, incidents, cases, patterns, trends, nlp]

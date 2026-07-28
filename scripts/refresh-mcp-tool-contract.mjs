@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { readFile, writeFile } from 'fs/promises';
-import { dirname, join, resolve } from 'path';
+import { basename, dirname, join, resolve } from 'path';
 import { fileURLToPath } from 'url';
 
 const repositoryRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -48,7 +48,13 @@ export function serializeContract(contract) {
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const sourceRoot = resolve(option('--source', join(repositoryRoot, '..', 'happy-platform-mcp')));
   const outputPath = resolve(option('--output', join(repositoryRoot, 'contracts', 'happy-platform-mcp-5.1.0.json')));
-  const expected = serializeContract(await buildContract(sourceRoot));
+  const contract = await buildContract(sourceRoot);
+  const filenameVersion = basename(outputPath).match(/^happy-platform-mcp-(\d+\.\d+\.\d+)\.json$/)?.[1];
+  const expectedVersion = option('--expected-version', filenameVersion);
+  if (expectedVersion && contract.version !== expectedVersion) {
+    throw new Error(`MCP version mismatch: expected ${expectedVersion}, source package is ${contract.version}`);
+  }
+  const expected = serializeContract(contract);
 
   if (process.argv.includes('--check')) {
     const current = await readFile(outputPath, 'utf8');

@@ -1,6 +1,6 @@
 ---
 name: tprm-issue-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize Third-Party Risk Management issues including vendor risk exposure, assessment gaps, remediation status, and compliance impact across the TPRM lifecycle
 author: Happy Technologies LLC
 tags: [grc, tprm, vendor-risk, third-party, assessment, remediation, compliance, risk-exposure]

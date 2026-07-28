@@ -1,6 +1,6 @@
 ---
 name: task-analysis
-version: 1.0.0
+version: 1.0.1
 description: Analyze task trends, identify bottlenecks, predict SLA breaches, and recommend workload redistribution
 author: Happy Technologies LLC
 tags: [admin, task, analysis, bottleneck, sla, workload, trends, capacity, planning]

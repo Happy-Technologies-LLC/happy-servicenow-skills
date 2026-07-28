@@ -1,6 +1,6 @@
 ---
 name: cmdb-search-analysis
-version: 1.0.0
+version: 1.0.1
 description: Analyze CMDB search requests, interpret natural language CI queries, and provide structured search results with relationships and dependency context
 author: Happy Technologies LLC
 tags: [cmdb, search, analysis, ci, natural-language, query, relationships, discovery]

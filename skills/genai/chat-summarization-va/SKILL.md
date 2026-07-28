@@ -1,6 +1,6 @@
 ---
 name: chat-summarization-va
-version: 1.0.0
+version: 1.0.1
 description: Summarize virtual agent chat sessions with topic classification, resolution status, handoff context, and actionable insights for agent productivity
 author: Happy Technologies LLC
 tags: [genai, virtual-agent, chat, summarization, topic-classification, handoff, conversation]

@@ -1,6 +1,6 @@
 ---
 name: gap-grouping
-version: 1.0.0
+version: 1.0.1
 description: Group and categorize knowledge gaps by topic, service area, and priority to identify systemic documentation needs, cluster related gaps, and create action plans for article creation
 author: Happy Technologies LLC
 tags: [knowledge, gap-grouping, clustering, prioritization, action-plan, knowledge-management]
@@ -305,9 +305,8 @@ GET /api/now/table/kb_knowledge?sysparm_query=sys_created_on>=javascript:gs.days
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-Query-Table` | Query gaps, submissions, feedback, articles |
+| `SN-Query-Table` | Query gaps, submissions, feedback, and articles; retrieve bounded fields for local aggregation |
 | `SN-Natural-Language-Search` | Search for existing coverage by topic |
-| `SN-Query-Table` | Retrieve bounded, field-limited rows for local aggregation |
 | `SN-Create-Record` | Create action plan records as knowledge submissions |
 | `SN-Update-Record` | Update submission status and progress notes |
 | `SN-Add-Work-Notes` | Document clustering decisions and rationale |

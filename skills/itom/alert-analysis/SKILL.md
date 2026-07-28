@@ -1,6 +1,6 @@
 ---
 name: alert-analysis
-version: 1.0.0
+version: 1.0.1
 description: Analyze operational alerts including severity assessment, pattern recognition, noise reduction, alert correlation, grouping, suppression rules, and root cause indicators
 author: Happy Technologies LLC
 tags: [itom, alerts, event-management, correlation, noise-reduction, severity, operations]

@@ -1,6 +1,6 @@
 ---
 name: persona-assistant
-version: 1.0.0
+version: 1.0.1
 description: Provide persona-based HR assistance tailored to employee role, department, and history with routing to appropriate HR services and personalized policy guidance
 author: Happy Technologies LLC
 tags: [hrsd, persona, assistant, employee-experience, routing, policy, self-service]

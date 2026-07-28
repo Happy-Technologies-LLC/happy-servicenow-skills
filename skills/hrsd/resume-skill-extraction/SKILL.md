@@ -1,6 +1,6 @@
 ---
 name: resume-skill-extraction
-version: 1.0.0
+version: 1.0.1
 description: Extract skills, qualifications, and experience from resume data within ServiceNow talent management, mapping to competency frameworks and job requirements
 author: Happy Technologies LLC
 tags: [hrsd, resume, skills, talent-management, competency, extraction, recruiting]

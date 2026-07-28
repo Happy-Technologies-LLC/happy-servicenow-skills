@@ -1,6 +1,6 @@
 ---
 name: predict-assignment
-version: 1.0.0
+version: 1.0.1
 description: Predict assignment group and category for incoming incidents using historical patterns, keyword analysis, and resolution data to accelerate routing
 author: Happy Technologies LLC
 tags: [itsm, incident, assignment, prediction, routing, pattern-matching, zero-touch, automation]

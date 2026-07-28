@@ -1,6 +1,6 @@
 ---
 name: trend-analysis
-version: 1.0.0
+version: 1.0.1
 description: Incident volume trends, category distribution, seasonal patterns, and predictive indicators
 author: Happy Technologies LLC
 tags: [reporting, trends, analytics, forecasting, patterns, capacity, planning]

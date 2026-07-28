@@ -1,6 +1,6 @@
 ---
 name: gap-analysis
-version: 1.0.0
+version: 1.0.1
 description: Analyze knowledge gaps by examining incident and case patterns without matching KB articles, identify topics needing new articles, track failed searches, and prioritize article creation
 author: Happy Technologies LLC
 tags: [knowledge, gap-analysis, incident-patterns, search-analytics, knowledge-management, content-planning]
@@ -258,9 +258,8 @@ Content-Type: application/json
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-Query-Table` | Query incidents, articles, feedback, search logs |
+| `SN-Query-Table` | Query incidents, articles, feedback, and search logs; retrieve bounded fields for local aggregation |
 | `SN-Natural-Language-Search` | Natural language searches for topic coverage |
-| `SN-Query-Table` | Retrieve bounded, field-limited rows for local aggregation |
 | `SN-Create-Record` | Create knowledge submission records for gaps |
 | `SN-Add-Work-Notes` | Document analysis findings on existing records |
 

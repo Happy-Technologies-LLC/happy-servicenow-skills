@@ -1,6 +1,6 @@
 ---
 name: change-risk-explanation
-version: 1.0.0
+version: 1.0.1
 description: Generate change request risk explanations analyzing change scope, affected CIs, historical change failure rates, and deployment window risks
 author: Happy Technologies LLC
 tags: [itsm, change, risk, assessment, explanation, ci, failure-rate, deployment, itil]

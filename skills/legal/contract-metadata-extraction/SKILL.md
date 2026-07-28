@@ -1,6 +1,6 @@
 ---
 name: contract-metadata-extraction
-version: 1.0.0
+version: 1.0.1
 description: Extract metadata from contracts including parties, effective dates, value, auto-renewal terms, governing law, key contacts, and obligation summaries for portfolio management
 author: Happy Technologies LLC
 tags: [legal, contract, metadata, extraction, clm, renewal, parties, obligations, governing-law]

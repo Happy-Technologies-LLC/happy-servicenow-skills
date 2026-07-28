@@ -1,6 +1,6 @@
 ---
 name: agile-story-generation
-version: 1.0.0
+version: 1.0.1
 description: Generate user stories from requirements or feature descriptions with acceptance criteria, story point estimation, epic linking, and sprint assignment
 author: Happy Technologies LLC
 tags: [spm, agile, user-stories, scrum, backlog, sprint, epic, story-points]

@@ -1,6 +1,6 @@
 ---
 name: executive-dashboard
-version: 1.0.0
+version: 1.0.1
 description: Executive KPI generation including MTTR, MTBF, resolution rates, and report data aggregation
 author: Happy Technologies LLC
 tags: [reporting, kpi, executive, metrics, mttr, mtbf, dashboard, analytics]

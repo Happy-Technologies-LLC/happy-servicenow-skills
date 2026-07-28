@@ -1,6 +1,6 @@
 ---
 name: incident-lifecycle
-version: 1.0.0
+version: 1.0.1
 description: Complete incident lifecycle management from creation through resolution and closure
 author: Happy Technologies LLC
 tags: [itsm, incident, lifecycle, resolution, closure, itil]

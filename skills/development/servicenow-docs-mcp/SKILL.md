@@ -1,6 +1,6 @@
 ---
 name: servicenow-docs-mcp
-version: 1.0.0
+version: 1.0.1
 description: Add or maintain ServiceNowDocs search capabilities in Happy Platform MCP, including live GitHub lookup, optional local SQLite FTS indexing, and optional vector search
 author: Happy Technologies LLC
 tags: [development, mcp, servicenow-docs, documentation, search, sqlite, fts, vector, github, rag]

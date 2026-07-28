@@ -1,6 +1,6 @@
 ---
 name: case-auto-resolve
-version: 1.0.0
+version: 1.0.1
 description: Auto-resolve common cases and incidents using pattern matching, knowledge base lookups, and historical resolution data to enable zero-touch service desk operations
 author: Happy Technologies LLC
 tags: [itsm, incident, case, auto-resolve, zero-touch, automation, pattern-matching, knowledge-base]

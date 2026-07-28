@@ -1,6 +1,6 @@
 ---
 name: service-mapping
-version: 1.0.0
+version: 1.0.1
 description: Discover and validate service maps, identify mapping gaps, analyze service dependencies, and troubleshoot discovery patterns in ServiceNow ITOM
 author: Happy Technologies LLC
 tags: [itom, service-mapping, discovery, dependencies, cmdb, topology, patterns]

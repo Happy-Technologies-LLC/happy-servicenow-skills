@@ -1,6 +1,6 @@
 ---
 name: playbook-recommendations
-version: 1.0.0
+version: 1.0.1
 description: Recommend relevant playbooks based on case or incident context by matching issue patterns to existing playbooks, scoring relevance, and suggesting customizations for better fit
 author: Happy Technologies LLC
 tags: [genai, playbooks, process-automation, recommendations, incident, case, pattern-matching, automation]

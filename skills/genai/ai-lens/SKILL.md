@@ -1,6 +1,6 @@
 ---
 name: ai-lens
-version: 1.0.0
+version: 1.0.1
 description: ServiceNow AI Lens that analyzes records in context, surfaces related information, generates insights from patterns, and recommends actions from any list or form view across ITSM, CSM, HRSD, and platform tables
 author: Happy Technologies LLC
 tags: [genai, ai-lens, insights, recommendations, context-analysis, record-analysis, patterns, actions, cross-module]

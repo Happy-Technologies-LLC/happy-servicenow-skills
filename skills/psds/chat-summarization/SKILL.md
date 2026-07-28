@@ -1,6 +1,6 @@
 ---
 name: chat-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize public sector chat interactions with citizen context, service delivery tracking, regulatory compliance notes, and structured handoff documentation
 author: Happy Technologies LLC
 tags: [psds, chat, summarization, public-sector, citizen, interaction, service-delivery]

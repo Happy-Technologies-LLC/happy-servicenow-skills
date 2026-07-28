@@ -1,6 +1,6 @@
 ---
 name: itsm-kb-generation
-version: 1.0.0
+version: 1.0.1
 description: Generate knowledge articles from resolved incidents and problems, structured with symptoms, cause, resolution, and workaround sections
 author: Happy Technologies LLC
 tags: [itsm, knowledge, kb-generation, incident, problem, resolution, workaround, self-service]

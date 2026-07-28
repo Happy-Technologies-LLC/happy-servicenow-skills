@@ -1,6 +1,6 @@
 ---
 name: survey-analysis
-version: 1.0.0
+version: 1.0.1
 description: Analyze survey responses by aggregating scores, identifying trends, comparing across periods, and generating improvement recommendations
 author: Happy Technologies LLC
 tags: [reporting, survey, analysis, feedback, trends, assessment, satisfaction, metrics]

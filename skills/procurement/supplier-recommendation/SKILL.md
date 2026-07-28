@@ -1,6 +1,6 @@
 ---
 name: supplier-recommendation
-version: 1.0.0
+version: 1.0.1
 description: Recommend suppliers based on historical performance, pricing competitiveness, compliance status, category expertise, scorecard analysis, and risk factors
 author: Happy Technologies LLC
 tags: [procurement, supplier, vendor, recommendation, scorecard, risk, performance]

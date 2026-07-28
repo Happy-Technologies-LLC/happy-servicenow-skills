@@ -1,6 +1,6 @@
 ---
 name: article-generation
-version: 1.0.0
+version: 1.0.1
 description: Generate knowledge articles from resolved incidents, problem records, and change implementations with proper KB structure including symptoms, cause, resolution, and related articles
 author: Happy Technologies LLC
 tags: [knowledge, article, generation, incident, problem, change, authoring, knowledge-management]

@@ -1,6 +1,6 @@
 ---
 name: suggest-remediation-tasks
-version: 1.0.0
+version: 1.0.1
 description: Suggest remediation tasks for GRC issues based on control gaps, risk type, and regulatory framework. Generate task lists with owners and deadlines
 author: Happy Technologies LLC
 tags: [grc, remediation, tasks, compliance, risk-mitigation, control-gaps, regulatory]

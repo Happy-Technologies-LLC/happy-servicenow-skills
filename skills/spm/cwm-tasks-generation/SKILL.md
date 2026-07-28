@@ -1,6 +1,6 @@
 ---
 name: cwm-tasks-generation
-version: 1.0.0
+version: 1.0.1
 description: Generate task breakdowns from requirements or user stories with structured task lists, dependencies, assignments, and effort estimates
 author: Happy Technologies LLC
 tags: [spm, cwm, tasks, project, work-breakdown, wbs, estimation, dependencies, planning]

@@ -1,6 +1,6 @@
 ---
 name: health-log-analytics
-version: 1.0.0
+version: 1.0.1
 description: Health log analytics for anomaly detection, capacity planning, performance trending, log source configuration, and threshold management in ServiceNow ITOM
 author: Happy Technologies LLC
 tags: [itom, health-log-analytics, anomaly-detection, capacity-planning, performance, metrics, thresholds, hla]

@@ -1,6 +1,6 @@
 ---
 name: health-safety-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize Health and Safety incidents with injury details, root cause analysis, OSHA reporting requirements, corrective actions, and workplace hazard tracking
 author: Happy Technologies LLC
 tags: [hrsd, health-safety, incident, osha, injury, hazard, investigation, corrective-action, workplace-safety]

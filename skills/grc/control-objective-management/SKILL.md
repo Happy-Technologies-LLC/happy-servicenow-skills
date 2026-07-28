@@ -1,6 +1,6 @@
 ---
 name: control-objective-management
-version: 1.0.0
+version: 1.0.1
 description: Manage control objectives including creation, assessment, effectiveness evaluation, regulatory mapping, and gap identification across SOX, GDPR, and HIPAA frameworks
 author: Happy Technologies LLC
 tags: [grc, compliance, control-objective, sox, gdpr, hipaa, control-gap, effectiveness]

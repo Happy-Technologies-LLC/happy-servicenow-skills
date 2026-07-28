@@ -1,6 +1,6 @@
 ---
 name: interview-relevance
-version: 1.0.0
+version: 1.0.1
 description: Assess interview notes and job descriptions for skill relevance matching. Score candidate-role fit, highlight skill gaps, evaluate competency alignment, and generate structured hiring recommendations
 author: Happy Technologies LLC
 tags: [hrsd, interview, hiring, talent, skill-matching, candidate-assessment, recruitment, competency]

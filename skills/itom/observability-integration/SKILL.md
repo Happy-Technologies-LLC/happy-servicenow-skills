@@ -1,6 +1,6 @@
 ---
 name: observability-integration
-version: 1.0.0
+version: 1.0.1
 description: Integrate observability data from Datadog, Dynatrace, and New Relic into ServiceNow ITOM, covering metric ingestion, alert normalization, and event management connectors
 author: Happy Technologies LLC
 tags: [itom, observability, datadog, dynatrace, new-relic, monitoring, alerts, event-management, integration]

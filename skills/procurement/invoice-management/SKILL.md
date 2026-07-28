@@ -1,6 +1,6 @@
 ---
 name: invoice-management
-version: 1.0.0
+version: 1.0.1
 description: Manage accounts payable invoices including data extraction, PO matching, three-way matching (PO, receipt, invoice), discrepancy identification, and resolution routing
 author: Happy Technologies LLC
 tags: [procurement, invoice, accounts-payable, three-way-match, po-matching, finance]

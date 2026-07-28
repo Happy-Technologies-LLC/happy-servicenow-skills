@@ -1,6 +1,6 @@
 ---
 name: ot-incident-resolution
-version: 1.0.0
+version: 1.0.1
 description: Generate OT incident resolution notes with safety considerations, containment procedures, and remediation steps for industrial control systems and operational technology environments
 author: Happy Technologies LLC
 tags: [otsm, ot, incident-resolution, industrial, ics, safety, scada, containment]

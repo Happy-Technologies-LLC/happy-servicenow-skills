@@ -1,6 +1,6 @@
 ---
 name: major-incident-email
-version: 1.0.0
+version: 1.0.1
 description: Generate major incident email communications including initial notification, status updates, resolution notification, and post-incident summaries for stakeholders
 author: Happy Technologies LLC
 tags: [itsm, incident, major-incident, email, communication, notification, stakeholder, p1]

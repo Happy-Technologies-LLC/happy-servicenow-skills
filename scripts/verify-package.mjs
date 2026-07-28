@@ -48,7 +48,9 @@ try {
     'src/cli.js',
     'scripts/verify-package.mjs',
     'scripts/refresh-mcp-tool-contract.mjs',
+    'scripts/check-natural-language-contract.mjs',
     'contracts/happy-platform-mcp-5.1.0.json',
+    'contracts/happy-platform-mcp-5.1.0-natural-language.json',
     'contracts/README.md',
     'skills/itsm/incident-triage/SKILL.md',
     'skills/development/fluent-sdk/vendor/now-sdk-explain.md'

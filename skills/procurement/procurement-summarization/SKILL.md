@@ -1,6 +1,6 @@
 ---
 name: procurement-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize procurement cases including vendor communications, approval status, spend analysis, pipeline reports, and bottleneck identification
 author: Happy Technologies LLC
 tags: [procurement, summarization, spend-analysis, pipeline, procurement-case, reporting]

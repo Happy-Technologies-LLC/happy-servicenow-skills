@@ -1,6 +1,6 @@
 ---
 name: approval-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize approval requests with context including what is being requested, who is requesting, business justification, and similar past approvals
 author: Happy Technologies LLC
 tags: [catalog, approval, summarization, employee-experience, approver, request, context, decision-support]

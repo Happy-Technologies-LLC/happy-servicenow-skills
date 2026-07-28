@@ -1,6 +1,6 @@
 ---
 name: saas-user-resolution
-version: 1.0.0
+version: 1.0.1
 description: Resolve SaaS user discrepancies, identify unused licenses, detect duplicate accounts, and recommend license optimization strategies
 author: Happy Technologies LLC
 tags: [sam, saas, user-resolution, license-optimization, cost-savings, usage-analytics]

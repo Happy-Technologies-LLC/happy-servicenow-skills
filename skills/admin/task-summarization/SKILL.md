@@ -1,6 +1,6 @@
 ---
 name: task-summarization
-version: 1.0.0
+version: 1.0.1
 description: Generate concise task summaries with status, timeline, blockers, SLA risk, and recommended next actions
 author: Happy Technologies LLC
 tags: [admin, task, summarization, handover, approvals, sla, operations]

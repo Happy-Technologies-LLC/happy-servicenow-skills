@@ -1,6 +1,6 @@
 ---
 name: legal-request-triage
-version: 1.0.0
+version: 1.0.1
 description: Triage incoming legal requests by classifying type, assigning priority based on urgency and business impact, and routing to the appropriate legal team
 author: Happy Technologies LLC
 tags: [legal, triage, request, routing, priority, legal-service-delivery]

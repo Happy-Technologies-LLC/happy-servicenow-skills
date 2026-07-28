@@ -1,6 +1,6 @@
 ---
 name: smart-assessment
-version: 1.0.0
+version: 1.0.1
 description: Configure smart assessments with AI-assisted response suggestions, covering assessment design, metric types, scoring models, conditional logic, result analysis, and integration with GRC and HR modules
 author: Happy Technologies LLC
 tags: [admin, assessment, survey, scoring, metrics, ai-assisted, grc, hr, risk, compliance]

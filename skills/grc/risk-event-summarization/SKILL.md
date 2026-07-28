@@ -1,6 +1,6 @@
 ---
 name: risk-event-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize risk events with impact assessment, affected controls, contributing factors, and recommended mitigation actions
 author: Happy Technologies LLC
 tags: [grc, risk, event, summarization, impact-assessment, mitigation, controls]

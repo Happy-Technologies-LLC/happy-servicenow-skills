@@ -1,6 +1,6 @@
 ---
 name: incident-triage
-version: 1.0.0
+version: 1.0.1
 description: "Triage, prioritize, and assign ServiceNow incidents using impact/urgency matrix and category-based routing. Use when an alert fires, a ticket lands unassigned, an outage is reported, an escalation is needed, severity must be classified, an on-call team must be paged, or an SLA is at risk."
 author: Happy Technologies LLC
 tags: [itsm, incident, triage, assignment, priority, itil]

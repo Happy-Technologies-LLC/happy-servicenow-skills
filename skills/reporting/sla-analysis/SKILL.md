@@ -1,6 +1,6 @@
 ---
 name: sla-analysis
-version: 1.0.0
+version: 1.0.1
 description: SLA performance tracking including breach detection, achievement metrics, and trend analysis
 author: Happy Technologies LLC
 tags: [reporting, sla, performance, metrics, breach, compliance, itil]

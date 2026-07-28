@@ -1,6 +1,6 @@
 ---
 name: content-recommendation
-version: 1.0.0
+version: 1.0.1
 description: Recommend relevant knowledge articles based on incident or case context by matching keywords, categories, and historical resolution patterns to surface the most useful articles
 author: Happy Technologies LLC
 tags: [knowledge, recommendation, incident, case, search, matching, knowledge-management]

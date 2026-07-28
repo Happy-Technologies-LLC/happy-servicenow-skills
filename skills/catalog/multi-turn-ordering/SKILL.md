@@ -1,6 +1,6 @@
 ---
 name: multi-turn-ordering
-version: 1.0.0
+version: 1.0.1
 description: Configure multi-turn catalog ordering for conversational item selection, variable collection, and order placement via Virtual Agent
 author: Happy Technologies LLC
 tags: [catalog, multi-turn, ordering, virtual-agent, conversational, chatbot, natural-language, service-catalog]

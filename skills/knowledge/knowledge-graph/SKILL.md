@@ -1,6 +1,6 @@
 ---
 name: knowledge-graph
-version: 1.0.0
+version: 1.0.1
 description: Build and navigate knowledge graphs showing article relationships, topic hierarchies, cross-reference maps, content dependency analysis, and knowledge domain coverage visualization
 author: Happy Technologies LLC
 tags: [knowledge, knowledge-graph, relationships, topic-hierarchy, cross-references, dependencies, content-analysis, visualization]

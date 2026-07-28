@@ -1,6 +1,6 @@
 ---
 name: ui-actions
-version: 1.0.0
+version: 1.0.1
 description: Complete guide to UI Action development including form buttons, list buttons, context menu actions, client-side and server-side scripts, conditions, security, and common patterns
 author: Happy Technologies LLC
 tags: [development, ui-actions, scripting, buttons, forms, lists, context-menu, automation]

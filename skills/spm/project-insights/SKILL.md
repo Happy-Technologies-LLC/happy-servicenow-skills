@@ -1,6 +1,6 @@
 ---
 name: project-insights
-version: 1.0.0
+version: 1.0.1
 description: Generate project health insights including schedule variance, resource utilization, risk indicators, milestone tracking, and executive dashboard summaries
 author: Happy Technologies LLC
 tags: [spm, project, insights, health, dashboard, schedule, resources, milestones, risk]
@@ -285,9 +285,8 @@ GET /api/now/table/pm_project?sysparm_query=portfolio=[portfolio_sys_id]^stateNO
 | Tool | When to Use |
 |------|-------------|
 | `SN-Get-Record` | Retrieve a single project or task record by sys_id |
-| `SN-Query-Table` | Query tasks, resources, risks, milestones, sprints, and stories |
+| `SN-Query-Table` | Query bounded task, resource, risk, milestone, sprint, and story fields; calculate summaries locally |
 | `SN-Natural-Language-Search` | Natural language search for projects (e.g., "find at-risk projects in Q2") |
-| `SN-Query-Table` | Retrieve bounded fields; calculate counts, sums, and averages locally |
 
 ### REST API Reference
 

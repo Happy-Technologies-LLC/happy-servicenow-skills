@@ -1,6 +1,6 @@
 ---
 name: agent-miner
-version: 1.0.0
+version: 1.0.1
 description: Mine agent interactions to find automation opportunities by analyzing repetitive patterns, identifying common resolutions, and discovering handoff points for bot candidates
 author: Happy Technologies LLC
 tags: [genai, agent-miner, automation, virtual-agent, patterns, analytics, bot-candidates]

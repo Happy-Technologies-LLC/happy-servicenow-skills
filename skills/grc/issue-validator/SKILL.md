@@ -1,6 +1,6 @@
 ---
 name: issue-validator
-version: 1.0.0
+version: 1.0.1
 description: Validate GRC issues for completeness, accuracy, and compliance. Check required fields, risk ratings, control mappings, and remediation plan adequacy
 author: Happy Technologies LLC
 tags: [grc, issue, validation, compliance, data-quality, audit-readiness, controls]

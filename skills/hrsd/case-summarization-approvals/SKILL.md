@@ -1,6 +1,6 @@
 ---
 name: case-summarization-approvals
-version: 1.0.0
+version: 1.0.1
 description: Summarize HR cases, service requests, and requested items for approvers with business justification, cost impact, approval history context, and policy compliance information
 author: Happy Technologies LLC
 tags: [hrsd, approvals, case-summarization, business-justification, cost-impact, approval-history, compliance]

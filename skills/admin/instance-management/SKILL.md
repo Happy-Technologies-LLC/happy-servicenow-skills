@@ -1,6 +1,6 @@
 ---
 name: instance-management
-version: 1.1.0
+version: 1.1.1
 description: Manage and safely route Happy Platform MCP v5.1 operations across ServiceNow instances
 author: Happy Technologies LLC
 tags: [admin, instance, multi-instance, environment, configuration]

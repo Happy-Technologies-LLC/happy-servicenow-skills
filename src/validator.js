@@ -175,8 +175,10 @@ export class SkillValidator {
         this.errors.push(`tools.${type} must be an array`);
       } else if (type === 'mcp') {
         for (const toolName of toolList) {
-          if (typeof toolName === 'string' && /^SN-[A-Za-z0-9-]+$/.test(toolName) && !SUPPORTED_MCP_TOOLS.has(toolName)) {
-            this.errors.push(`${path}: Unsupported MCP tool: ${toolName}`);
+          if (typeof toolName !== 'string') {
+            this.errors.push(`${path}: tools.mcp entries must be strings; received ${String(toolName)}`);
+          } else if (!SUPPORTED_MCP_TOOLS.has(toolName)) {
+            this.errors.push(`${path}: tools.mcp contains unsupported tool: ${toolName}`);
           }
         }
       }

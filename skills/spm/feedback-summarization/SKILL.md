@@ -1,6 +1,6 @@
 ---
 name: feedback-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize feedback from retrospectives, sprint reviews, and stakeholder surveys to identify themes and action items
 author: Happy Technologies LLC
 tags: [spm, feedback, retrospective, sprint-review, summarization, themes, action-items, agile, continuous-improvement]

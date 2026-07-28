@@ -1,6 +1,6 @@
 ---
 name: smart-documents
-version: 1.0.0
+version: 1.0.1
 description: Manage smart documents with version control, approval workflows, automated content generation, document templates, merge fields, and distribution
 author: Happy Technologies LLC
 tags: [document, smart-documents, templates, version-control, approval, merge-fields, distribution, generation]

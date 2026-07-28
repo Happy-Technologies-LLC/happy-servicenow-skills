@@ -1,6 +1,6 @@
 ---
 name: quick-reference
-version: 1.0.0
+version: 1.0.1
 description: ITSM quick reference card with common operations, state values, priority matrix, and encoded query examples
 author: Happy Technologies LLC
 tags: [itsm, reference, cheatsheet, quick-start]
@@ -38,7 +38,7 @@ A quick reference card for common ITSM operations in ServiceNow. Keep this handy
 | Close incident | `SN-Close-Incident` | `sys_id`, `resolution_code`, `resolution_notes` |
 | Assign incident | `SN-Assign-Incident` | `sys_id`, `assigned_to`, `assignment_group` |
 | Add work notes | `SN-Add-Work-Notes` | `sys_id`, `work_notes` |
-| Search incidents | `SN-Natural-Language-Search` | `table_name: incident`, natural language query |
+| Search incidents | `SN-Natural-Language-Search` | `table: incident`, natural language query |
 
 ### Create Incident
 
@@ -303,7 +303,7 @@ Parameters:
 | `SN-Close-Incident` | Close incident | `sys_id`, `resolution_code` |
 | `SN-Assign-Incident` | Assign incident | `sys_id` |
 | `SN-Add-Work-Notes` | Add work notes | `sys_id`, `work_notes` |
-| `SN-Natural-Language-Search` | NL search | `table_name`, `query` |
+| `SN-Natural-Language-Search` | NL search | `table`, `query` |
 
 ### Generic Tools
 

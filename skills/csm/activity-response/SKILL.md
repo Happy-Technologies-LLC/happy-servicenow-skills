@@ -1,6 +1,6 @@
 ---
 name: activity-response
-version: 1.0.0
+version: 1.0.1
 description: Generate contextual responses for CSM case activities including work notes, customer communications, and status updates with suggested next actions
 author: Happy Technologies LLC
 tags: [csm, activity, response, work-notes, status-update, agent-assist, next-actions]

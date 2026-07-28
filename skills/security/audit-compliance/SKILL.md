@@ -1,6 +1,6 @@
 ---
 name: audit-compliance
-version: 1.0.0
+version: 1.0.1
 description: Comprehensive audit trail analysis, user activity tracking, compliance reporting, and anomaly detection for ServiceNow environments
 author: Happy Technologies LLC
 tags: [security, audit, compliance, monitoring, anomaly-detection, soc, governance]

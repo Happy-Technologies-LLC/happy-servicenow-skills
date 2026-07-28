@@ -1,6 +1,6 @@
 ---
 name: legal-matter-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize legal matters with case timeline, key documents, parties involved, financial exposure, and recommended actions for legal leadership reporting
 author: Happy Technologies LLC
 tags: [legal, matter, summarization, case-timeline, reporting, legal-service-delivery]

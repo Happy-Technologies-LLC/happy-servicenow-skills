@@ -1,6 +1,6 @@
 ---
 name: cwm-doc-generation
-version: 1.0.0
+version: 1.0.1
 description: Generate CWM documentation and insights from project data including status reports, risk summaries, and stakeholder communications
 author: Happy Technologies LLC
 tags: [spm, cwm, documentation, project, status-report, risk, stakeholder, portfolio]

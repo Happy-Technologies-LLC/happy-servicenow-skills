@@ -1,6 +1,6 @@
 ---
 name: government-case-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize government and public sector cases with regulatory compliance context, service eligibility tracking, inter-agency coordination, and audit trail documentation
 author: Happy Technologies LLC
 tags: [psds, government, case-summarization, public-sector, regulatory, compliance, citizen-services]

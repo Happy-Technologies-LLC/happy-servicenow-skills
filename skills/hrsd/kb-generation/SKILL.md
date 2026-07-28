@@ -1,6 +1,6 @@
 ---
 name: hr-kb-generation
-version: 1.0.0
+version: 1.0.1
 description: Generate HR knowledge articles from resolved cases, covering HR policy documentation, benefits FAQs, and onboarding guides
 author: Happy Technologies LLC
 tags: [hrsd, knowledge, kb-generation, hr-cases, policy, benefits, onboarding, self-service]

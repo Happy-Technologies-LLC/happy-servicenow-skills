@@ -1,6 +1,6 @@
 ---
 name: service-graph-diagnosis
-version: 1.0.0
+version: 1.0.1
 description: Diagnose Service Graph Connector issues, validate discovery patterns, and troubleshoot service mapping data flow
 author: Happy Technologies LLC
 tags: [cmdb, service-graph, discovery, service-mapping, connector, integration, troubleshooting, data-flow]

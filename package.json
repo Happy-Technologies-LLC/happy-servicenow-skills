@@ -21,6 +21,7 @@
     "verify:package": "node scripts/verify-package.mjs",
     "contract:refresh": "node scripts/refresh-mcp-tool-contract.mjs",
     "contract:check": "node scripts/refresh-mcp-tool-contract.mjs --check",
+    "contract:nl-check": "node scripts/check-natural-language-contract.mjs",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "keywords": [
@@ -77,6 +78,7 @@
     "contracts/**/*",
     "scripts/verify-package.mjs",
     "scripts/refresh-mcp-tool-contract.mjs",
+    "scripts/check-natural-language-contract.mjs",
     "skills/**/*",
     "templates/**/*",
     "docs/**/*",

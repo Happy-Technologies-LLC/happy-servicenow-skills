@@ -1,6 +1,6 @@
 ---
 name: work-order-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize field service work orders with tasks, SLAs, asset information, travel logistics, and parts requirements for dispatch coordinators and field technicians
 author: Happy Technologies LLC
 tags: [fsm, work-order, summarization, field-service, sla, assets, travel, parts]

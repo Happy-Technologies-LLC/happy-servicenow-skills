@@ -1,6 +1,6 @@
 ---
 name: generate-talking-points
-version: 1.0.0
+version: 1.0.1
 description: Generate manager talking points for employee reviews, 1:1 meetings, and performance discussions based on talent profiles, goals, feedback, and performance metrics
 author: Happy Technologies LLC
 tags: [hrsd, talent, performance, talking-points, review, goals, feedback, manager, one-on-one]

@@ -1,6 +1,6 @@
 ---
 name: chat-recommendation
-version: 1.0.0
+version: 1.0.1
 description: Generate recommended chat responses for CSM agents based on case context, knowledge base matches, customer history, and similar resolved cases
 author: Happy Technologies LLC
 tags: [csm, chat, recommendation, agent-assist, knowledge-base, customer-service]

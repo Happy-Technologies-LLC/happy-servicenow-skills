@@ -1,6 +1,6 @@
 ---
 name: email-recommendation
-version: 1.0.0
+version: 1.0.1
 description: Generate professional email responses for customer service cases by analyzing case details, customer sentiment, communication history, and knowledge base articles
 author: Happy Technologies LLC
 tags: [csm, email, recommendation, response-generation, customer-service, communication]

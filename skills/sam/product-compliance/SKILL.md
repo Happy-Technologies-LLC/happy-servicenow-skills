@@ -1,6 +1,6 @@
 ---
 name: product-compliance
-version: 1.0.0
+version: 1.0.1
 description: Summarize software product compliance status including license counts, entitlement gaps, compliance violations, and recommended remediation actions
 author: Happy Technologies LLC
 tags: [sam, software-asset, compliance, licensing, entitlement, remediation, audit]

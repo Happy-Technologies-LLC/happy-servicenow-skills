@@ -1,6 +1,6 @@
 ---
 name: issue-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize GRC issues with context including related risks, controls, compliance gaps, and business impact to generate executive-ready summaries for audit committees
 author: Happy Technologies LLC
 tags: [grc, issue, summarization, compliance, risk, audit, executive-reporting]

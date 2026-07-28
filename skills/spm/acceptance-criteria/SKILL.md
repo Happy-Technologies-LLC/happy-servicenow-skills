@@ -1,6 +1,6 @@
 ---
 name: acceptance-criteria
-version: 1.0.0
+version: 1.0.1
 description: Generate comprehensive acceptance criteria for user stories and features using Given/When/Then format covering functional requirements, edge cases, and testable conditions
 author: Happy Technologies LLC
 tags: [spm, agile, acceptance-criteria, bdd, gherkin, testing, quality, user-stories]

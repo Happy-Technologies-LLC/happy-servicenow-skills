@@ -1,6 +1,6 @@
 ---
 name: incident-activity-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize incident activity streams including work notes, comments, state changes, assignment history, and communications into concise narratives for handoffs, escalations, and management reviews
 author: Happy Technologies LLC
 tags: [itsm, incident, summarization, activity, work-notes, state-changes, assignment-history, handoff, zero-touch]

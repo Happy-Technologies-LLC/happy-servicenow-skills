@@ -1,6 +1,6 @@
 ---
 name: incident-sentiment
-version: 1.0.0
+version: 1.0.1
 description: Analyze incident sentiment from work notes, customer communications, and activity entries to track escalation risk and customer satisfaction
 author: Happy Technologies LLC
 tags: [itsm, incident, sentiment, escalation, customer-satisfaction, nlp, work-notes, analytics]

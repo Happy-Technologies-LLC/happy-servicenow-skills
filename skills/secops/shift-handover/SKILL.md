@@ -1,6 +1,6 @@
 ---
 name: shift-handover
-version: 1.0.0
+version: 1.0.1
 description: Generate comprehensive shift handover content for SOC analysts including active incidents, pending tasks, escalations, and critical items needing attention
 author: Happy Technologies LLC
 tags: [secops, soc, shift-handover, operations, analyst, continuity]

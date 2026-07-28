@@ -1,6 +1,6 @@
 ---
 name: workspace-insights
-version: 1.0.0
+version: 1.0.1
 description: Workplace service delivery insights including space utilization, service request patterns, facility management metrics, and desk booking analytics
 author: Happy Technologies LLC
 tags: [admin, workplace, facilities, space-utilization, desk-booking, service-delivery, analytics, wsd]

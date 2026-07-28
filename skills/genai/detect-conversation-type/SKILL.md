@@ -1,6 +1,6 @@
 ---
 name: detect-conversation-type
-version: 1.0.0
+version: 1.0.1
 description: Detect and classify conversation types including inquiry, complaint, request, feedback, and escalation. Route to appropriate handling workflows based on intent, sentiment, and urgency analysis
 author: Happy Technologies LLC
 tags: [genai, conversation, classification, intent-detection, routing, sentiment, virtual-agent, engagement]

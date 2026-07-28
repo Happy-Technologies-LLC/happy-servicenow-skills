@@ -1,6 +1,6 @@
 ---
 name: security-recommended-actions
-version: 1.0.0
+version: 1.0.1
 description: Generate recommended actions for security incidents based on threat type, severity, affected assets, and playbook alignment. Include containment, eradication, and recovery steps
 author: Happy Technologies LLC
 tags: [secops, security, incident-response, recommended-actions, containment, eradication, recovery, playbook]

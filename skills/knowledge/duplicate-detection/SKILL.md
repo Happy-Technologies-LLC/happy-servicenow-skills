@@ -1,6 +1,6 @@
 ---
 name: duplicate-detection
-version: 1.0.0
+version: 1.0.1
 description: Identify duplicate knowledge articles using content similarity analysis, compare titles and metadata across knowledge bases, and recommend merge or deduplication strategies
 author: Happy Technologies LLC
 tags: [knowledge, duplicate, deduplication, content-analysis, quality, knowledge-management]

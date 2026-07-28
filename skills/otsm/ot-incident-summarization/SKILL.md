@@ -1,6 +1,6 @@
 ---
 name: ot-incident-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize OT incidents with affected device inventory, safety impact analysis, containment status, and operational continuity assessment for industrial environments
 author: Happy Technologies LLC
 tags: [otsm, ot, incident, summarization, safety, devices, containment, industrial]

@@ -1,6 +1,6 @@
 ---
 name: release-notes-generation
-version: 1.0.0
+version: 1.0.1
 description: Generate release notes from change requests, stories, and defects for a given release window with categorization, impact summaries, and stakeholder-ready formatting
 author: Happy Technologies LLC
 tags: [itsm, release-notes, change-request, release-management, documentation, stories, defects]

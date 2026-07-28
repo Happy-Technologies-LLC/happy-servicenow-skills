@@ -1,6 +1,6 @@
 ---
 name: purchase-order-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize purchase orders with line items, delivery status, receipt tracking, budget impact analysis, and late delivery risk identification
 author: Happy Technologies LLC
 tags: [procurement, purchase-order, summarization, delivery-tracking, budget, receipt]

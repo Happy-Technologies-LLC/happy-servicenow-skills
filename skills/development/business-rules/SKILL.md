@@ -1,6 +1,6 @@
 ---
 name: business-rules
-version: 1.0.0
+version: 1.0.1
 description: Complete guide to business rule development including when/how/trigger timing, script patterns, current/previous objects, condition optimization, Glide API usage, error handling, and performance best practices
 author: Happy Technologies LLC
 tags: [development, business-rules, scripting, server-side, glide, automation]

@@ -1,6 +1,6 @@
 ---
 name: build-agent
-version: 1.0.0
+version: 1.0.1
 description: Build custom AI agents for ServiceNow including agent capabilities, knowledge sources, tool access, conversational flows, and guardrails
 author: Happy Technologies LLC
 tags: [genai, agent, virtual-agent, ai, chatbot, conversational, now-assist, skills]

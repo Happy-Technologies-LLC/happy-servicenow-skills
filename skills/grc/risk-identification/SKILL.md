@@ -1,6 +1,6 @@
 ---
 name: risk-identification
-version: 1.0.0
+version: 1.0.1
 description: Identify emerging risks, prioritize intake signals, and route candidates into formal GRC risk assessment workflows
 author: Happy Technologies LLC
 tags: [grc, risk, identification, intake, prioritization, governance, assessment]
