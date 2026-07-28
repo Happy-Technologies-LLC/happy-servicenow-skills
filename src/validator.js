@@ -310,44 +310,45 @@ export class SkillValidator {
     const canonicalRoot = realpathSync(absoluteRoot);
 
     for (const link of this.markdownLinks(body)) {
+      const linkLine = bodyStartLine + (link.targetLine ?? link.line) - 1;
       let decodedTarget;
       try {
         decodedTarget = decodeURIComponent(link.target);
       } catch {
-        this.error(bodyStartLine + link.line - 1, `Malformed percent-encoding in Markdown link: ${link.target}`);
+        this.error(linkLine, `Malformed percent-encoding in Markdown link: ${link.target}`);
         continue;
       }
       if (decodedTarget.startsWith('#')) continue;
       const scheme = this.uriScheme(decodedTarget);
       if (scheme && ['http', 'https'].includes(scheme)) continue;
       if (scheme && ['javascript', 'data', 'file'].includes(scheme)) {
-        this.error(bodyStartLine + link.line - 1, `Unsafe Markdown link scheme: ${link.target}`);
+        this.error(linkLine, `Unsafe Markdown link scheme: ${link.target}`);
         continue;
       }
       if (scheme || decodedTarget.startsWith('//')) {
-        this.error(bodyStartLine + link.line - 1, `Unsupported Markdown URI scheme: ${link.target}`);
+        this.error(linkLine, `Unsupported Markdown URI scheme: ${link.target}`);
         continue;
       }
       const targetWithoutFragment = decodedTarget.split('#')[0];
       if (!targetWithoutFragment) continue;
       if (this.isAbsoluteFilesystemPath(targetWithoutFragment)) {
-        this.error(bodyStartLine + link.line - 1, `Absolute local Markdown link is not allowed: ${link.target}`);
+        this.error(linkLine, `Absolute local Markdown link is not allowed: ${link.target}`);
         continue;
       }
       const absoluteTarget = resolve(dirname(absoluteSourcePath), targetWithoutFragment);
       if (!this.isPathContained(absoluteRoot, absoluteTarget)) {
-        this.error(bodyStartLine + link.line - 1, `Local Markdown link escapes the packed root: ${link.target}`);
+        this.error(linkLine, `Local Markdown link escapes the packed root: ${link.target}`);
         continue;
       }
       if (!existsSync(absoluteTarget)) {
-        this.error(bodyStartLine + link.line - 1, `Broken local Markdown link: ${link.target}`);
+        this.error(linkLine, `Broken local Markdown link: ${link.target}`);
         continue;
       }
       const canonicalTarget = realpathSync(absoluteTarget);
       if (!this.isPathContained(canonicalRoot, canonicalTarget)) {
-        this.error(bodyStartLine + link.line - 1, `Local Markdown link resolves outside the packed root: ${link.target}`);
+        this.error(linkLine, `Local Markdown link resolves outside the packed root: ${link.target}`);
       } else if (!this.isPackagedPath(canonicalRoot, canonicalTarget)) {
-        this.error(bodyStartLine + link.line - 1, `Local Markdown link target is not included in the package: ${link.target}`);
+        this.error(linkLine, `Local Markdown link target is not included in the package: ${link.target}`);
       }
     }
 
@@ -366,7 +367,7 @@ export class SkillValidator {
         seenTargets.add(target);
       }
     };
-    const relatedLinks = this.markdownLinks(related.content);
+    const relatedLinks = this.markdownLinks(related.content, body);
     const markdownTargets = new Set(relatedLinks.map(link => link.raw));
     for (const link of relatedLinks) {
       const line = related.startLine + link.line - 1;
@@ -404,7 +405,7 @@ export class SkillValidator {
         recordTarget(normalized, related.startLine + candidate.line - 1);
       }
     }
-    for (const entry of this.unsupportedRelatedEntries(related.content)) {
+    for (const entry of this.unsupportedRelatedEntries(related.content, body)) {
       this.error(
         related.startLine + entry.line - 1,
         `Related Skills entry must resolve to a catalog skill: ${entry.target}`
@@ -412,15 +413,70 @@ export class SkillValidator {
     }
   }
 
-  markdownLinks(content) {
+  markdownLinks(content, referenceSource = content) {
     const links = [];
+    const occupied = [];
+    const definitions = new Map();
+    const definitionPattern = /^ {0,3}\[([^\]\n]+)\]:[ \t]*(?:<([^>\n]+)>|(\S+))(?:[ \t]+(?:"[^"\n]*"|'[^'\n]*'|\([^\)\n]*\)))?[ \t]*$/gm;
+    for (const match of referenceSource.matchAll(definitionPattern)) {
+      const label = this.normalizeReferenceLabel(match[1]);
+      if (!definitions.has(label)) {
+        definitions.set(label, {
+          target: match[2] || match[3],
+          line: this.lineOf(referenceSource, match[0], match.index)
+        });
+      }
+      if (referenceSource === content) occupied.push([match.index, match.index + match[0].length]);
+    }
+
     const pattern = /!?\[[^\]]*\]\(\s*(<[^>]+>|[^)\s]+)(?:\s+["'][^"']*["'])?\s*\)/g;
     for (const match of content.matchAll(pattern)) {
       const raw = match[0];
       const target = match[1].replace(/^<|>$/g, '');
       links.push({ raw, target, line: this.lineOf(content, raw, match.index) });
+      occupied.push([match.index, match.index + raw.length]);
+    }
+
+    const referencePattern = /!?\[([^\]\n]+)\]\[([^\]\n]*)\]/g;
+    for (const match of content.matchAll(referencePattern)) {
+      const definition = definitions.get(this.normalizeReferenceLabel(match[2] || match[1]));
+      if (!definition) continue;
+      links.push({
+        raw: match[0],
+        target: definition.target,
+        line: this.lineOf(content, match[0], match.index),
+        targetLine: definition.line
+      });
+      occupied.push([match.index, match.index + match[0].length]);
+    }
+
+    const shortcutPattern = /!?\[([^\]\n]+)\](?!\s*(?:\(|\[|:))/g;
+    for (const match of content.matchAll(shortcutPattern)) {
+      if (occupied.some(([start, end]) => match.index >= start && match.index < end)) continue;
+      const definition = definitions.get(this.normalizeReferenceLabel(match[1]));
+      if (!definition) continue;
+      links.push({
+        raw: match[0],
+        target: definition.target,
+        line: this.lineOf(content, match[0], match.index),
+        targetLine: definition.line
+      });
+    }
+
+    const autolinkPattern = /<([a-z][a-z0-9+.-]*:[^<>\s]+)>/gi;
+    for (const match of content.matchAll(autolinkPattern)) {
+      if (occupied.some(([start, end]) => match.index >= start && match.index < end)) continue;
+      links.push({
+        raw: match[0],
+        target: match[1],
+        line: this.lineOf(content, match[0], match.index)
+      });
     }
     return links;
+  }
+
+  normalizeReferenceLabel(label) {
+    return label.trim().replace(/\s+/g, ' ').toLowerCase();
   }
 
   relatedSkillCandidates(content) {
@@ -441,13 +497,13 @@ export class SkillValidator {
     return candidates;
   }
 
-  unsupportedRelatedEntries(content) {
+  unsupportedRelatedEntries(content, referenceSource = content) {
     const entries = [];
     const slugTarget = '(?:[a-z0-9]+(?:-[a-z0-9]+)*\\/)?[a-z0-9]+(?:-[a-z0-9]+)*';
     const supported = new RegExp(`^(?:\`${slugTarget}\`|${slugTarget})(?:\\s+(?:-{1,2}|—)\\s+.*)?$`);
     for (const match of content.matchAll(/^\s*-\s+(.+?)\s*$/gm)) {
       const target = match[1].trim();
-      if (this.markdownLinks(target).length > 0 || supported.test(target)) continue;
+      if (this.markdownLinks(target, referenceSource).length > 0 || supported.test(target)) continue;
       entries.push({ target, line: this.lineOf(content, match[0], match.index) });
     }
     return entries;

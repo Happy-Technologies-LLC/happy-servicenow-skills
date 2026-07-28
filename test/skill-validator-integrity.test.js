@@ -384,6 +384,88 @@ describe('canonical skill integrity contract', () => {
     expect(result.errors).toEqual([]);
   });
 
+  test('validates reference-style links, images, and URI autolinks', async () => {
+    const skillsRoot = await temporarySkillsRoot();
+    await writeFile(join(skillsRoot, '..', 'package-lock.json'), '{}\n');
+    await writeSkill(skillsRoot, 'demo/sample-skill', skill({
+      sections: [
+        [
+          '## Overview',
+          '',
+          '[Full reference][unsafe]',
+          '[collapsed][]',
+          '[shortcut]',
+          '![Image reference][image-unsafe]',
+          '[Encoded reference][encoded-unsafe]',
+          '[Missing local][missing-local]',
+          '[Nonpacked local][nonpacked-local]',
+          '<vbscript:autolink-only>',
+          '<custom:autolink-only>',
+          '<section>Ordinary HTML is not a link.</section>',
+          '',
+          '[unsafe]: vbscript:msgbox(1)',
+          '[collapsed]: custom:resource',
+          '[shortcut]: javascript:alert(1)',
+          '[image-unsafe]: data:text/plain,unsafe',
+          '[encoded-unsafe]: vb%73cript:msgbox(1)',
+          '[missing-local]: references/missing.md',
+          '[nonpacked-local]: ../../../package-lock.json'
+        ].join('\n'),
+        '## Prerequisites\n\n- Read access',
+        '## Procedure\n\n1. Validate every Markdown link form.'
+      ]
+    }));
+
+    const [result] = await SkillValidator.validateAll({
+      skillsDir: skillsRoot,
+      includeContractDocuments: false
+    });
+    const errors = result.errors.join('\n');
+    expect(errors).toMatch(/unsupported Markdown URI scheme.*vbscript:/i);
+    expect(errors).toMatch(/unsupported Markdown URI scheme.*custom:/i);
+    expect(errors).toMatch(/unsafe Markdown link scheme.*javascript:/i);
+    expect(errors).toMatch(/unsafe Markdown link scheme.*data:/i);
+    expect(errors).toMatch(/unsupported Markdown URI scheme.*vb%73cript:/i);
+    expect(errors).toMatch(/broken local Markdown link.*references\/missing\.md/i);
+    expect(errors).toMatch(/not included in the package.*package-lock\.json/i);
+    expect(errors).toMatch(/unsupported Markdown URI scheme.*vbscript:autolink-only/i);
+    expect(errors).toMatch(/unsupported Markdown URI scheme.*custom:autolink-only/i);
+    expect(errors).not.toMatch(/section>Ordinary HTML/i);
+  });
+
+  test('accepts HTTP, HTTPS, and packaged local reference links and autolinks', async () => {
+    const skillsRoot = await temporarySkillsRoot();
+    await writeSkill(skillsRoot, 'demo/sample-skill', skill({
+      sections: [
+        [
+          '## Overview',
+          '',
+          '[Full reference][web]',
+          '[collapsed][]',
+          '[shortcut]',
+          '![Local image][local-guide]',
+          '<https://example.com/reference>',
+          '<http://example.com/reference>',
+          '<section>Ordinary HTML remains ignored.</section>',
+          '',
+          '[web]: https://example.com/full',
+          '[collapsed]: http://example.com/collapsed',
+          '[shortcut]: https://example.com/shortcut',
+          '[local-guide]: guide.md'
+        ].join('\n'),
+        '## Prerequisites\n\n- Read access',
+        '## Procedure\n\n1. Follow each valid reference.'
+      ]
+    }));
+    await writeFile(join(skillsRoot, 'demo', 'sample-skill', 'guide.md'), '# Guide\n');
+
+    const [result] = await SkillValidator.validateAll({
+      skillsDir: skillsRoot,
+      includeContractDocuments: false
+    });
+    expect(result.errors).toEqual([]);
+  });
+
   test('rejects an existing local link target excluded from the npm package', async () => {
     const skillsRoot = await temporarySkillsRoot();
     await writeFile(join(skillsRoot, '..', 'package-lock.json'), '{}\n');
