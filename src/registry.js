@@ -74,31 +74,25 @@ export class SkillRegistry {
           continue;
         }
 
-        try {
-          const content = await readFile(fullPath, 'utf-8');
-          const { data: frontmatter } = matter(content);
+        const content = await readFile(fullPath, 'utf-8');
+        const { data: frontmatter } = matter(content);
 
-          const fallbackName = item.isDirectory() ? item.name : item.name.replace('.md', '');
-          const skillInfo = {
-            path: skillPath,
-            name: frontmatter.name || fallbackName,
-            description: frontmatter.description || '',
-            version: frontmatter.version || '1.0.0',
-            author: frontmatter.author || 'Unknown',
-            tags: frontmatter.tags || [],
-            platforms: frontmatter.platforms || ['any'],
-            complexity: frontmatter.complexity || 'intermediate',
-            category: category.name,
-            tools: frontmatter.tools || {}
-          };
+        const fallbackName = item.isDirectory() ? item.name : item.name.replace('.md', '');
+        const skillInfo = {
+          path: skillPath,
+          name: frontmatter.name || fallbackName,
+          description: frontmatter.description || '',
+          version: frontmatter.version || '1.0.0',
+          author: frontmatter.author || 'Unknown',
+          tags: frontmatter.tags || [],
+          platforms: frontmatter.platforms || ['any'],
+          complexity: frontmatter.complexity || 'intermediate',
+          category: category.name,
+          tools: frontmatter.tools || {}
+        };
 
-          nextSkills.set(skillPath, skillInfo);
-          this.indexSkill(skillInfo, nextIndex);
-        } catch (error) {
-          if (error.code !== 'ENOENT') {
-            console.warn(`Warning: Could not parse skill ${skillPath}: ${error.message}`);
-          }
-        }
+        nextSkills.set(skillPath, skillInfo);
+        this.indexSkill(skillInfo, nextIndex);
       }
     }
 

@@ -2,7 +2,7 @@
 
 All notable changes to Happy Platform Skills are documented here.
 
-## 2.4.0 - Unreleased
+## 2.4.0 - 2026-07-27
 
 ### Added
 
@@ -20,6 +20,8 @@ All notable changes to Happy Platform Skills are documented here.
 - Made prompt rendering preserve the complete authored skill body.
 - Updated package metadata, documentation, and migration compatibility for the
   2.4.0 release.
+- Prepared `happy-servicenow-skills@1.2.1` as a separate final compatibility
+  release for the repaired loader export and legacy CLI forwarding.
 
 ### Fixed
 

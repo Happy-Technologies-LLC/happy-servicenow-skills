@@ -27,9 +27,14 @@ describe('release-facing documentation', () => {
     const releasing = await readRepositoryFile('docs/RELEASING.md');
 
     expect(releasing.indexOf('git commit')).toBeGreaterThan(-1);
+    expect(releasing.indexOf('git tag')).toBeGreaterThan(releasing.indexOf('git commit'));
+    expect(releasing.indexOf('git push')).toBeGreaterThan(releasing.indexOf('git tag'));
+    expect(releasing.indexOf('npm publish')).toBeGreaterThan(releasing.indexOf('git push'));
     expect(releasing.indexOf('npm publish')).toBeGreaterThan(releasing.indexOf('git commit'));
     expect(releasing).not.toContain('git add package.json package-lock.json');
     expect(releasing).toContain('npm run verify:package');
     expect(releasing).toContain('npm audit --omit=dev');
+    expect(releasing).toMatch(/Unreleased.*YYYY-MM-DD/s);
+    expect(releasing).toMatch(/cannot be reused|cannot reuse/i);
   });
 });

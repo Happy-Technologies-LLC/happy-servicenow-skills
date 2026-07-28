@@ -1,6 +1,6 @@
 {
   "name": "happy-servicenow-skills",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "DEPRECATED: This package has been renamed to happy-platform-skills. Install happy-platform-skills instead.",
   "main": "index.js",
   "type": "module",

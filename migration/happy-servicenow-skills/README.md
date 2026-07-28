@@ -2,6 +2,10 @@
 
 > **This package has been renamed to [`happy-platform-skills`](https://www.npmjs.com/package/happy-platform-skills).**
 
+Version 1.2.1 is the final compatibility repair. It restores the documented
+loader entry point and forwards the legacy CLI through public exports from
+`happy-platform-skills`. It must be published separately from the root package.
+
 ## Migration
 
 ```bash

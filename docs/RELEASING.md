@@ -1,7 +1,7 @@
 # Releasing
 
 Use this flow to publish `happy-platform-skills` from a clean release branch.
-Never publish an artifact that is not represented by a reviewed commit.
+Never publish an artifact that is not represented by a reviewed, pushed tag.
 
 ## Versioning
 
@@ -21,6 +21,9 @@ version without creating a tag:
 npm version <version> --no-git-tag-version
 ```
 
+Replace the release heading's `Unreleased` marker in `CHANGELOG.md` with the
+actual release date in `YYYY-MM-DD` form before committing.
+
 Run every release gate:
 
 ```bash
@@ -35,8 +38,8 @@ npm run publish:dry-run
 npx skills add . --list --full-depth
 ```
 
-Review the complete change set and package manifest. Stage all intended release
-files, then inspect the staged tree before committing:
+Review the complete change set. Stage all intended release files, then inspect
+the staged tree before committing:
 
 ```bash
 git diff --check
@@ -56,26 +59,59 @@ node -p "require('./package.json').version"
 npm run verify:package
 ```
 
-## 2. Authenticate and publish the committed artifact
+## 2. Tag and push the exact reviewed commit
 
-```bash
-npm whoami
-npm publish --access public
-```
-
-Confirm npm serves the expected version before creating the release tag:
-
-```bash
-npm view happy-platform-skills version
-```
-
-## 3. Tag and push the exact published commit
+Create an annotated tag on the verified commit, confirm its target, then push
+the commit and tag before publishing to npm:
 
 ```bash
 git tag -a v<version> -m "Release v<version>"
+git rev-parse HEAD
+git rev-list -n 1 v<version>
 git push origin HEAD:main
 git push origin v<version>
 ```
 
-Do not move an existing release tag. If publishing fails, fix the issue in a
-new reviewed commit and rerun the gates before retrying.
+The two hashes printed by `git rev-parse` and `git rev-list` must match. Verify
+the pushed tag in the remote repository before continuing.
+
+## 3. Authenticate and publish the tagged artifact
+
+Publish only while the clean worktree is still at the pushed tag:
+
+```bash
+git describe --exact-match --tags HEAD
+npm whoami
+npm publish --access public
+npm view happy-platform-skills version
+```
+
+## 4. Publish the legacy compatibility repair separately
+
+The root package intentionally excludes `migration/`. The repaired legacy shim
+is a separate package and release: `happy-servicenow-skills@1.2.1`. Publish it
+only after `happy-platform-skills@2.4.0` is available from npm:
+
+```bash
+cd migration/happy-servicenow-skills
+npm pack --dry-run
+npm whoami
+npm publish --access public
+npm deprecate happy-servicenow-skills@1.2.1 "Renamed to happy-platform-skills; install happy-platform-skills instead."
+npm view happy-servicenow-skills@1.2.1 version deprecated
+```
+
+The shim source is part of the already-pushed root release tag, but the shim
+tarball and deprecation command are separate npm operations.
+
+## Rollback realities
+
+- A published npm version cannot be reused or overwritten. If published content
+  is wrong, prepare a new version; do not try to reuse the old version number.
+- Never move a pushed release tag. If npm publishing fails transiently, retry
+  from the exact clean tagged commit.
+- If a failure requires code changes after the tag was pushed, prepare a new
+  version and tag rather than rewriting public history.
+- Deprecation is the normal recovery mechanism for an installable but superseded
+  npm version. Unpublishing is policy-limited and should not be treated as a
+  routine rollback.

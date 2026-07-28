@@ -7,6 +7,7 @@ import { join } from 'path';
 const repositoryRoot = new URL('..', import.meta.url).pathname;
 const shimRoot = new URL('../migration/happy-servicenow-skills', import.meta.url).pathname;
 let consumerDir;
+let shimPackResult;
 
 function run(command, args, cwd) {
   return spawnSync(command, args, { cwd, encoding: 'utf8' });
@@ -19,7 +20,8 @@ beforeAll(async () => {
   expect(packagePack.status).toBe(0);
   expect(shimPack.status).toBe(0);
   const packageTarball = JSON.parse(packagePack.stdout)[0].filename;
-  const shimTarball = JSON.parse(shimPack.stdout)[0].filename;
+  shimPackResult = JSON.parse(shimPack.stdout)[0];
+  const shimTarball = shimPackResult.filename;
   expect(run('npm', ['init', '--yes'], consumerDir).status).toBe(0);
   expect(run('npm', [
     'install', '--ignore-scripts', '--no-audit', '--no-fund',
@@ -32,6 +34,17 @@ afterAll(async () => {
 });
 
 describe('happy-servicenow-skills migration shim', () => {
+  test('packs and installs the deliverable 1.2.1 compatibility release', async () => {
+    const installedPackageJson = JSON.parse(await readFile(
+      new URL('node_modules/happy-servicenow-skills/package.json', `file://${consumerDir}/`),
+      'utf8'
+    ));
+
+    expect(shimPackResult.version).toBe('1.2.1');
+    expect(installedPackageJson.version).toBe('1.2.1');
+    expect(shimPackResult.files.map(file => file.path)).toContain('loader.js');
+  });
+
   test('re-exports the supported loader subpath through a local module', async () => {
     const packageJson = JSON.parse(
       await readFile(new URL('../migration/happy-servicenow-skills/package.json', import.meta.url), 'utf8')
