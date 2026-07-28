@@ -1,9 +1,9 @@
 ---
 name: spoke-generation
-version: 1.0.0
+version: 1.0.1
 description: Generate Integration Hub spokes for connecting external services including spoke actions, connection aliases, data transformations, error handling, and REST/SOAP integrations
 author: Happy Technologies LLC
-tags: [genai, spoke, integration-hub, connection-alias, REST, SOAP, actions, data-transformation]
+tags: [genai, spoke, integration-hub, connection-alias, rest, soap, actions, data-transformation]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
@@ -478,4 +478,4 @@ Generate a spoke for a custom internal microservice:
 - `genai/flow-generation` - Flow Designer flows that consume spoke actions
 - `genai/playbook-generation` - Playbooks that call spoke actions as activities
 - `catalog/approval-workflows` - Approval flows that may trigger external notifications
-- `admin/connection-management` - Connection alias and credential configuration
+- `admin/instance-management` - Connection alias and credential configuration

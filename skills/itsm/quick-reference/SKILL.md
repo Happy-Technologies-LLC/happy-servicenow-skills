@@ -1,6 +1,6 @@
 ---
 name: quick-reference
-version: 1.0.1
+version: 1.0.2
 description: ITSM quick reference card with common operations, state values, priority matrix, and encoded query examples
 author: Happy Technologies LLC
 tags: [itsm, reference, cheatsheet, quick-start]
@@ -8,7 +8,6 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp: [SN-Query-Table, SN-Create-Record, SN-Update-Record, SN-Get-Record, SN-List-Incidents, SN-Create-Incident, SN-Resolve-Incident, SN-Close-Incident, SN-Assign-Incident, SN-Add-Work-Notes, SN-Natural-Language-Search, SN-List-ChangeRequests, SN-List-Problems]
   rest: [/api/now/table/incident, /api/now/table/change_request, /api/now/table/problem]
-  native: []
 complexity: beginner
 estimated_time: 5 minutes
 ---
@@ -22,6 +21,11 @@ A quick reference card for common ITSM operations in ServiceNow. Keep this handy
 - **What problem does it solve?** Quick lookup for common ITSM values and operations
 - **Who should use this skill?** Anyone working with incidents, changes, or problems
 - **What are the expected outcomes?** Faster development with fewer documentation lookups
+
+## Prerequisites
+
+- Appropriate roles and table access for the operation being performed
+- A confirmed target instance before making changes
 
 ## Procedure
 
@@ -370,6 +374,12 @@ Parameters:
 | `sysparm_limit` | Max records | `100` |
 | `sysparm_offset` | Skip records | `50` |
 | `sysparm_display_value` | Display values | `all`, `true`, `false` |
+
+## Best Practices
+
+- Query and verify records before updating them.
+- Prefer the narrowest table, field list, and encoded query that satisfies the task.
+- Confirm state and resolution values against the target instance before closing records.
 
 ## Related Skills
 

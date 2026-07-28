@@ -1,6 +1,6 @@
 ---
 name: major-incident
-version: 1.0.1
+version: 1.0.2
 description: P1/Major incident coordination including bridge calls, stakeholder communication, incident commander responsibilities, and post-incident review
 author: Happy Technologies LLC
 tags: [itsm, incident, major-incident, p1, crisis, bridge-call, pir, itil]
@@ -688,7 +688,7 @@ We apologize for any inconvenience.
 - `itsm/incident-triage` - Incident triage process
 - `itsm/problem-analysis` - Root cause analysis
 - `itsm/change-management` - Emergency changes during major incidents
-- `admin/notification-management` - Automated notifications
+- `development/notifications` - Automated notifications
 
 ## References
 

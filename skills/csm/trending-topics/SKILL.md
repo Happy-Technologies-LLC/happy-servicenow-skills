@@ -1,6 +1,6 @@
 ---
 name: trending-topics
-version: 1.0.1
+version: 1.0.2
 description: Identify trending customer service topics by analyzing case patterns, channel distribution, and sentiment shifts across the CSM portfolio
 author: Happy Technologies LLC
 tags: [csm, trending, analytics, patterns, sentiment, channel-analysis, case-volume, reporting]
@@ -402,4 +402,4 @@ Escalation rate increase often correlates with negative sentiment shifts and can
 - `csm/sentiment-analysis` - Detailed sentiment analysis for trend correlation
 - `csm/sidebar-summarization` - Agent context for trending issue cases
 - `csm/kb-generation` - Generate KB articles for identified trending topics
-- `reporting/dashboard-generation` - Visualize trends on operational dashboards
+- `reporting/analytics-generation` - Visualize trends on operational dashboards

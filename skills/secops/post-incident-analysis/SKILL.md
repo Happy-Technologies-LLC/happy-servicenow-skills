@@ -1,9 +1,9 @@
 ---
 name: post-incident-analysis
-version: 1.0.1
+version: 1.0.2
 description: Conduct post-incident review for closed security incidents including timeline reconstruction, detection/response gap analysis, and lessons-learned documentation
 author: Happy Technologies LLC
-tags: [secops, post-incident, review, lessons-learned, timeline, gap-analysis, PIR]
+tags: [secops, post-incident, review, lessons-learned, timeline, gap-analysis, pir]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:

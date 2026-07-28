@@ -1,9 +1,9 @@
 ---
 name: now-assist-qa
-version: 1.0.0
+version: 1.0.1
 description: Configure Now Assist Q&A for conversational AI assistance including skill configurations, knowledge source setup, response quality tuning, context management, and multi-channel deployment
 author: Happy Technologies LLC
-tags: [genai, now-assist, Q&A, conversational-AI, virtual-agent, knowledge, NLU, response-quality]
+tags: [genai, now-assist, q-a, conversational-ai, virtual-agent, knowledge, nlu, response-quality]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
@@ -461,4 +461,4 @@ Configure Now Assist for customer service management agents:
 - `genai/ai-search-rag` - AI Search configuration that powers Q&A knowledge retrieval
 - `genai/skill-kit-custom` - Creating custom Now Assist skills beyond Q&A
 - `genai/flow-generation` - Flows that can be triggered from Q&A fallback actions
-- `knowledge/article-management` - Managing knowledge content quality for better Q&A
+- `knowledge/article-generation` - Managing knowledge content quality for better Q&A

@@ -60,19 +60,27 @@ If your skill doesn't fit an existing category, propose a new one in your PR des
 ### 2. Copy the Template
 
 ```bash
-cp templates/skill-template/skill.md skills/<category>/my-skill.md
+mkdir -p skills/<category>/my-skill
+cp templates/skill-template/TEMPLATE.md skills/<category>/my-skill/SKILL.md
 ```
 
 ### 3. Write Your Skill
 
 Follow the template structure. Every skill must include:
 
-- **Frontmatter** with name, version, description, author, tags, platforms, tools, complexity, and estimated_time
+- **Required frontmatter** with name, version, and description
 - **Overview** — What the skill does and when to use it
 - **Prerequisites** — Required roles, permissions, or setup
 - **Procedure** — Step-by-step instructions with decision points
-- **Tool Usage** — MCP, REST, and native tool alternatives
+
+Use the catalog-standard recommended frontmatter fields: author, tags, platforms,
+tools, complexity, and estimated_time. When present, these fields must satisfy
+the shapes and values in [the skill specification](docs/SKILL_SPEC.md).
+
+Add these sections when they improve the skill:
+
 - **Best Practices** — Industry-standard recommendations
+- **Tool Usage** — MCP, REST, and native tool alternatives
 - **Troubleshooting** — Common issues and solutions
 
 ### 4. Validate
@@ -113,9 +121,10 @@ Category names use industry-standard abbreviations:
 - `itsm`, `csm`, `hrsd`, `cmdb`, `grc`, `secops`, `itom`, `spm`, `fsm`, `sam`
 - Or descriptive terms: `development`, `admin`, `catalog`, `security`, `reporting`, `knowledge`, `legal`, `procurement`, `document`
 
-### File Naming
+### Directory and File Naming
 
-- Use lowercase kebab-case: `my-skill-name.md`
+- Use a lowercase kebab-case directory containing `SKILL.md`: `my-skill-name/SKILL.md`
+- Make the frontmatter `name` exactly match the directory slug
 - Keep names concise but descriptive
 - Focus on what the skill *does*, not which platform it targets
 

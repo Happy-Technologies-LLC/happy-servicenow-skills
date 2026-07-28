@@ -1,9 +1,9 @@
 ---
 name: code-review
-version: 1.0.0
+version: 1.0.1
 description: Review ServiceNow code for security vulnerabilities, performance issues, and platform best practices
 author: Happy Technologies LLC
-tags: [development, code-review, security, performance, best-practices, sys_script, sys_script_include, sys_ui_script]
+tags: [development, code-review, security, performance, best-practices, sys-script, sys-script-include, sys-ui-script]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
@@ -521,4 +521,4 @@ Parameters:
 - `development/code-assist` - AI-assisted code generation
 - `security/acl-management` - Access control list management
 - `admin/update-set-management` - Update set handling for deployments
-- `admin/instance-hardening` - Security hardening guidelines
+- `security/audit-compliance` - Security hardening guidelines

@@ -1,6 +1,6 @@
 ---
 name: ci-discovery
-version: 1.0.0
+version: 1.0.1
 description: Configuration Item discovery, classification, and CMDB population strategies
 author: Happy Technologies LLC
 tags: [cmdb, ci, discovery, configuration-management, itil]
@@ -310,7 +310,7 @@ Parameters:
 
 - `cmdb/relationship-mapping` - Deep dive into relationships
 - `cmdb/impact-analysis` - Using CMDB for impact analysis
-- `admin/discovery-patterns` - Automated discovery setup
+- `cmdb/ci-discovery` - Automated discovery setup
 - `itsm/change-management` - CI changes during changes
 
 ## References

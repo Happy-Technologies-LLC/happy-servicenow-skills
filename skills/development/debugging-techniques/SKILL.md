@@ -1,6 +1,6 @@
 ---
 name: debugging-techniques
-version: 1.0.0
+version: 1.0.1
 description: Comprehensive guide to debugging ServiceNow server-side and client-side code
 author: Happy Technologies LLC
 tags: [development, debugging, troubleshooting, logs, errors]
@@ -571,7 +571,7 @@ Parameters:
 - `development/script-includes` - Writing reusable server-side scripts
 - `development/business-rules` - Business rule development and best practices
 - `development/client-scripts` - Client-side scripting techniques
-- `administration/system-logs` - System log configuration and management
+- `admin/script-execution` - System log configuration and management
 
 ## References
 

@@ -1,6 +1,6 @@
 ---
-name: csm-kb-generation
-version: 1.0.2
+name: kb-generation
+version: 1.0.3
 description: Generate knowledge articles from resolved CSM cases with customer-facing language, structured content, screenshot placeholders, and FAQ sections
 author: Happy Technologies LLC
 tags: [csm, knowledge, kb-generation, case-resolution, customer-facing, faq, documentation]
@@ -389,4 +389,4 @@ Parameters:
 - `csm/resolution-notes` - Generate structured resolution notes on case closure
 - `csm/suggested-steps` - Generate resolution steps that can seed KB content
 - `knowledge/content-recommendation` - Recommend existing articles to avoid duplication
-- `knowledge/article-optimization` - Optimize article searchability and quality
+- `knowledge/article-generation` - Optimize article searchability and quality

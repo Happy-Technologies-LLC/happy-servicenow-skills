@@ -1,6 +1,6 @@
 ---
 name: document-extraction
-version: 1.0.1
+version: 1.0.2
 description: Extract structured data from documents (invoices, forms, contracts) using ServiceNow Document Intelligence with extraction template configuration and validation rules
 author: Happy Technologies LLC
 tags: [document, extraction, intelligence, ocr, invoice, forms, templates, validation]
@@ -463,4 +463,4 @@ Parameters:
 - `legal/contract-analysis` - Analyze extracted contract data for risks and terms
 - `legal/contract-obligation-extraction` - Extract obligations from contract documents
 - `procurement/invoice-management` - Process extracted invoice data through AP workflows
-- `admin/data-import` - Bulk import extracted data into ServiceNow tables
+- `development/data-import` - Bulk import extracted data into ServiceNow tables

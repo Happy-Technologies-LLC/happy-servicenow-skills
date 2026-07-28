@@ -1,9 +1,9 @@
 ---
 name: app-summary
-version: 1.0.0
+version: 1.0.1
 description: Summarize existing ServiceNow applications with scope analysis, table structure, script inventory, and dependency mapping
 author: Happy Technologies LLC
-tags: [genai, app-summary, scoped-app, sys_scope, sys_app, sys_metadata, analysis, documentation]
+tags: [genai, app-summary, scoped-app, sys-scope, sys-app, sys-metadata, analysis, documentation]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:

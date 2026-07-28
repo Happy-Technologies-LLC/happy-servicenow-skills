@@ -1,9 +1,9 @@
 ---
 name: alert-investigation
-version: 1.0.2
+version: 1.0.3
 description: Deep investigation of operational alerts including CI tracing, recent change correlation, related alert analysis, knowledge base review, and remediation suggestions using LEAP methodology
 author: Happy Technologies LLC
-tags: [itom, alerts, investigation, root-cause, correlation, remediation, LEAP, event-management, change-correlation]
+tags: [itom, alerts, investigation, root-cause, correlation, remediation, leap, event-management, change-correlation]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:

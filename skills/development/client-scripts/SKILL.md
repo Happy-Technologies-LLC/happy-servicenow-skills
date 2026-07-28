@@ -1,9 +1,9 @@
 ---
 name: client-scripts
-version: 1.0.1
+version: 1.0.2
 description: Complete guide to ServiceNow client script development including onLoad, onChange, onSubmit, onCellEdit types, g_form API, GlideAjax server calls, and performance optimization
 author: Happy Technologies LLC
-tags: [development, client-scripts, scripting, client-side, forms, g_form, glide-ajax, mobile]
+tags: [development, client-scripts, scripting, client-side, forms, g-form, glide-ajax, mobile]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:

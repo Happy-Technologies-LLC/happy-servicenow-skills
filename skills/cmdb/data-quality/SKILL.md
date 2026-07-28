@@ -1,6 +1,6 @@
 ---
 name: data-quality
-version: 1.0.0
+version: 1.0.1
 description: CMDB data quality management including KPIs, duplicate detection, stale records, and reconciliation
 author: Happy Technologies LLC
 tags: [cmdb, data-quality, governance, reconciliation, compliance, itil]
@@ -786,7 +786,7 @@ Parameters:
 - `cmdb/ci-discovery` - CI creation and classification
 - `cmdb/relationship-mapping` - Managing CI relationships
 - `cmdb/impact-analysis` - Using quality CMDB for impact analysis
-- `admin/discovery-patterns` - Automated discovery configuration
+- `cmdb/ci-discovery` - Automated discovery configuration
 
 ## References
 

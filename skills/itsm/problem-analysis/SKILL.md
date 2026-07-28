@@ -1,6 +1,6 @@
 ---
 name: problem-analysis
-version: 1.0.0
+version: 1.0.1
 description: Root cause analysis and problem management including known error documentation, workaround management, and permanent fix tracking
 author: Happy Technologies LLC
 tags: [itsm, problem, rca, root-cause, known-error, workaround, itil]
@@ -770,7 +770,7 @@ Root Causes Identified:
 - `itsm/incident-triage` - Incident triage
 - `itsm/major-incident` - Major incident handling
 - `itsm/change-management` - Change for permanent fixes
-- `admin/knowledge-management` - Converting to KB articles
+- `knowledge/article-generation` - Converting to KB articles
 
 ## References
 

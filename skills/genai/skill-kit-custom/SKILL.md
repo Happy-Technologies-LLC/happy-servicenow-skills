@@ -1,9 +1,9 @@
 ---
 name: skill-kit-custom
-version: 1.0.0
+version: 1.0.1
 description: Create custom Now Assist skills using Skill Kit including skill input/output definition, prompt configuration, skill testing with ATF, deployment, and building custom AI capabilities
 author: Happy Technologies LLC
-tags: [genai, skill-kit, now-assist, custom-skills, prompts, ATF, testing, deployment, AI-capabilities]
+tags: [genai, skill-kit, now-assist, custom-skills, prompts, atf, testing, deployment, ai-capabilities]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
@@ -638,4 +638,4 @@ Create a custom skill to generate resolution documentation:
 - `genai/ai-search-rag` - RAG configuration for knowledge-grounded custom skills
 - `genai/flow-generation` - Flows that can trigger custom skills as actions
 - `genai/playbook-generation` - Playbooks that incorporate custom skill invocations
-- `development/atf-testing` - ATF framework for comprehensive skill testing
+- `development/automated-testing` - ATF framework for comprehensive skill testing

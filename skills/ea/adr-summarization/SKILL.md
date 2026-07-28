@@ -1,9 +1,9 @@
 ---
 name: adr-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize Architecture Decision Records with context, rationale, trade-offs, and impact analysis for enterprise architecture governance
 author: Happy Technologies LLC
-tags: [enterprise-architecture, adr, architecture-decisions, governance, sn_ea_architecture_decision_record, cmdb]
+tags: [enterprise-architecture, adr, architecture-decisions, governance, sn-ea-architecture-decision-record, cmdb]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
@@ -343,5 +343,5 @@ Parameters:
 
 - `ea/business-app-insights` - Application health and dependency analysis
 - `genai/app-summary` - Scoped application analysis
-- `grc/compliance-assessment` - Compliance implications of architecture decisions
+- `security/audit-compliance` - Compliance implications of architecture decisions
 - `cmdb/relationship-mapping` - Understanding CI dependencies affected by ADRs

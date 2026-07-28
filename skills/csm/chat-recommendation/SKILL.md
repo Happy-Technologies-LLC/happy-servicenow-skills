@@ -1,6 +1,6 @@
 ---
 name: chat-recommendation
-version: 1.0.3
+version: 1.0.4
 description: Generate recommended chat responses for CSM agents based on case context, knowledge base matches, customer history, and similar resolved cases
 author: Happy Technologies LLC
 tags: [csm, chat, recommendation, agent-assist, knowledge-base, customer-service]
@@ -412,4 +412,4 @@ authority to review and adjust your account immediately."
 - `csm/email-recommendation` - Generate email responses instead of chat responses
 - `csm/sentiment-analysis` - Analyze customer sentiment to calibrate response tone
 - `csm/activity-response` - Generate internal work notes and status updates
-- `knowledge/article-search` - Deep knowledge base search techniques
+- `knowledge/content-recommendation` - Deep knowledge base search techniques

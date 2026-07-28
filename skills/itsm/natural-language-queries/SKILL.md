@@ -1,6 +1,6 @@
 ---
 name: natural-language-queries
-version: 1.0.1
+version: 1.0.2
 description: Use parser-verified Happy Platform MCP 5.1 natural-language search phrases and fall back to precise encoded table queries
 author: Happy Technologies LLC
 tags: [itsm, search, natural-language, queries]
@@ -8,7 +8,6 @@ platforms: [claude-code, claude-desktop]
 tools:
   mcp: [SN-Natural-Language-Search, SN-Query-Table]
   rest: ["/api/now/table/{table}"]
-  native: []
 complexity: beginner
 estimated_time: 5-10 minutes
 ---

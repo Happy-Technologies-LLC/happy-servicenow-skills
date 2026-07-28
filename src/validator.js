@@ -4,8 +4,9 @@
  * @author Happy Technologies LLC
  */
 
+import { existsSync } from 'fs';
 import { readdir, readFile } from 'fs/promises';
-import { join, dirname } from 'path';
+import { basename, dirname, isAbsolute, join, relative, resolve, sep } from 'path';
 import { fileURLToPath } from 'url';
 import matter from 'gray-matter';
 
@@ -18,11 +19,15 @@ const MCP_TOOL_CONTRACT = JSON.parse(await readFile(
 ));
 const SUPPORTED_MCP_TOOLS = new Set(MCP_TOOL_CONTRACT.tools);
 
+const RELEASE_SEMVER = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/;
+const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const VALID_TOOL_TYPES = ['mcp', 'rest', 'native', 'cli'];
+
 // Required frontmatter fields
 const REQUIRED_FIELDS = ['name', 'version', 'description'];
 
 // Optional but recommended fields
-const RECOMMENDED_FIELDS = ['author', 'tags', 'platforms', 'tools', 'complexity'];
+const RECOMMENDED_FIELDS = ['author', 'tags', 'platforms', 'tools', 'complexity', 'estimated_time'];
 
 // Valid values for enumerated fields
 const VALID_VALUES = {
@@ -31,26 +36,31 @@ const VALID_VALUES = {
 };
 
 // Required sections in the skill body
-const REQUIRED_SECTIONS = ['procedure'];
+const REQUIRED_SECTIONS = ['overview', 'prerequisites', 'procedure'];
 
 // Recommended sections
-const RECOMMENDED_SECTIONS = ['overview', 'prerequisites', 'best practices'];
+const RECOMMENDED_SECTIONS = ['best practices'];
 
 export class SkillValidator {
   constructor() {
     this.errors = [];
     this.warnings = [];
+    this.sourcePath = 'unknown';
+    this.content = '';
   }
 
   /**
    * Validate a single skill file
    * @param {string} content - Raw markdown content
    * @param {string} path - Skill path for error messages
+   * @param {object} options - Source context for path-aware validation
    * @returns {ValidationResult} Validation result
    */
-  validate(content, path = 'unknown') {
+  validate(content, path = 'unknown', options = {}) {
     this.errors = [];
     this.warnings = [];
+    this.sourcePath = options.sourcePath || path;
+    this.content = content;
 
     let frontmatter, body;
 
@@ -60,22 +70,26 @@ export class SkillValidator {
       frontmatter = parsed.data;
       body = parsed.content;
     } catch (error) {
-      this.errors.push(`Invalid YAML frontmatter: ${error.message}`);
+      const line = error.mark?.line === undefined ? 1 : error.mark.line + 2;
+      this.error(line, `Invalid YAML frontmatter: ${error.message}`);
       return this.getResult(path);
     }
 
     // Validate frontmatter
-    this.validateFrontmatter(frontmatter);
+    this.validateFrontmatter(frontmatter, path, options);
 
     // Validate body sections
     this.validateSections(body);
 
     // Validate tools specification
-    if (frontmatter.tools) {
-      this.validateTools(frontmatter.tools, path);
+    if (Object.hasOwn(frontmatter, 'tools')) {
+      this.validateTools(frontmatter.tools);
     }
 
     this.validateBodyTools(body, path);
+    if (options.catalogPaths) {
+      this.validateReferences(body, options);
+    }
 
     return this.getResult(path);
   }
@@ -83,48 +97,95 @@ export class SkillValidator {
   /**
    * Validate frontmatter fields
    * @param {Object} frontmatter - Parsed frontmatter
+   * @param {string} path - Logical skill path
+   * @param {object} options - Source context
    */
-  validateFrontmatter(frontmatter) {
+  validateFrontmatter(frontmatter, path, options) {
     // Check required fields
     for (const field of REQUIRED_FIELDS) {
-      if (!frontmatter[field]) {
-        this.errors.push(`Missing required field: ${field}`);
+      if (!Object.hasOwn(frontmatter, field)) {
+        this.error(this.frontmatterLine(field), `Missing required field: ${field}`);
       }
     }
 
     // Check recommended fields
     for (const field of RECOMMENDED_FIELDS) {
-      if (!frontmatter[field]) {
-        this.warnings.push(`Missing recommended field: ${field}`);
+      if (!Object.hasOwn(frontmatter, field)) {
+        this.warning(this.frontmatterLine(field), `Missing recommended field: ${field}`);
       }
     }
 
-    // Validate version format (semver)
-    if (frontmatter.version && !/^\d+\.\d+\.\d+/.test(frontmatter.version)) {
-      this.warnings.push(`Version should follow semver format: ${frontmatter.version}`);
+    const expectedSlug = options.skillSlug || this.inferSkillSlug(path, options.sourcePath);
+    if (Object.hasOwn(frontmatter, 'name')) {
+      const name = frontmatter.name;
+      if (typeof name !== 'string' || !SLUG.test(name)) {
+        this.error(this.frontmatterLine('name'), 'name must be a nonempty lowercase kebab-case slug');
+      } else if (expectedSlug && name !== expectedSlug) {
+        this.error(
+          this.frontmatterLine('name'),
+          `frontmatter name "${name}" must match skill directory slug "${expectedSlug}"`
+        );
+      }
+    }
+
+    // The catalog uses release versions only: exactly major.minor.patch.
+    if (Object.hasOwn(frontmatter, 'version') &&
+        (typeof frontmatter.version !== 'string' || !RELEASE_SEMVER.test(frontmatter.version))) {
+      this.error(
+        this.frontmatterLine('version'),
+        `version must be an exact release semantic version (major.minor.patch, no leading zero): ${String(frontmatter.version)}`
+      );
+    }
+
+    if (Object.hasOwn(frontmatter, 'description') &&
+        (typeof frontmatter.description !== 'string' ||
+         frontmatter.description.trim().length === 0 ||
+         frontmatter.description.length >= 200)) {
+      this.error(
+        this.frontmatterLine('description'),
+        'description must be a nonempty string under 200 characters'
+      );
     }
 
     // Validate complexity value
     if (frontmatter.complexity && !VALID_VALUES.complexity.includes(frontmatter.complexity)) {
-      this.errors.push(`Invalid complexity: ${frontmatter.complexity}. Valid: ${VALID_VALUES.complexity.join(', ')}`);
+      this.error(
+        this.frontmatterLine('complexity'),
+        `Invalid complexity: ${frontmatter.complexity}. Valid: ${VALID_VALUES.complexity.join(', ')}`
+      );
     }
 
     // Validate platforms
-    if (frontmatter.platforms) {
+    if (Object.hasOwn(frontmatter, 'platforms')) {
       if (!Array.isArray(frontmatter.platforms)) {
-        this.errors.push('platforms must be an array');
+        this.error(this.frontmatterLine('platforms'), 'platforms must be an array');
+      } else if (frontmatter.platforms.length === 0) {
+        this.error(this.frontmatterLine('platforms'), 'platforms must contain at least one supported platform');
       } else {
         for (const platform of frontmatter.platforms) {
-          if (!VALID_VALUES.platforms.includes(platform)) {
-            this.warnings.push(`Unknown platform: ${platform}`);
+          if (typeof platform !== 'string' || !VALID_VALUES.platforms.includes(platform)) {
+            this.error(this.frontmatterLine('platforms'), `platforms contains unknown or invalid entry: ${String(platform)}`);
           }
         }
       }
     }
 
     // Validate tags
-    if (frontmatter.tags && !Array.isArray(frontmatter.tags)) {
-      this.errors.push('tags must be an array');
+    if (Object.hasOwn(frontmatter, 'tags')) {
+      if (!Array.isArray(frontmatter.tags)) {
+        this.error(this.frontmatterLine('tags'), 'tags must be an array');
+      } else if (frontmatter.tags.length === 0) {
+        this.error(this.frontmatterLine('tags'), 'tags must contain at least one lowercase slug');
+      } else {
+        for (const tag of frontmatter.tags) {
+          if (typeof tag !== 'string' || !SLUG.test(tag)) {
+            this.error(
+              this.frontmatterLine('tags'),
+              `tags entries must be nonempty lowercase slugs: ${String(tag)}`
+            );
+          }
+        }
+      }
     }
   }
 
@@ -139,23 +200,29 @@ export class SkillValidator {
     // Check required sections
     for (const section of REQUIRED_SECTIONS) {
       if (!lowerSections.includes(section)) {
-        this.errors.push(`Missing required section: ## ${section}`);
+        this.error(1, `Missing required section: ## ${this.sectionTitle(section)}`);
       }
     }
 
     // Check recommended sections
     for (const section of RECOMMENDED_SECTIONS) {
       if (!lowerSections.includes(section)) {
-        this.warnings.push(`Missing recommended section: ## ${section}`);
+        this.warning(1, `Missing recommended section: ## ${this.sectionTitle(section)}`);
       }
     }
 
-    // Check for empty procedure section
-    if (lowerSections.includes('procedure')) {
-      const procedureContent = this.getSectionContent(body, 'procedure');
-      if (procedureContent.trim().length < 50) {
-        this.warnings.push('Procedure section seems too short');
+    for (const section of REQUIRED_SECTIONS) {
+      if (lowerSections.includes(section)) {
+        const sectionContent = this.getSectionContent(body, section);
+        if (sectionContent.trim().length === 0) {
+          this.error(this.sectionLine(body, section), `Required section is empty: ## ${this.sectionTitle(section)}`);
+        }
       }
+    }
+
+    const procedureContent = this.getSectionContent(body, 'procedure');
+    if (procedureContent && procedureContent.trim().length < 50) {
+      this.warning(this.sectionLine(body, 'procedure'), 'Procedure section seems too short');
     }
   }
 
@@ -163,22 +230,37 @@ export class SkillValidator {
    * Validate tools specification
    * @param {Object} tools - Tools configuration
    */
-  validateTools(tools, path) {
-    const validToolTypes = ['mcp', 'rest', 'native', 'cli'];
+  validateTools(tools) {
+    const line = this.frontmatterLine('tools');
+    if (!tools || typeof tools !== 'object' || Array.isArray(tools)) {
+      this.error(line, 'tools must be an object keyed by mcp, rest, native, or cli');
+      return;
+    }
+    if (Object.keys(tools).length === 0) {
+      this.error(line, 'tools must declare at least one tool type');
+      return;
+    }
 
     for (const [type, toolList] of Object.entries(tools)) {
-      if (!validToolTypes.includes(type)) {
-        this.warnings.push(`Unknown tool type: ${type}`);
+      if (!VALID_TOOL_TYPES.includes(type)) {
+        this.error(line, `tools contains unknown tool type: ${type}`);
       }
 
       if (!Array.isArray(toolList)) {
-        this.errors.push(`tools.${type} must be an array`);
-      } else if (type === 'mcp') {
-        for (const toolName of toolList) {
-          if (typeof toolName !== 'string') {
-            this.errors.push(`${path}: tools.mcp entries must be strings; received ${String(toolName)}`);
-          } else if (!SUPPORTED_MCP_TOOLS.has(toolName)) {
-            this.errors.push(`${path}: tools.mcp contains unsupported tool: ${toolName}`);
+        this.error(line, `tools.${type} must be an array`);
+        continue;
+      }
+      if (toolList.length === 0) {
+        this.error(line, `tools.${type} must contain at least one tool`);
+      }
+      for (const toolName of toolList) {
+        if (typeof toolName !== 'string' || toolName.trim().length === 0) {
+          this.error(line, `tools.${type} entries must be nonempty strings; received ${String(toolName)}`);
+          continue;
+        }
+        if (type === 'mcp') {
+          if (!SUPPORTED_MCP_TOOLS.has(toolName)) {
+            this.error(line, `tools.mcp contains unsupported tool: ${toolName}`);
           }
         }
       }
@@ -195,12 +277,169 @@ export class SkillValidator {
   validateBodyTools(body, path) {
     const toolNames = new Set();
     for (const match of body.matchAll(/\b(SN-[A-Za-z0-9-]*[A-Za-z0-9])\b/g)) toolNames.add(match[1]);
+    const bodyStartLine = this.lineOf(this.content, body, this.content.indexOf(body));
 
     for (const toolName of toolNames) {
       if (!SUPPORTED_MCP_TOOLS.has(toolName)) {
-        this.errors.push(`${path}: Unsupported MCP tool: ${toolName}`);
+        const line = bodyStartLine + this.lineOf(body, toolName) - 1;
+        this.error(line, `Unsupported MCP tool: ${toolName}`);
       }
     }
+  }
+
+  /**
+   * Validate local Markdown links and references declared in Related Skills.
+   * Related targets accept `category/slug`, a same-category `slug`, or a
+   * Markdown link that resolves to another catalog skill.
+   */
+  validateReferences(body, { sourcePath, catalogPaths, skillsRoot }) {
+    if (!sourcePath) return;
+    const absoluteSourcePath = isAbsolute(sourcePath)
+      ? sourcePath
+      : resolve(sourcePath);
+    const catalog = new Set(catalogPaths);
+    const bodyStartLine = this.lineOf(this.content, body, this.content.indexOf(body));
+
+    for (const link of this.markdownLinks(body)) {
+      if (this.isExternalLink(link.target) || link.target.startsWith('#')) continue;
+      const targetWithoutFragment = link.target.split('#')[0];
+      if (!targetWithoutFragment) continue;
+      const decodedTarget = decodeURIComponent(targetWithoutFragment);
+      const absoluteTarget = resolve(dirname(absoluteSourcePath), decodedTarget);
+      if (!existsSync(absoluteTarget)) {
+        this.error(bodyStartLine + link.line - 1, `Broken local Markdown link: ${link.target}`);
+      }
+    }
+
+    const related = this.getSectionWithOffset(body, 'related skills');
+    if (!related) return;
+    const category = this.inferCategoryFromSource(sourcePath);
+    const relatedLinks = this.markdownLinks(related.content);
+    const markdownTargets = new Set(relatedLinks.map(link => link.raw));
+    for (const link of relatedLinks) {
+      if (this.isExternalLink(link.target) || link.target.startsWith('#')) continue;
+      const decodedTarget = decodeURIComponent(link.target.split('#')[0]);
+      const absoluteTarget = resolve(dirname(absoluteSourcePath), decodedTarget);
+      const catalogTarget = this.catalogPathForLocalTarget(absoluteTarget, skillsRoot);
+      if (!catalogTarget || !catalog.has(catalogTarget)) {
+        this.error(
+          related.startLine + link.line - 1,
+          `Related Skills Markdown link does not resolve to a catalog skill: ${link.target}`
+        );
+      }
+    }
+    for (const candidate of this.relatedSkillCandidates(related.content)) {
+      if (markdownTargets.has(candidate.raw)) continue;
+      const normalized = candidate.target.includes('/')
+        ? candidate.target
+        : `${category}/${candidate.target}`;
+      if (!catalog.has(normalized)) {
+        this.error(
+          related.startLine + candidate.line - 1,
+          `Unknown related skill target: ${candidate.target}`
+        );
+      }
+    }
+  }
+
+  markdownLinks(content) {
+    const links = [];
+    const pattern = /!?\[[^\]]*\]\(\s*(<[^>]+>|[^)\s]+)(?:\s+["'][^"']*["'])?\s*\)/g;
+    for (const match of content.matchAll(pattern)) {
+      const raw = match[0];
+      const target = match[1].replace(/^<|>$/g, '');
+      links.push({ raw, target, line: this.lineOf(content, raw, match.index) });
+    }
+    return links;
+  }
+
+  relatedSkillCandidates(content) {
+    const candidates = [];
+    const seen = new Set();
+    const add = (target, raw, index) => {
+      if (!/^(?:[a-z0-9]+(?:-[a-z0-9]+)*\/)?[a-z0-9]+(?:-[a-z0-9]+)*$/.test(target)) return;
+      const key = `${index}:${target}`;
+      if (seen.has(key)) return;
+      seen.add(key);
+      candidates.push({ target, raw, line: this.lineOf(content, raw, index) });
+    };
+
+    for (const match of content.matchAll(/`([^`]+)`/g)) add(match[1], match[0], match.index);
+    for (const match of content.matchAll(/^\s*-\s+((?:[a-z0-9]+(?:-[a-z0-9]+)*\/)?[a-z0-9]+(?:-[a-z0-9]+)*)\b/gm)) {
+      add(match[1], match[0], match.index);
+    }
+    return candidates;
+  }
+
+  isExternalLink(target) {
+    return /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(target);
+  }
+
+  inferSkillSlug(path, sourcePath) {
+    if (sourcePath) return basename(dirname(sourcePath));
+    if (/^[^/]+\/[^/]+$/.test(path) && !path.startsWith('fixtures/')) {
+      return path.split('/')[1];
+    }
+    return null;
+  }
+
+  inferCategoryFromSource(sourcePath) {
+    const parts = sourcePath.split(/[\\/]/);
+    const skillsIndex = parts.lastIndexOf('skills');
+    return skillsIndex >= 0 ? parts[skillsIndex + 1] : parts.at(-3);
+  }
+
+  catalogPathForLocalTarget(absoluteTarget, skillsRoot) {
+    if (!skillsRoot) return null;
+    const root = resolve(skillsRoot);
+    let target = absoluteTarget;
+    if (basename(target) === 'SKILL.md') target = dirname(target);
+    const targetRelative = relative(root, target);
+    if (targetRelative.startsWith('..') || isAbsolute(targetRelative)) return null;
+    const parts = targetRelative.split(sep);
+    return parts.length === 2 ? parts.join('/') : null;
+  }
+
+  frontmatterLine(field) {
+    const match = this.content.match(new RegExp(`^${field}:`, 'm'));
+    return match ? this.lineOf(this.content, match[0], match.index) : 1;
+  }
+
+  sectionLine(body, sectionName) {
+    const match = body.match(new RegExp(`^##\\s+${sectionName}\\s*$`, 'im'));
+    return match ? this.lineOf(this.content, match[0], this.content.indexOf(match[0])) : 1;
+  }
+
+  sectionTitle(section) {
+    return section.replace(/\b\w/g, letter => letter.toUpperCase());
+  }
+
+  getSectionWithOffset(body, sectionName) {
+    const heading = new RegExp(`^##\\s+${sectionName}\\s*$`, 'im');
+    const match = heading.exec(body);
+    if (!match) return null;
+    const start = match.index + match[0].length;
+    const rest = body.slice(start);
+    const next = rest.search(/^##\s/m);
+    const content = next === -1 ? rest : rest.slice(0, next);
+    const bodyOffset = this.content.indexOf(body);
+    return {
+      content,
+      startLine: this.lineOf(this.content, match[0], bodyOffset + match.index) + 1
+    };
+  }
+
+  lineOf(content, needle, index = content.indexOf(needle)) {
+    if (index < 0) return 1;
+    return content.slice(0, index).split('\n').length;
+  }
+
+  error(line, message) {
+    this.errors.push(`${this.sourcePath}:${line}: ${message}`);
+  }
+
+  warning(line, message) {
+    this.warnings.push(`${this.sourcePath}:${line}: ${message}`);
   }
 
   /** Validate operative tool references in non-skill Markdown documents. */
@@ -218,6 +457,8 @@ export class SkillValidator {
     for (const documentPath of documents) {
       const content = await readFile(join(REPOSITORY_ROOT, documentPath), 'utf8');
       const validator = new SkillValidator();
+      validator.sourcePath = documentPath;
+      validator.content = content;
       validator.validateBodyTools(content, documentPath);
       results.push(validator.getResult(documentPath));
     }
@@ -268,14 +509,30 @@ export class SkillValidator {
    * Supports both old format (skill.md) and new skills.sh format (skill/SKILL.md)
    * @returns {Promise<ValidationResult[]>}
    */
-  static async validateAll({ includeContractDocuments = true } = {}) {
+  static async validateAll({
+    includeContractDocuments = true,
+    skillsDir = SKILLS_DIR
+  } = {}) {
     const results = [];
-    const categories = await readdir(SKILLS_DIR, { withFileTypes: true });
+    const categories = await readdir(skillsDir, { withFileTypes: true });
+    const catalogPaths = new Set();
+
+    for (const category of categories) {
+      if (!category.isDirectory()) continue;
+      const categoryPath = join(skillsDir, category.name);
+      const items = await readdir(categoryPath, { withFileTypes: true });
+      for (const item of items) {
+        if (item.isDirectory()) catalogPaths.add(`${category.name}/${item.name}`);
+        else if (item.name.endsWith('.md')) {
+          catalogPaths.add(`${category.name}/${item.name.replace(/\.md$/, '')}`);
+        }
+      }
+    }
 
     for (const category of categories) {
       if (!category.isDirectory()) continue;
 
-      const categoryPath = join(SKILLS_DIR, category.name);
+      const categoryPath = join(skillsDir, category.name);
       const items = await readdir(categoryPath, { withFileTypes: true });
 
       for (const item of items) {
@@ -296,18 +553,24 @@ export class SkillValidator {
         try {
           const content = await readFile(fullPath, 'utf-8');
           const validator = new SkillValidator();
-          results.push(validator.validate(content, skillPath));
+          results.push(validator.validate(content, skillPath, {
+            sourcePath: fullPath,
+            skillSlug: item.isDirectory() ? item.name : item.name.replace(/\.md$/, ''),
+            catalogPaths,
+            skillsRoot: skillsDir
+          }));
         } catch (error) {
-          // Skip if SKILL.md doesn't exist in directory
-          if (error.code !== 'ENOENT') {
-            results.push({
-              path: skillPath,
-              valid: false,
-              errors: [`Could not read file: ${error.message}`],
-              warnings: [],
-              summary: '❌ Could not read file'
-            });
-          }
+          const sourcePath = fullPath;
+          const message = error.code === 'ENOENT' && item.isDirectory()
+            ? `${sourcePath}:1: Missing required skill file: SKILL.md`
+            : `${sourcePath}:1: Could not read file: ${error.message}`;
+          results.push({
+            path: skillPath,
+            valid: false,
+            errors: [message],
+            warnings: [],
+            summary: '❌ Could not read file'
+          });
         }
       }
     }

@@ -1,6 +1,6 @@
 ---
-name: itsm-chat-reply-recommendation
-version: 1.0.2
+name: chat-reply-recommendation
+version: 1.0.3
 description: Generate recommended chat replies for ITSM agents based on incident context, knowledge base matches, and resolution history
 author: Happy Technologies LLC
 tags: [itsm, chat, recommendation, virtual-agent, live-agent, incident, knowledge, resolution]

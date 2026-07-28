@@ -1,9 +1,9 @@
 ---
 name: code-assist
-version: 1.0.0
+version: 1.0.1
 description: AI-assisted code generation for ServiceNow business rules, client scripts, script includes, and UI scripts with best practices
 author: Happy Technologies LLC
-tags: [development, code-generation, business-rules, client-scripts, script-includes, ui-scripts, sys_script, sys_script_include, sys_ui_script]
+tags: [development, code-generation, business-rules, client-scripts, script-includes, ui-scripts, sys-script, sys-script-include, sys-ui-script]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
@@ -626,6 +626,6 @@ Parameters:
 ## Related Skills
 
 - `development/code-review` - Review generated code for quality and security
-- `admin/workflow-management` - Building workflows that complement scripts
+- `admin/workflow-creation` - Building workflows that complement scripts
 - `catalog/variable-management` - Catalog scripts for service catalog items
 - `security/acl-management` - Security rules that work alongside business rules

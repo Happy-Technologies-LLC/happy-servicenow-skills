@@ -1,6 +1,6 @@
 ---
 name: request-fulfillment
-version: 1.0.0
+version: 1.0.1
 description: Service catalog request processing, fulfillment workflows, and task management
 author: Happy Technologies LLC
 tags: [catalog, request, fulfillment, service-catalog, itil]
@@ -288,7 +288,7 @@ Waiting for Approval → Fulfillment → Delivery → Closed Complete
 
 - `catalog/item-creation` - Creating catalog items
 - `itsm/incident-lifecycle` - If request becomes incident
-- `admin/workflow-management` - Fulfillment workflows
+- `admin/workflow-creation` - Fulfillment workflows
 
 ## References
 

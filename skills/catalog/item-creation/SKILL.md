@@ -1,9 +1,9 @@
 ---
 name: item-creation
-version: 1.0.0
+version: 1.0.1
 description: Complete guide to creating and configuring service catalog items with variables, categories, and fulfillment
 author: Happy Technologies LLC
-tags: [catalog, item, variables, sc_cat_item, service-catalog, itil]
+tags: [catalog, item, variables, sc-cat-item, service-catalog, itil]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
@@ -626,7 +626,7 @@ Parameters:
 - `catalog/variable-management` - Advanced variable configuration
 - `catalog/approval-workflows` - Setting up approvals
 - `catalog/request-fulfillment` - Processing requests
-- `admin/workflow-management` - Building fulfillment workflows
+- `admin/workflow-creation` - Building fulfillment workflows
 
 ## References
 

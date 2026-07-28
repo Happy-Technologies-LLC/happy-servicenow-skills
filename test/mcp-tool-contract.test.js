@@ -78,6 +78,14 @@ tools:
   mcp: [${serializedTools}]
 ---
 
+## Overview
+
+Exercise the MCP tool contract validator.
+
+## Prerequisites
+
+- Access to the contract fixture
+
 ## Procedure
 
 ${body}

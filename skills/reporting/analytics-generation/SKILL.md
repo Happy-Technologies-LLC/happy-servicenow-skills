@@ -1,9 +1,9 @@
 ---
 name: analytics-generation
-version: 1.0.0
+version: 1.0.1
 description: Generate analytics dashboards and visualizations from natural language descriptions covering PA indicators, data collectors, and widgets
 author: Happy Technologies LLC
-tags: [reporting, analytics, dashboards, performance-analytics, pa_dashboards, pa_widgets, pa_indicators, pa_data_collectors, visualization]
+tags: [reporting, analytics, dashboards, performance-analytics, pa-dashboards, pa-widgets, pa-indicators, pa-data-collectors, visualization]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
@@ -638,6 +638,6 @@ Parameters:
 ## Related Skills
 
 - `reporting/query-generation` - Generate complex queries for reports
-- `itsm/incident-management` - Incident data model context
-- `admin/scheduled-jobs` - Configure scheduled data collection
+- `itsm/incident-lifecycle` - Incident data model context
+- `development/scheduled-jobs` - Configure scheduled data collection
 - `ea/business-app-insights` - Application-level analytics

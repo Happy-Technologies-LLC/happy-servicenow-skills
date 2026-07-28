@@ -1,6 +1,6 @@
 ---
 name: email-recommendation
-version: 1.0.2
+version: 1.0.3
 description: Generate professional email responses for customer service cases by analyzing case details, customer sentiment, communication history, and knowledge base articles
 author: Happy Technologies LLC
 tags: [csm, email, recommendation, response-generation, customer-service, communication]
@@ -461,4 +461,4 @@ Critical Incident Manager
 - `csm/chat-recommendation` - Generate chat responses instead of emails
 - `csm/sentiment-analysis` - Assess customer sentiment to calibrate email tone
 - `csm/resolution-notes` - Generate resolution documentation for closure emails
-- `knowledge/article-search` - Deep knowledge base search for email references
+- `knowledge/content-recommendation` - Deep knowledge base search for email references

@@ -1,6 +1,6 @@
 ---
-name: itsm-email-recommendation
-version: 1.0.2
+name: email-recommendation
+version: 1.0.3
 description: Generate professional email responses for IT service cases with technical context, resolution steps, and next actions
 author: Happy Technologies LLC
 tags: [itsm, email, recommendation, incident, communication, resolution, professional, support]

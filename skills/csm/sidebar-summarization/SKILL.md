@@ -1,6 +1,6 @@
 ---
-name: csm-sidebar-summarization
-version: 1.0.2
+name: sidebar-summarization
+version: 1.0.3
 description: Generate sidebar summaries for customer service agents with case context, customer history, and recommended actions to accelerate case handling
 author: Happy Technologies LLC
 tags: [csm, sidebar, summarization, agent-assist, customer-history, recommendations]

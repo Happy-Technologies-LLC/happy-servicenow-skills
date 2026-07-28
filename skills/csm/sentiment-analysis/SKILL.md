@@ -1,6 +1,6 @@
 ---
-name: csm-sentiment-analysis
-version: 1.0.1
+name: sentiment-analysis
+version: 1.0.2
 description: Analyze customer sentiment across CSM cases, communications, and interactions to track sentiment progression, identify escalation patterns, and flag at-risk cases
 author: Happy Technologies LLC
 tags: [csm, sentiment, analysis, customer-experience, escalation, risk-detection]
@@ -435,4 +435,4 @@ RECOMMENDED: Schedule account review with CSM manager
 - `csm/chat-recommendation` - Use sentiment to calibrate chat response tone
 - `csm/email-recommendation` - Adjust email tone based on sentiment findings
 - `csm/activity-response` - Generate sentiment-aware activity responses
-- `reporting/customer-satisfaction` - CSAT reporting and trend analysis
+- `reporting/survey-analysis` - CSAT reporting and trend analysis

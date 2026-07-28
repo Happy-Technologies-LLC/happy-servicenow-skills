@@ -1,9 +1,9 @@
 ---
 name: playbook-generation
-version: 1.0.0
+version: 1.0.1
 description: Generate Process Automation Designer playbooks from natural language descriptions including activities, lanes, conditions, data gathering steps, and both standard and agent-facing playbooks
 author: Happy Technologies LLC
-tags: [genai, playbook, process-automation, PAD, lanes, activities, agent-facing, data-gathering]
+tags: [genai, playbook, process-automation, pad, lanes, activities, agent-facing, data-gathering]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
@@ -475,4 +475,4 @@ Generate a playbook for evaluating change request risk:
 - `genai/spoke-generation` - Integration Hub spokes for external connections
 - `genai/skill-kit-custom` - Custom Now Assist skills that can trigger playbooks
 - `catalog/approval-workflows` - Catalog-specific approval configuration
-- `itsm/incident-management` - Incident table structure and fields
+- `itsm/incident-lifecycle` - Incident table structure and fields

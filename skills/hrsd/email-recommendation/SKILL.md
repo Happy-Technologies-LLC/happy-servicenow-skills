@@ -1,6 +1,6 @@
 ---
-name: hr-email-recommendation
-version: 1.0.2
+name: email-recommendation
+version: 1.0.3
 description: Generate recommended email responses for HR cases considering confidentiality, policy references, and empathetic tone
 author: Happy Technologies LLC
 tags: [hrsd, email, recommendation, hr-cases, communication, confidentiality, policy, empathy]

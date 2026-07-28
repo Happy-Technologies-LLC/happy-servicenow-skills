@@ -1,7 +1,7 @@
 ---
 name: ui-generation
-version: 1.0.0
-description: Generate ServiceNow UI components from natural language descriptions including client scripts, data binding, event handlers, UI pages, UI macros, and experience pages for Service Portal and UI Builder
+version: 1.0.1
+description: "Generate platform UI components from natural language, including client scripts, data binding, event handlers, pages, and UI Builder experiences."
 author: Happy Technologies LLC
 tags: [development, ui, client-scripts, data-binding, event-handlers, experience-pages, service-portal, widgets, genai]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
