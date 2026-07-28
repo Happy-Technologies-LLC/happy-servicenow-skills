@@ -1,14 +1,14 @@
 ---
 name: post-incident-analysis
-version: 1.0.0
+version: 1.0.2
 description: Conduct post-incident review for closed security incidents including timeline reconstruction, detection/response gap analysis, and lessons-learned documentation
 author: Happy Technologies LLC
-tags: [secops, post-incident, review, lessons-learned, timeline, gap-analysis, PIR]
+tags: [secops, post-incident, review, lessons-learned, timeline, gap-analysis, pir]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Add-Work-Notes
     - SN-Update-Record
     - SN-Execute-Background-Script
@@ -59,7 +59,7 @@ Fetch the full incident record including resolution details and timing fields.
 
 **Using MCP:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_si_incident
   sys_id: [INCIDENT_SYS_ID]
@@ -264,7 +264,7 @@ Parameters:
 | Tool | Purpose |
 |------|---------|
 | SN-Query-Table | Retrieve incident history, tasks, observables, audit entries, and vulnerabilities |
-| SN-Read-Record | Get complete details on the incident under review |
+| SN-Get-Record | Get complete details on the incident under review |
 | SN-Add-Work-Notes | Document the PIR findings on the incident record |
 | SN-Update-Record | Update incident fields such as close_code or add PIR reference |
 | SN-Execute-Background-Script | Run scripts to calculate complex metrics across related records |

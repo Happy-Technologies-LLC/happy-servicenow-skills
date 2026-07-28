@@ -1,13 +1,13 @@
 ---
 name: incident-triage
-version: 1.0.0
-description: "Triage, prioritize, and assign ServiceNow incidents using impact/urgency matrix and category-based routing. Use when an alert fires, a ticket lands unassigned, an outage is reported, an escalation is needed, severity must be classified, an on-call team must be paged, or an SLA is at risk."
+version: 1.0.3
+description: "Triage, prioritize, and assign incidents by impact, urgency, category, escalation risk, ownership, and SLA exposure."
 author: Happy Technologies LLC
 tags: [itsm, incident, triage, assignment, priority, itil]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
     - SN-Assign-Incident
     - SN-Update-Record
@@ -20,6 +20,16 @@ estimated_time: 5-15 minutes
 
 # Incident Triage
 
+## Overview
+
+Use this skill to classify incoming incidents, validate priority, select an assignment group, and document the triage decision.
+
+## Prerequisites
+
+- Read and update access to incident records
+- Read access to assignment groups
+- Knowledge of the organization’s impact, urgency, and escalation rules
+
 ## Procedure
 
 ### Step 1: Identify Incidents Requiring Triage
@@ -27,10 +37,10 @@ estimated_time: 5-15 minutes
 Query for active incidents that are unassigned or in "New" state.
 
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: incident
-  query: "active high priority incidents where assigned to is empty"
+  query: active=true^priorityIN1,2^assigned_toISEMPTY
   fields: number,short_description,description,impact,urgency,category,priority
   limit: 20
 ```
@@ -149,3 +159,8 @@ Parameters:
   table_name: incident
   fields: { priority: 1, assignment_group: Security Operations, work_notes: "Triage: Escalated to P1. Phishing indicator. Security Ops notified." }
 ```
+## Best Practices
+
+- Verify impact and urgency independently before accepting the calculated priority.
+- Confirm the assignment group exists before updating the incident.
+- Record the evidence and reasoning behind every triage decision.

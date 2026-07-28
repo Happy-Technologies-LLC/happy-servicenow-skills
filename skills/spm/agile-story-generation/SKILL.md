@@ -1,6 +1,6 @@
 ---
 name: agile-story-generation
-version: 1.0.0
+version: 1.0.1
 description: Generate user stories from requirements or feature descriptions with acceptance criteria, story point estimation, epic linking, and sprint assignment
 author: Happy Technologies LLC
 tags: [spm, agile, user-stories, scrum, backlog, sprint, epic, story-points]
@@ -10,7 +10,7 @@ tools:
     - SN-Query-Table
     - SN-Create-Record
     - SN-Update-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
   rest:
     - /api/now/table/rm_story
     - /api/now/table/rm_epic
@@ -243,7 +243,7 @@ GET /api/now/table/rm_story?sysparm_query=epic=[epic_sys_id]^ORDERBYpriority&sys
 | `SN-Query-Table` | Query epics, sprints, existing stories, and products |
 | `SN-Create-Record` | Create new user stories in rm_story |
 | `SN-Update-Record` | Update story points, assignments, state |
-| `SN-NL-Search` | Natural language search for related stories or requirements |
+| `SN-Natural-Language-Search` | Natural language search for related stories or requirements |
 
 ### REST API Reference
 

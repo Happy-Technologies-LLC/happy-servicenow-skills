@@ -1,15 +1,15 @@
 ---
 name: activity-response
-version: 1.0.0
+version: 1.0.2
 description: Generate contextual responses for CSM case activities including work notes, customer communications, and status updates with suggested next actions
 author: Happy Technologies LLC
 tags: [csm, activity, response, work-notes, status-update, agent-assist, next-actions]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/sn_customerservice_case
     - /api/now/table/sys_journal_field
@@ -53,7 +53,7 @@ Fetch the case to understand the current situation and what type of activity res
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_customerservice_case
   sys_id: [case_sys_id]
@@ -147,10 +147,10 @@ Find KB articles that can support the activity response with solutions or refere
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
-  query: [short_description keywords]
-  table: kb_knowledge
+  query: workflow_state=published^short_descriptionLIKE<key_terms>
+  table_name: kb_knowledge
   limit: 3
 ```
 
@@ -313,9 +313,9 @@ RESUME ACTIONS (when customer responds):
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Find KB articles relevant to the case activity |
+| `SN-Natural-Language-Search` | Find KB articles relevant to the case activity |
 | `SN-Query-Table` | Query journal entries, tasks, SLA data, emails |
-| `SN-Read-Record` | Retrieve the case record or specific related records |
+| `SN-Get-Record` | Retrieve the case record or specific related records |
 
 ### REST API Reference
 
@@ -381,10 +381,10 @@ Parameters:
 
 **Step 2 - Search KB:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
-  query: intermittent network connectivity drops VPN
-  table: kb_knowledge
+  query: workflow_state=published^123TEXTQUERY321=intermittent network connectivity drops VPN
+  table_name: kb_knowledge
   limit: 3
 ```
 
@@ -421,7 +421,7 @@ SLA: Response due by Mar 19 14:00 | Follow-up scheduled: Mar 19 10:00
 
 **Step 1 - Get case and history:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_customerservice_case
   sys_id: [case_sys_id]

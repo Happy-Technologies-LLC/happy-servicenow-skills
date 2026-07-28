@@ -1,6 +1,6 @@
 ---
 name: major-incident-email
-version: 1.0.0
+version: 1.0.1
 description: Generate major incident email communications including initial notification, status updates, resolution notification, and post-incident summaries for stakeholders
 author: Happy Technologies LLC
 tags: [itsm, incident, major-incident, email, communication, notification, stakeholder, p1]
@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Update-Record
     - SN-Add-Work-Notes
     - SN-Add-Comment
@@ -55,7 +55,7 @@ Pull all relevant incident data needed for the communication.
 
 **MCP Approach:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: incident
   sys_id: [INC_SYS_ID]
@@ -404,7 +404,7 @@ Next Update: [time]
 
 | Tool | Purpose | When to Use |
 |------|---------|-------------|
-| SN-Read-Record | Get incident details | Starting point for any communication |
+| SN-Get-Record | Get incident details | Starting point for any communication |
 | SN-Query-Table | Retrieve CIs, timeline, groups | Gathering scope and context |
 | SN-Update-Record | Update incident with communication status | Tracking communications |
 | SN-Add-Work-Notes | Log sent communications | Audit trail |

@@ -1,6 +1,6 @@
 ---
 name: gap-analysis
-version: 1.0.0
+version: 1.0.1
 description: Analyze knowledge gaps by examining incident and case patterns without matching KB articles, identify topics needing new articles, track failed searches, and prioritize article creation
 author: Happy Technologies LLC
 tags: [knowledge, gap-analysis, incident-patterns, search-analytics, knowledge-management, content-planning]
@@ -8,8 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-NL-Search
-    - SN-Aggregate
+    - SN-Natural-Language-Search
     - SN-Create-Record
     - SN-Add-Work-Notes
   rest:
@@ -56,19 +55,22 @@ This skill helps you:
 
 ### Step 1: Identify Top Incident Categories by Volume
 
-Aggregate incidents by category and subcategory to find the highest-volume topics over the past 90 days.
+Retrieve a bounded incident sample and aggregate it locally by category and subcategory to find the highest-volume topics over the past 90 days.
 
 **Using MCP:**
 ```
-Tool: SN-Aggregate
+Tool: SN-Query-Table
 Parameters:
   table_name: incident
   query: opened_at>=javascript:gs.daysAgoStart(90)^active=false^state=6
-  group_by: category,subcategory
-  aggregate: COUNT
-  order_by: COUNT
-  limit: 25
+  fields: sys_id,category,subcategory
+  limit: 1000
+  instance: dev
 ```
+
+Count the returned rows locally by `(category, subcategory)`, sort the counts
+descending, and retain the top 25. The 1,000-record bound means this is a sample;
+paginate deliberately if complete coverage is required.
 
 **Using REST API:**
 ```bash
@@ -132,17 +134,17 @@ Parameters:
 GET /api/now/table/search_log?sysparm_query=sys_created_on>=javascript:gs.daysAgoStart(30)^results_count=0^search_application=knowledge&sysparm_fields=sys_id,search_term,results_count,sys_created_on,user&sysparm_limit=50
 ```
 
-Aggregate failed search terms to find the most common unmet queries:
+Retrieve a bounded sample of failed search terms, then count identical normalized
+terms locally to find the most common unmet queries:
 
 ```
-Tool: SN-Aggregate
+Tool: SN-Query-Table
 Parameters:
   table_name: search_log
   query: sys_created_on>=javascript:gs.daysAgoStart(30)^results_count=0^search_application=knowledge
-  group_by: search_term
-  aggregate: COUNT
-  order_by: COUNT
-  limit: 20
+  fields: sys_id,search_term
+  limit: 1000
+  instance: dev
 ```
 
 ### Step 5: Review Negative Feedback on Existing Articles
@@ -189,15 +191,17 @@ If Customer Service Management is enabled, check for case topics lacking knowled
 
 **Using MCP:**
 ```
-Tool: SN-Aggregate
+Tool: SN-Query-Table
 Parameters:
   table_name: sn_customerservice_case
   query: opened_at>=javascript:gs.daysAgoStart(90)^state=3^knowledge=false
-  group_by: product,category
-  aggregate: COUNT
-  order_by: COUNT
-  limit: 20
+  fields: sys_id,product,category
+  limit: 1000
+  instance: dev
 ```
+
+Count rows locally by `(product, category)` and keep the top 20. Treat the result
+as a bounded sample unless you explicitly paginate the full date range.
 
 **Using REST API:**
 ```bash
@@ -254,9 +258,8 @@ Content-Type: application/json
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-Query-Table` | Query incidents, articles, feedback, search logs |
-| `SN-NL-Search` | Natural language searches for topic coverage |
-| `SN-Aggregate` | Aggregate incident counts by category, search term frequency |
+| `SN-Query-Table` | Query incidents, articles, feedback, and search logs; retrieve bounded fields for local aggregation |
+| `SN-Natural-Language-Search` | Natural language searches for topic coverage |
 | `SN-Create-Record` | Create knowledge submission records for gaps |
 | `SN-Add-Work-Notes` | Document analysis findings on existing records |
 

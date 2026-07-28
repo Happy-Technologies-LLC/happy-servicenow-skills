@@ -1,6 +1,6 @@
 ---
 name: contracts-query-enhancer
-version: 1.0.0
+version: 1.0.2
 description: Enhance contract search queries with contextual understanding, mapping natural language to contract fields, obligation types, clause categories, and CLM-specific terminology
 author: Happy Technologies LLC
 tags: [legal, contract, search, query, nlp, clm, natural-language, filtering, discovery]
@@ -11,7 +11,7 @@ tools:
     - SN-Natural-Language-Search
     - SN-Execute-Background-Script
     - SN-Discover-Table-Schema
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/ast_contract
     - /api/now/table/clm_contract_doc
@@ -153,10 +153,10 @@ GET /api/now/table/ast_contract?sysparm_query=contract_type=saas^vendor=[acme_sy
 
 **Alternatively, use Natural Language Search for fuzzy matching:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: ast_contract
-  query: "SaaS contracts with Acme expiring in the next 6 months worth over 100 thousand dollars"
+  query: contract_type=saas^vendor=[acme_sys_id]^ends<=javascript:gs.daysAgoEnd(-180)^ends>=javascript:gs.daysAgoEnd(0)^total_cost>100000^active=true
   limit: 25
 ```
 

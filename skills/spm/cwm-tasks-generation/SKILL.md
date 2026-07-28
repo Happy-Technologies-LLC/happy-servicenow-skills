@@ -1,6 +1,6 @@
 ---
 name: cwm-tasks-generation
-version: 1.0.0
+version: 1.0.1
 description: Generate task breakdowns from requirements or user stories with structured task lists, dependencies, assignments, and effort estimates
 author: Happy Technologies LLC
 tags: [spm, cwm, tasks, project, work-breakdown, wbs, estimation, dependencies, planning]
@@ -10,7 +10,7 @@ tools:
     - SN-Query-Table
     - SN-Create-Record
     - SN-Update-Record
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Get-Table-Schema
   rest:
     - /api/now/table/pm_project
@@ -56,7 +56,7 @@ Review the input requirements or user stories to identify work components.
 
 **MCP Approach:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: pm_project
   sys_id: [PROJECT_SYS_ID]
@@ -378,7 +378,7 @@ MILESTONES:
 | SN-Query-Table | Find existing tasks, resources, requirements | Discovery and validation |
 | SN-Create-Record | Create project tasks and milestones | Building the task breakdown |
 | SN-Update-Record | Set dependencies, assign resources, update estimates | Task configuration |
-| SN-Read-Record | Get project details and individual task records | Context gathering |
+| SN-Get-Record | Get project details and individual task records | Context gathering |
 | SN-Get-Table-Schema | Discover pm_project_task fields | Initial setup |
 
 ## Best Practices
@@ -451,7 +451,7 @@ Phase 1: Analysis (1 week)
 
 Phase 2: Build (3 weeks)
   2.1 Configure IntegrationHub spoke - 16h - Developer
-  2.2 Build SN-to-Jira sync flow - 24h - Developer
+  2.2 Build ServiceNow-to-Jira sync flow - 24h - Developer
   2.3 Build Jira-to-SN webhook handler - 24h - Developer
   2.4 Error handling and retry logic - 12h - Developer
   2.5 Integration Complete - MILESTONE

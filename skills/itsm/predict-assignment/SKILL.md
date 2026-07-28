@@ -1,13 +1,13 @@
 ---
 name: predict-assignment
-version: 1.0.0
+version: 1.0.2
 description: Predict assignment group and category for incoming incidents using historical patterns, keyword analysis, and resolution data to accelerate routing
 author: Happy Technologies LLC
 tags: [itsm, incident, assignment, prediction, routing, pattern-matching, zero-touch, automation]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
     - SN-Update-Record
     - SN-Add-Work-Notes
@@ -55,10 +55,10 @@ Fetch the new or unassigned incident that needs routing.
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: incident
-  query: "active incidents in new state where assignment group is empty"
+  query: active=true^state=1^assignment_groupISEMPTY
   fields: sys_id,number,short_description,description,category,subcategory,contact_type,caller_id,cmdb_ci,priority
   limit: 25
 ```
@@ -243,7 +243,7 @@ Key metrics to track:
 
 | Tool | Purpose | When to Use |
 |------|---------|-------------|
-| `SN-NL-Search` | Find unassigned incidents in natural language | Initial candidate discovery |
+| `SN-Natural-Language-Search` | Find unassigned incidents in natural language | Initial candidate discovery |
 | `SN-Query-Table` | Query historical data, categories, groups | Pattern analysis and validation |
 | `SN-Update-Record` | Apply predicted assignment and category | Routing the incident |
 | `SN-Add-Work-Notes` | Document prediction rationale | Audit trail and transparency |

@@ -1,6 +1,6 @@
 ---
 name: itsm-chat-reply-recommendation
-version: 1.0.0
+version: 1.0.4
 description: Generate recommended chat replies for ITSM agents based on incident context, knowledge base matches, and resolution history
 author: Happy Technologies LLC
 tags: [itsm, chat, recommendation, virtual-agent, live-agent, incident, knowledge, resolution]
@@ -9,7 +9,7 @@ tools:
   mcp:
     - SN-Query-Table
     - SN-Get-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Update-Record
     - SN-Add-Work-Notes
     - SN-Execute-Background-Script
@@ -95,10 +95,10 @@ Find relevant knowledge articles matching the incident description.
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: kb_knowledge
-  query: "[keywords from incident short_description and description]"
+  query: workflow_state=published^short_descriptionLIKE[keyword1]^ORtextLIKE[keyword1]
   fields: sys_id,number,short_description,text,kb_category,workflow_state,rating
   limit: 5
 ```
@@ -236,7 +236,7 @@ Parameters:
 |------|-------------|
 | `SN-Get-Record` | Retrieve incident and user context |
 | `SN-Query-Table` | Search interactions, KB articles, similar incidents, known errors |
-| `SN-NL-Search` | Natural language knowledge base search |
+| `SN-Natural-Language-Search` | Natural language knowledge base search |
 | `SN-Update-Record` | Update incident state or assignment during chat |
 | `SN-Add-Work-Notes` | Document recommended replies and actions |
 | `SN-Execute-Background-Script` | Complex matching logic or bulk recommendation analysis |
@@ -296,10 +296,10 @@ Parameters:
   fields: number,short_description,caller_id.name,category
 
 # 2. Find KB article
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: kb_knowledge
-  query: "password reset self-service"
+  query: workflow_state=published^123TEXTQUERY321=password reset self-service
   fields: number,short_description,text
   limit: 3
 

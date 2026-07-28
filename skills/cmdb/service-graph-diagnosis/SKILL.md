@@ -1,6 +1,6 @@
 ---
 name: service-graph-diagnosis
-version: 1.0.0
+version: 1.0.1
 description: Diagnose Service Graph Connector issues, validate discovery patterns, and troubleshoot service mapping data flow
 author: Happy Technologies LLC
 tags: [cmdb, service-graph, discovery, service-mapping, connector, integration, troubleshooting, data-flow]
@@ -9,7 +9,7 @@ tools:
   mcp:
     - SN-Query-Table
     - SN-Get-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Execute-Background-Script
     - SN-Discover-Table-Schema
   rest:
@@ -326,7 +326,7 @@ Parameters:
 |------|-------------|
 | `SN-Query-Table` | Query connectors, import sets, discovery status, duplicates, services |
 | `SN-Get-Record` | Retrieve specific connector or CI details by sys_id |
-| `SN-NL-Search` | Find connectors or CIs by natural language description |
+| `SN-Natural-Language-Search` | Find connectors or CIs by natural language description |
 | `SN-Execute-Background-Script` | Run health checks and batch remediation scripts |
 | `SN-Discover-Table-Schema` | Explore connector and CMDB table schemas |
 

@@ -1,9 +1,9 @@
 ---
 name: ai-search-rag
-version: 1.0.0
-description: Configure and optimize AI Search with Retrieval Augmented Generation (RAG) including search source configuration, result ranking, answer generation, knowledge source indexing, and search quality tuning
+version: 1.0.1
+description: "Configure retrieval-augmented AI search, including sources, indexing, ranking, answer generation, and search quality tuning."
 author: Happy Technologies LLC
-tags: [genai, ai-search, RAG, retrieval-augmented-generation, knowledge, search-sources, ranking, NLU]
+tags: [genai, ai-search, rag, retrieval-augmented-generation, knowledge, search-sources, ranking, nlu]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
@@ -49,7 +49,7 @@ This skill covers configuring and optimizing ServiceNow AI Search with Retrieval
 - **Plugins:** `com.snc.ai_search` (AI Search), `com.snc.generative_ai_controller` (Generative AI Controller), `sn_gen_ai` (Generative AI)
 - **Access:** sn_ai_search_source, sn_ai_search_profile, sn_gen_ai_config tables
 - **Knowledge:** Understanding of search concepts (indexing, ranking, relevance), knowledge management basics
-- **Related Skills:** `genai/now-assist-qa` for conversational AI, `knowledge/article-management` for KB content
+- **Related Skills:** `genai/now-assist-qa` for conversational AI, `knowledge/article-generation` for KB content
 
 ## Procedure
 
@@ -470,5 +470,5 @@ Configure AI Search across multiple technical knowledge bases:
 
 - `genai/now-assist-qa` - Conversational AI that consumes AI Search results
 - `genai/skill-kit-custom` - Custom skills that can invoke AI Search
-- `knowledge/article-management` - Managing the knowledge content that feeds search
-- `reporting/dashboard-creation` - Building search analytics dashboards
+- `knowledge/article-generation` - Managing the knowledge content that feeds search
+- `reporting/executive-dashboard` - Building search analytics dashboards

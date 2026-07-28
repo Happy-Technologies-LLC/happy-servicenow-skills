@@ -1,9 +1,9 @@
 ---
 name: scheduled-jobs
-version: 1.0.0
+version: 1.0.1
 description: Comprehensive guide to creating and managing ServiceNow scheduled jobs - run frequencies, conditional execution, performance optimization, error handling, and debugging
 author: Happy Technologies LLC
-tags: [development, scheduled-jobs, automation, sys_trigger, batch-processing, sysauto_script, performance]
+tags: [development, scheduled-jobs, automation, sys-trigger, batch-processing, sysauto-script, performance]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:

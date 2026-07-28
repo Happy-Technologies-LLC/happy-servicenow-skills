@@ -1,6 +1,6 @@
 ---
 name: case-summarization-approvals
-version: 1.0.0
+version: 1.0.1
 description: Summarize HR cases, service requests, and requested items for approvers with business justification, cost impact, approval history context, and policy compliance information
 author: Happy Technologies LLC
 tags: [hrsd, approvals, case-summarization, business-justification, cost-impact, approval-history, compliance]
@@ -9,7 +9,7 @@ tools:
   mcp:
     - SN-Query-Table
     - SN-Get-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Add-Work-Notes
   rest:
     - /api/now/table/sn_hr_core_case
@@ -292,7 +292,7 @@ Parameters:
 |------|---------|-------------|
 | SN-Query-Table | Fetch approvals, requests, profiles, history | Primary data gathering |
 | SN-Get-Record | Retrieve single source record details | Detailed record inspection |
-| SN-NL-Search | Find related requests or cases by description | Pattern matching for similar items |
+| SN-Natural-Language-Search | Find related requests or cases by description | Pattern matching for similar items |
 | SN-Add-Work-Notes | Attach summary to approval record | Documentation and audit trail |
 
 ## Best Practices

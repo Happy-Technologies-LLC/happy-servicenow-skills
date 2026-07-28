@@ -1,6 +1,6 @@
 ---
 name: interview-relevance
-version: 1.0.0
+version: 1.0.1
 description: Assess interview notes and job descriptions for skill relevance matching. Score candidate-role fit, highlight skill gaps, evaluate competency alignment, and generate structured hiring recommendations
 author: Happy Technologies LLC
 tags: [hrsd, interview, hiring, talent, skill-matching, candidate-assessment, recruitment, competency]
@@ -11,7 +11,7 @@ tools:
     - SN-Get-Record
     - SN-Create-Record
     - SN-Update-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
   rest:
     - /api/now/table/sn_hr_core_case
     - /api/now/table/sn_hr_core_profile
@@ -284,7 +284,7 @@ Parameters:
 | SN-Get-Record | Retrieve specific requisition or candidate | Detailed record inspection |
 | SN-Create-Record | Create assessment records or feedback entries | Recording new evaluations |
 | SN-Update-Record | Update candidate status and scores | Saving assessment results |
-| SN-NL-Search | Search for similar roles or past hires | Pattern matching for benchmarks |
+| SN-Natural-Language-Search | Search for similar roles or past hires | Pattern matching for benchmarks |
 
 ## Best Practices
 

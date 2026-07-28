@@ -1,6 +1,6 @@
 ---
-name: hr-email-recommendation
-version: 1.0.0
+name: hrsd-email-recommendation
+version: 1.0.4
 description: Generate recommended email responses for HR cases considering confidentiality, policy references, and empathetic tone
 author: Happy Technologies LLC
 tags: [hrsd, email, recommendation, hr-cases, communication, confidentiality, policy, empathy]
@@ -10,7 +10,7 @@ tools:
     - SN-Query-Table
     - SN-Get-Record
     - SN-Update-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Execute-Background-Script
     - SN-Add-Work-Notes
   rest:
@@ -108,10 +108,10 @@ Search for policy documentation and FAQ articles related to the case topic.
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: kb_knowledge
-  query: "[case topic or keyword from short_description]"
+  query: workflow_state=published^short_descriptionLIKE[topic_keyword]^ORtextLIKE[topic_keyword]
   fields: sys_id,number,short_description,text,kb_knowledge_base,kb_category,workflow_state
   limit: 5
 ```
@@ -247,7 +247,7 @@ Content-Type: application/json
 |------|-------------|
 | `SN-Get-Record` | Retrieve full HR case context |
 | `SN-Query-Table` | Query case history, emails, case types, KB articles |
-| `SN-NL-Search` | Find relevant knowledge articles by topic |
+| `SN-Natural-Language-Search` | Find relevant knowledge articles by topic |
 | `SN-Update-Record` | Update case with recommended response |
 | `SN-Add-Work-Notes` | Document the recommendation in case work notes |
 | `SN-Execute-Background-Script` | Confidentiality checks, bulk response generation |
@@ -306,10 +306,10 @@ Parameters:
   fields: number,short_description,description,hr_service,subject_person.name
 
 # 2. Find relevant KB article
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: kb_knowledge
-  query: "benefits open enrollment deadlines"
+  query: workflow_state=published^123TEXTQUERY321=benefits open enrollment deadlines
   fields: number,short_description,text
   limit: 3
 

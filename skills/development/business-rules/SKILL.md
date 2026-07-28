@@ -1,7 +1,7 @@
 ---
 name: business-rules
-version: 1.0.0
-description: Complete guide to business rule development including when/how/trigger timing, script patterns, current/previous objects, condition optimization, Glide API usage, error handling, and performance best practices
+version: 1.0.2
+description: "Develop secure, efficient business rules with correct timing, conditions, Glide API patterns, error handling, and tests."
 author: Happy Technologies LLC
 tags: [development, business-rules, scripting, server-side, glide, automation]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
@@ -10,9 +10,9 @@ tools:
     - SN-Create-Record
     - SN-Update-Record
     - SN-Query-Table
+    - SN-Get-Record
     - SN-Get-Table-Schema
     - SN-Execute-Background-Script
-    - SN-Sync-Script-To-Local
   rest:
     - /api/now/table/sys_script
     - /api/now/table/sys_dictionary
@@ -816,24 +816,30 @@ Parameters:
   limit: 50
 ```
 
-#### Step 7.4: Local Development with Script Sync
+#### Step 7.4: Explicit Local Development Cycle
 
-**Using MCP:**
+Pull the current script and freshness metadata:
 ```
-Tool: SN-Sync-Script-To-Local
+Tool: SN-Get-Record
 Parameters:
-  script_sys_id: [business_rule_sys_id]
-  local_path: /scripts/business_rules/validate_incident.js
+  table_name: sys_script
+  sys_id: [business_rule_sys_id]
+  fields: sys_id,script,sys_updated_on,sys_mod_count
   instance: dev
 ```
 
-Then edit locally with your IDE and sync back:
+Save the `script` field locally and edit it in the IDE. Immediately before
+pushing, repeat `SN-Get-Record` and compare `sys_updated_on`, `sys_mod_count`,
+and the original script. If the remote record changed, merge it locally instead
+of overwriting it. Otherwise push only the reviewed script field:
 
 ```
-Tool: SN-Sync-Local-To-Script
+Tool: SN-Update-Record
 Parameters:
-  local_path: /scripts/business_rules/validate_incident.js
-  script_sys_id: [business_rule_sys_id]
+  table_name: sys_script
+  sys_id: [business_rule_sys_id]
+  data:
+    script: [reviewed_local_script]
   instance: dev
 ```
 
@@ -846,7 +852,7 @@ Parameters:
 | Query BRs | SN-Query-Table | Find business rules on table |
 | Test BR | SN-Execute-Background-Script | Simulate record operations |
 | Debug | SN-Query-Table (syslog) | Check execution logs |
-| Local Dev | SN-Sync-Script-To-Local | Edit scripts in IDE |
+| Local Dev | SN-Get-Record + SN-Update-Record | Explicit pull, freshness check, edit, and push |
 | Get Schema | SN-Get-Table-Schema | Understand table structure |
 
 ## Best Practices
@@ -873,7 +879,7 @@ Parameters:
 - **One Purpose Per Rule:** Split complex rules into focused components
 - **Use Script Includes:** Move reusable logic to script includes
 - **Document Dependencies:** Note what other rules/scripts this interacts with
-- **Version Control:** Use SN-Sync-Script-To-Local for git versioning
+- **Version Control:** Pull with `SN-Get-Record`, keep the base revision in Git, freshness-check, then push with `SN-Update-Record`
 
 ## Troubleshooting
 

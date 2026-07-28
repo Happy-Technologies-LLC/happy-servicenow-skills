@@ -1,16 +1,16 @@
 ---
 name: alert-investigation
-version: 1.0.0
+version: 1.0.3
 description: Deep investigation of operational alerts including CI tracing, recent change correlation, related alert analysis, knowledge base review, and remediation suggestions using LEAP methodology
 author: Happy Technologies LLC
-tags: [itom, alerts, investigation, root-cause, correlation, remediation, LEAP, event-management, change-correlation]
+tags: [itom, alerts, investigation, root-cause, correlation, remediation, leap, event-management, change-correlation]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
     - SN-Get-Record
     - SN-Update-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Execute-Background-Script
   rest:
     - /api/now/table/em_alert
@@ -189,9 +189,10 @@ Look for existing KB articles that match the alert description or CI class.
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
-  query: [alert_description] remediation [ci_class_name]
+  table_name: kb_knowledge
+  query: workflow_state=published^123TEXTQUERY321=[alert_description] remediation [ci_class_name]
 ```
 
 Or query KB directly:
@@ -249,7 +250,7 @@ Content-Type: application/json
 | `SN-Get-Record` | Retrieve full alert or CI record by sys_id |
 | `SN-Query-Table` | Search alerts, changes, KB articles, CI associations |
 | `SN-Update-Record` | Document investigation findings on the alert |
-| `SN-NL-Search` | Natural language search for KB remediation articles |
+| `SN-Natural-Language-Search` | Natural language search for KB remediation articles |
 | `SN-Execute-Background-Script` | Complex cross-table joins and change lookups |
 
 ### REST API Reference
@@ -330,9 +331,10 @@ Parameters:
   limit: 15
 
 # LEAP Step 4 - PROPOSE: Search KB
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
-  query: database connection pool exhausted remediation Oracle
+  table_name: kb_knowledge
+  query: workflow_state=published^123TEXTQUERY321=database connection pool exhausted remediation Oracle
 ```
 
 ### Example 2: Change-Induced Alert Investigation

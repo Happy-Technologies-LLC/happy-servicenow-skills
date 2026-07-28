@@ -1,13 +1,13 @@
 ---
 name: incident-sentiment
-version: 1.0.0
+version: 1.0.3
 description: Analyze incident sentiment from work notes, customer communications, and activity entries to track escalation risk and customer satisfaction
 author: Happy Technologies LLC
 tags: [itsm, incident, sentiment, escalation, customer-satisfaction, nlp, work-notes, analytics]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
     - SN-Update-Record
     - SN-Add-Work-Notes
@@ -55,17 +55,17 @@ Query active incidents, prioritizing those with recent activity or approaching S
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: incident
-  query: "active incidents with priority 1 or 2 that have been updated in the last 24 hours"
+  query: active=true^priorityIN1,2^sys_updated_on>=javascript:gs.hoursAgo(24)
   fields: sys_id,number,short_description,priority,state,assigned_to,assignment_group,sla_due,sys_updated_on
   limit: 30
 ```
 
 **Using REST API:**
 ```bash
-GET /api/now/table/incident?sysparm_query=active=true^priorityIN1,2^sys_updated_onONLast 24 hours@javascript:gs.daysAgoStart(1)@javascript:gs.daysAgoEnd(0)&sysparm_fields=sys_id,number,short_description,priority,state,assigned_to,assignment_group,sla_due,sys_updated_on&sysparm_limit=30
+GET /api/now/table/incident?sysparm_query=active=true^priorityIN1,2^sys_updated_on>=javascript:gs.hoursAgo(24)&sysparm_fields=sys_id,number,short_description,priority,state,assigned_to,assignment_group,sla_due,sys_updated_on&sysparm_limit=30
 ```
 
 ### Step 2: Retrieve Work Notes and Comments
@@ -264,7 +264,7 @@ Parameters:
 
 | Tool | Purpose | When to Use |
 |------|---------|-------------|
-| `SN-NL-Search` | Find incidents using natural language criteria | Initial discovery |
+| `SN-Natural-Language-Search` | Find incidents using natural language criteria | Initial discovery |
 | `SN-Query-Table` | Retrieve journal entries, emails, incident data | Core data gathering |
 | `SN-Update-Record` | Flag at-risk incidents, update urgency | Proactive intervention |
 | `SN-Add-Work-Notes` | Document sentiment analysis findings | Reports and audit trail |

@@ -1,15 +1,15 @@
 ---
 name: product-compliance
-version: 1.0.0
+version: 1.0.2
 description: Summarize software product compliance status including license counts, entitlement gaps, compliance violations, and recommended remediation actions
 author: Happy Technologies LLC
 tags: [sam, software-asset, compliance, licensing, entitlement, remediation, audit]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/samp_sw_product
     - /api/now/table/samp_sw_install
@@ -66,9 +66,10 @@ Parameters:
 
 For broader searches by publisher:
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
-  query: "Find all licensable software products from Microsoft"
+  table_name: samp_sw_product
+  query: display_nameLIKEMicrosoft^is_licensable=true
 ```
 
 **Using REST API:**
@@ -231,9 +232,9 @@ COST OPTIMIZATION:
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Natural language product search (e.g., "find non-compliant Adobe products") |
+| `SN-Natural-Language-Search` | Natural language product search (e.g., "find non-compliant Adobe products") |
 | `SN-Query-Table` | Structured queries for compliance, license, and installation data |
-| `SN-Read-Record` | Retrieve a specific product, license, or compliance record by sys_id |
+| `SN-Get-Record` | Retrieve a specific product, license, or compliance record by sys_id |
 
 ### REST API Reference
 

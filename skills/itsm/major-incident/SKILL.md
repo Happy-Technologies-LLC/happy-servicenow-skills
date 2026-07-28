@@ -1,6 +1,6 @@
 ---
 name: major-incident
-version: 1.0.0
+version: 1.0.2
 description: P1/Major incident coordination including bridge calls, stakeholder communication, incident commander responsibilities, and post-incident review
 author: Happy Technologies LLC
 tags: [itsm, incident, major-incident, p1, crisis, bridge-call, pir, itil]
@@ -13,7 +13,7 @@ tools:
     - SN-Add-Comment
     - SN-Query-Table
     - SN-Assign-Incident
-    - SN-NL-Search
+    - SN-Natural-Language-Search
   rest:
     - /api/now/table/incident
     - /api/now/table/sys_journal_field
@@ -582,7 +582,7 @@ POST-INCIDENT:
 | `SN-Add-Comment` | Customer-facing communications | 3, 5 |
 | `SN-Query-Table` | Retrieve incident details, timeline | All |
 | `SN-Assign-Incident` | Assign incident commander | 1 |
-| `SN-NL-Search` | Find related incidents | 1 |
+| `SN-Natural-Language-Search` | Find related incidents | 1 |
 
 ### REST API Endpoints
 
@@ -688,7 +688,7 @@ We apologize for any inconvenience.
 - `itsm/incident-triage` - Incident triage process
 - `itsm/problem-analysis` - Root cause analysis
 - `itsm/change-management` - Emergency changes during major incidents
-- `admin/notification-management` - Automated notifications
+- `development/notifications` - Automated notifications
 
 ## References
 

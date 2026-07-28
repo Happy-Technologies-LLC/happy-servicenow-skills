@@ -1,13 +1,13 @@
 ---
 name: case-auto-resolve
-version: 1.0.0
+version: 1.0.2
 description: Auto-resolve common cases and incidents using pattern matching, knowledge base lookups, and historical resolution data to enable zero-touch service desk operations
 author: Happy Technologies LLC
 tags: [itsm, incident, case, auto-resolve, zero-touch, automation, pattern-matching, knowledge-base]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
     - SN-Update-Record
     - SN-Add-Work-Notes
@@ -54,10 +54,10 @@ Query for new or open incidents that match auto-resolvable categories.
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: incident
-  query: "active incidents in new state with category software or hardware or network where short description contains password reset or access request or VPN or printer"
+  query: active=true^state=1^categoryINsoftware,hardware,network^short_descriptionLIKEpassword reset^ORshort_descriptionLIKEaccess request^ORshort_descriptionLIKEVPN^ORshort_descriptionLIKEprinter
   fields: sys_id,number,short_description,description,category,subcategory,priority,state,contact_type
   limit: 50
 ```
@@ -217,7 +217,7 @@ Track these KPIs:
 
 | Tool | Purpose | When to Use |
 |------|---------|-------------|
-| `SN-NL-Search` | Find candidate incidents using natural language | Initial ticket discovery |
+| `SN-Natural-Language-Search` | Find candidate incidents using natural language | Initial ticket discovery |
 | `SN-Query-Table` | Structured queries for KB articles and history | Pattern matching and validation |
 | `SN-Update-Record` | Apply resolution to incidents | Auto-resolve or escalate |
 | `SN-Add-Work-Notes` | Document auto-resolution reasoning | Audit trail and transparency |

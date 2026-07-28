@@ -1,13 +1,13 @@
 ---
 name: task-summarization
-version: 1.0.0
+version: 1.0.1
 description: Generate concise task summaries with status, timeline, blockers, SLA risk, and recommended next actions
 author: Happy Technologies LLC
 tags: [admin, task, summarization, handover, approvals, sla, operations]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Query-Table
     - SN-Execute-Background-Script
     - SN-Add-Work-Notes
@@ -49,7 +49,7 @@ Retrieve the primary task fields required for summary framing.
 
 **Using MCP:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: task
   sys_id: [task_sys_id]
@@ -119,7 +119,7 @@ Parameters:
 
 | Tool | Purpose |
 |---|---|
-| `SN-Read-Record` | Get canonical task context |
+| `SN-Get-Record` | Get canonical task context |
 | `SN-Query-Table` | Retrieve journals and SLA details |
 | `SN-Execute-Background-Script` | Build aggregated timelines for complex tasks |
 | `SN-Add-Work-Notes` | Persist summary in task history |

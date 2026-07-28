@@ -1,6 +1,6 @@
 ---
 name: health-safety-summarization
-version: 1.0.0
+version: 1.0.3
 description: Summarize Health and Safety incidents with injury details, root cause analysis, OSHA reporting requirements, corrective actions, and workplace hazard tracking
 author: Happy Technologies LLC
 tags: [hrsd, health-safety, incident, osha, injury, hazard, investigation, corrective-action, workplace-safety]
@@ -11,7 +11,7 @@ tools:
     - SN-Natural-Language-Search
     - SN-Execute-Background-Script
     - SN-Discover-Table-Schema
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Add-Work-Notes
   rest:
     - /api/now/table/sn_hr_hs_incident
@@ -328,10 +328,10 @@ Check for fields like `type`, `category`, or `classification` that categorize in
 **Scenario:** EHS director needs a monthly safety summary for the safety committee
 
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: sn_hr_hs_incident
-  query: "all workplace incidents reported in the last 30 days including near misses and first aid cases"
+  query: sys_created_on>=javascript:gs.daysAgoStart(30)
   limit: 50
 ```
 
@@ -350,7 +350,7 @@ Parameters:
 **Scenario:** Investigation team needs a complete incident package for a serious injury
 
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_hr_hs_incident
   sys_id: [incident_sys_id]

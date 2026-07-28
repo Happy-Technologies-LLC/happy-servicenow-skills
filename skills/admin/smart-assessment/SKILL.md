@@ -1,7 +1,7 @@
 ---
 name: smart-assessment
-version: 1.0.0
-description: Configure smart assessments with AI-assisted response suggestions, covering assessment design, metric types, scoring models, conditional logic, result analysis, and integration with GRC and HR modules
+version: 1.0.2
+description: "Configure AI-assisted assessments with metric design, scoring, conditional logic, result analysis, and GRC or HR integrations."
 author: Happy Technologies LLC
 tags: [admin, assessment, survey, scoring, metrics, ai-assisted, grc, hr, risk, compliance]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
@@ -10,7 +10,7 @@ tools:
     - SN-Query-Table
     - SN-Create-Record
     - SN-Update-Record
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Execute-Background-Script
     - SN-Discover-Table-Schema
   rest:

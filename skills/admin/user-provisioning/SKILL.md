@@ -1,6 +1,6 @@
 ---
 name: user-provisioning
-version: 1.0.0
+version: 1.0.1
 description: Complete user lifecycle management including creation, role assignment, group membership, and deprovisioning
 author: Happy Technologies LLC
 tags: [admin, user-management, provisioning, roles, groups, security, onboarding, offboarding]
@@ -778,7 +778,7 @@ Parameters:
 ## Related Skills
 
 - `admin/batch-operations` - Bulk user operations
-- `security/access-control` - ACL configuration
+- `security/acl-management` - ACL configuration
 - `admin/script-execution` - Automated provisioning scripts
 - `itsm/change-management` - Change process for access changes
 

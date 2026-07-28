@@ -1,6 +1,6 @@
 ---
-name: hr-kb-generation
-version: 1.0.0
+name: hrsd-kb-generation
+version: 1.0.3
 description: Generate HR knowledge articles from resolved cases, covering HR policy documentation, benefits FAQs, and onboarding guides
 author: Happy Technologies LLC
 tags: [hrsd, knowledge, kb-generation, hr-cases, policy, benefits, onboarding, self-service]
@@ -12,7 +12,7 @@ tools:
     - SN-Create-Record
     - SN-Update-Record
     - SN-Execute-Background-Script
-    - SN-NL-Search
+    - SN-Natural-Language-Search
   rest:
     - /api/now/table/sn_hr_core_case
     - /api/now/table/sn_hr_core_task
@@ -316,7 +316,7 @@ Parameters:
 | `SN-Create-Record` | Create new knowledge articles |
 | `SN-Update-Record` | Update article content, state, or metadata |
 | `SN-Execute-Background-Script` | Bulk analysis of case patterns, FAQ extraction |
-| `SN-NL-Search` | Natural language queries like "resolved benefits cases this quarter" |
+| `SN-Natural-Language-Search` | Natural language queries like "resolved benefits cases this quarter" |
 
 ### REST API Reference
 
@@ -343,7 +343,7 @@ Parameters:
 ### No Resolved Cases Found for Topic
 
 **Cause:** Query filters too restrictive or cases closed with different terminology
-**Solution:** Broaden the keyword search. Use `LIKE` operator or `SN-NL-Search` for flexible matching. Check `resolution_code` values.
+**Solution:** Broaden the keyword search. Use `LIKE` operator or `SN-Natural-Language-Search` for flexible matching. Check `resolution_code` values.
 
 ### Knowledge Base Not Found
 

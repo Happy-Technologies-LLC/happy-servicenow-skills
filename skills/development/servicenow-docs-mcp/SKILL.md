@@ -1,12 +1,13 @@
 ---
 name: servicenow-docs-mcp
-version: 1.0.0
+version: 1.0.1
 description: Add or maintain ServiceNowDocs search capabilities in Happy Platform MCP, including live GitHub lookup, optional local SQLite FTS indexing, and optional vector search
 author: Happy Technologies LLC
 tags: [development, mcp, servicenow-docs, documentation, search, sqlite, fts, vector, github, rag]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
+    - SN-Register-Instance
     - SN-Docs-Families
     - SN-Docs-Get
     - SN-Docs-Search
@@ -36,7 +37,7 @@ Use it when a user asks to:
 - Sync, cache, or localize ServiceNowDocs content
 - Search ServiceNow docs from MCP tools
 - Add SQLite FTS5, sqlite-vec, embeddings, or vector search to the MCP docs capability
-- Troubleshoot `SN-Docs-*` tools
+- Troubleshoot the five documentation tools
 - Decide between QMD, GitHub search, SQLite FTS, or vector indexing for ServiceNow docs
 
 For installing the MCP server itself, use `development/mcp-server-installation`. For general MCP server design, use `development/mcp-server`.
@@ -44,10 +45,20 @@ For installing the MCP server itself, use `development/mcp-server-installation`.
 ## Prerequisites
 
 - Happy Platform MCP source checkout
-- Node.js version supported by the MCP server
+- Node.js >= 20
 - Network access to `https://github.com/ServiceNow/ServiceNowDocs` for live mode or sync
 - Optional `better-sqlite3` support only when local indexing is enabled
 - Optional embedding provider only when vector search is enabled
+
+### v5.1 Docs-Only Bootstrap
+
+When no registry/config and no legacy environment credentials are present, the stdio server automatically falls back to docs-only mode. Force this mode with `HAPPY_MCP_DOCS_ONLY=true`. The v5.1 `--docs-only` flag does not reliably override a registry that already exists and must not be used for this workflow.
+
+Docs-only mode exposes `SN-Docs-Families`, `SN-Docs-Status`, `SN-Docs-Sync`,
+`SN-Docs-Search`, and `SN-Docs-Get`, plus `SN-Register-Instance`.
+`SN-Register-Instance` is metadata-only and rejects secret fields. A normal live server reloads the registry after a successful registration; restart a docs-only process before expecting live ServiceNow tools.
+
+Credential-backed bootstrap has a v5.1 ordering constraint: registration expects a credential reference, but the local credential-set command expects the instance name to exist. Use local interactive `happy-platform-mcp instance add` for Basic, OAuth `client_credentials`, and OAuth password registrations. Direct registration is reliable for public `authorization_code`, or when an administrator has created externally preprovisioned deterministic keychain refs. Never ask a user or agent to put credential material in the tool call.
 
 ## Procedure
 

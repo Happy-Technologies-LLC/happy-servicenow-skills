@@ -1,6 +1,6 @@
 ---
 name: control-objective-management
-version: 1.0.0
+version: 1.0.2
 description: Manage control objectives including creation, assessment, effectiveness evaluation, regulatory mapping, and gap identification across SOX, GDPR, and HIPAA frameworks
 author: Happy Technologies LLC
 tags: [grc, compliance, control-objective, sox, gdpr, hipaa, control-gap, effectiveness]
@@ -480,10 +480,10 @@ If not found, check for alternative tables like `sn_compliance_objective` or `sn
 **Scenario:** Preparing for annual SOX audit, need to assess ICFR control objectives
 
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: sn_compliance_control_objective
-  query: "SOX Section 404 control objectives for internal control over financial reporting"
+  query: 123TEXTQUERY321=SOX Section 404 internal control financial reporting
   limit: 30
 ```
 

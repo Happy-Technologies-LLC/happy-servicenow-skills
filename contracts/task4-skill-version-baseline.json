@@ -1,0 +1,718 @@
+{
+  "schemaVersion": 1,
+  "task4": {
+    "base": "b5462ef",
+    "skills": [
+      {
+        "path": "skills/admin/instance-management/SKILL.md",
+        "version": "1.1.0"
+      },
+      {
+        "path": "skills/admin/script-sync/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/admin/smart-assessment/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/admin/task-analysis/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/admin/task-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/admin/workspace-insights/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/catalog/approval-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/catalog/catalog-item-generation/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/catalog/multi-turn-ordering/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/cmdb/cmdb-search-analysis/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/cmdb/service-graph-diagnosis/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/csm/activity-response/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/csm/case-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/csm/chat-recommendation/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/csm/email-recommendation/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/csm/kb-generation/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/csm/resolution-notes/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/csm/sentiment-analysis/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/csm/sidebar-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/csm/suggested-steps/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/csm/trending-topics/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/development/business-rules/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/development/client-scripts/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/development/script-includes/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/development/servicenow-docs-mcp/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/development/test-generation/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/development/ui-actions/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/document/document-extraction/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/document/document-screening/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/document/smart-documents/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/fsm/kb-generation/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/fsm/sidebar-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/fsm/work-order-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/genai/agent-miner/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/genai/ai-lens/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/genai/build-agent/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/genai/chat-summarization-va/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/genai/conversation-evaluator/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/genai/detect-conversation-type/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/genai/insights-clustering/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/genai/playbook-recommendations/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/genai/process-mining-insights/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/genai/rpa-bot-generation/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/genai/voice-assist/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/grc/control-objective-management/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/grc/esg-document-intelligence/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/grc/issue-action-plan/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/grc/issue-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/grc/issue-validator/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/grc/regulatory-alert-analysis/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/grc/risk-assessment-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/grc/risk-event-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/grc/risk-identification/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/grc/suggest-remediation-tasks/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/grc/tprm-issue-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/hrsd/case-summarization-approvals/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/hrsd/case-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/hrsd/chat-reply-recommendation/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/hrsd/email-recommendation/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/hrsd/generate-talking-points/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/hrsd/health-safety-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/hrsd/interview-relevance/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/hrsd/kb-generation/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/hrsd/persona-assistant/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/hrsd/resume-skill-extraction/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/hrsd/sentiment-analysis/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/hrsd/sidebar-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/itom/alert-analysis/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/itom/alert-investigation/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/itom/health-log-analytics/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/itom/observability-integration/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/itom/service-mapping/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/itsm/case-auto-resolve/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/itsm/change-risk-explanation/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/itsm/chat-reply-recommendation/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/itsm/email-recommendation/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/itsm/incident-activity-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/itsm/incident-lifecycle/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/itsm/incident-sentiment/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/itsm/incident-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/itsm/incident-triage/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/itsm/kb-generation/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/itsm/major-incident-email/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/itsm/major-incident/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/itsm/natural-language-queries/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/itsm/predict-assignment/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/itsm/quick-reference/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/itsm/release-notes-generation/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/itsm/suggested-steps/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/knowledge/article-generation/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/knowledge/content-recommendation/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/knowledge/duplicate-detection/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/knowledge/gap-analysis/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/knowledge/gap-grouping/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/knowledge/kb-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/knowledge/knowledge-graph/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/legal/contract-analysis/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/legal/contract-metadata-extraction/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/legal/contract-obligation-extraction/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/legal/contracts-query-enhancer/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/legal/legal-matter-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/legal/legal-request-triage/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/otsm/ot-incident-resolution/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/otsm/ot-incident-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/procurement/invoice-management/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/procurement/procurement-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/procurement/purchase-order-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/procurement/sourcing-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/procurement/supplier-lifecycle-operations/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/procurement/supplier-recommendation/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/psds/chat-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/psds/government-case-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/reporting/executive-dashboard/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/reporting/sla-analysis/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/reporting/survey-analysis/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/reporting/trend-analysis/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/sam/product-compliance/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/sam/saas-user-resolution/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/secops/incident-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/secops/post-incident-analysis/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/secops/security-recommended-actions/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/secops/shift-handover/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/security/audit-compliance/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/spm/acceptance-criteria/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/spm/agile-story-generation/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/spm/cwm-doc-generation/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/spm/cwm-tasks-generation/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/spm/feedback-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/spm/planning-summarization/SKILL.md",
+        "version": "1.0.0"
+      },
+      {
+        "path": "skills/spm/project-insights/SKILL.md",
+        "version": "1.0.0"
+      }
+    ]
+  },
+  "semanticRewrite": {
+    "base": "c08c48a",
+    "skills": [
+      {
+        "path": "skills/cmdb/cmdb-search-analysis/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/csm/activity-response/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/csm/chat-recommendation/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/csm/email-recommendation/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/csm/kb-generation/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/csm/resolution-notes/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/csm/sidebar-summarization/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/csm/suggested-steps/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/fsm/kb-generation/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/genai/ai-lens/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/genai/detect-conversation-type/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/grc/control-objective-management/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/grc/issue-action-plan/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/grc/issue-summarization/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/grc/regulatory-alert-analysis/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/grc/risk-assessment-summarization/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/grc/tprm-issue-summarization/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/hrsd/chat-reply-recommendation/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/hrsd/email-recommendation/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/hrsd/generate-talking-points/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/hrsd/health-safety-summarization/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/itom/alert-investigation/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/itom/health-log-analytics/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/itsm/case-auto-resolve/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/itsm/chat-reply-recommendation/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/itsm/email-recommendation/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/itsm/incident-sentiment/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/itsm/incident-triage/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/itsm/kb-generation/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/itsm/predict-assignment/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/itsm/suggested-steps/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/knowledge/article-generation/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/knowledge/content-recommendation/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/knowledge/duplicate-detection/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/knowledge/kb-summarization/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/legal/contracts-query-enhancer/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/legal/legal-request-triage/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/procurement/supplier-recommendation/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/reporting/sla-analysis/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/reporting/trend-analysis/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/sam/product-compliance/SKILL.md",
+        "version": "1.0.1"
+      },
+      {
+        "path": "skills/security/audit-compliance/SKILL.md",
+        "version": "1.0.1"
+      }
+    ]
+  },
+  "qualityCorrections": {
+    "base": "4ee7b1e",
+    "skills": [
+      {
+        "path": "skills/csm/chat-recommendation/SKILL.md",
+        "version": "1.0.2"
+      },
+      {
+        "path": "skills/hrsd/health-safety-summarization/SKILL.md",
+        "version": "1.0.2"
+      },
+      {
+        "path": "skills/itsm/incident-sentiment/SKILL.md",
+        "version": "1.0.2"
+      }
+    ]
+  }
+}

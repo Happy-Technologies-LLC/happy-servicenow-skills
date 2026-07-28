@@ -1,6 +1,6 @@
 ---
 name: voice-assist
-version: 1.0.0
+version: 1.0.1
 description: Configure AI Voice Agents for ServiceNow including speech-to-text, intent recognition, voice-driven workflows, IVR integration, and conversational AI for voice channels
 author: Happy Technologies LLC
 tags: [genai, voice, conversational-ai, speech-to-text, ivr, intent, virtual-agent, telephony]
@@ -10,7 +10,7 @@ tools:
     - SN-Query-Table
     - SN-Create-Record
     - SN-Update-Record
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Execute-Background-Script
     - SN-Discover-Table-Schema
   rest:

@@ -1,6 +1,6 @@
 ---
 name: fsm-kb-generation
-version: 1.0.0
+version: 1.0.4
 description: Generate field service knowledge articles from completed work orders including repair procedures, parts lists, safety notes, and troubleshooting guides
 author: Happy Technologies LLC
 tags: [fsm, knowledge, work-order, repair, parts, safety, troubleshooting, field-service, kb]
@@ -9,8 +9,8 @@ tools:
   mcp:
     - SN-Query-Table
     - SN-Create-Record
-    - SN-Read-Record
-    - SN-NL-Search
+    - SN-Get-Record
+    - SN-Natural-Language-Search
   rest:
     - /api/now/table/wm_order
     - /api/now/table/wm_task
@@ -159,7 +159,7 @@ Get the equipment specifications relevant to the repair.
 
 **MCP Approach:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: alm_asset
   sys_id: [ASSET_SYS_ID]
@@ -167,7 +167,7 @@ Parameters:
 ```
 
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: cmdb_ci
   sys_id: [CI_SYS_ID]
@@ -189,10 +189,10 @@ Parameters:
 ```
 
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
-  query: "[equipment type] repair [symptom description]"
-  table: wm_order
+  query: 123TEXTQUERY321=[equipment type] repair [symptom description]
+  table_name: wm_order
   fields: number,short_description,close_notes
 ```
 
@@ -347,8 +347,8 @@ Parameters:
 |------|---------|-------------|
 | SN-Query-Table | Extract work order, task, parts, and journal data | Data collection from source WOs |
 | SN-Create-Record | Create the knowledge article | Article generation |
-| SN-Read-Record | Get specific asset or equipment details | Equipment specification lookup |
-| SN-NL-Search | Find similar work orders and existing KB articles | Pattern discovery and deduplication |
+| SN-Get-Record | Get specific asset or equipment details | Equipment specification lookup |
+| SN-Natural-Language-Search | Find similar work orders and existing KB articles | Pattern discovery and deduplication |
 
 ## Best Practices
 

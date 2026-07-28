@@ -1,6 +1,6 @@
 ---
 name: esg-document-intelligence
-version: 1.0.0
+version: 1.0.1
 description: Extract and analyze ESG data from utility invoices and sustainability reports, tracking carbon emissions, energy consumption, waste metrics, and disclosure compliance across ESG frameworks
 author: Happy Technologies LLC
 tags: [grc, esg, sustainability, carbon-emissions, energy, waste, disclosure, climate, environmental]
@@ -13,7 +13,7 @@ tools:
     - SN-Discover-Table-Schema
     - SN-Create-Record
     - SN-Update-Record
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/sn_esg_metric
     - /api/now/table/sn_esg_disclosure

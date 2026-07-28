@@ -1,6 +1,6 @@
 ---
 name: agent-miner
-version: 1.0.0
+version: 1.0.1
 description: Mine agent interactions to find automation opportunities by analyzing repetitive patterns, identifying common resolutions, and discovering handoff points for bot candidates
 author: Happy Technologies LLC
 tags: [genai, agent-miner, automation, virtual-agent, patterns, analytics, bot-candidates]
@@ -8,8 +8,8 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-Read-Record
-    - SN-NL-Search
+    - SN-Get-Record
+    - SN-Natural-Language-Search
     - SN-Get-Table-Schema
   rest:
     - /api/now/table/interaction
@@ -249,8 +249,8 @@ ESTIMATED ROI:
 | Tool | Purpose | When to Use |
 |------|---------|-------------|
 | SN-Query-Table | Bulk query interactions, incidents, requests | Pattern discovery across tables |
-| SN-Read-Record | Read individual conversation or incident details | Deep-dive on specific patterns |
-| SN-NL-Search | Natural language search for related patterns | Finding similar interactions |
+| SN-Get-Record | Read individual conversation or incident details | Deep-dive on specific patterns |
+| SN-Natural-Language-Search | Natural language search for related patterns | Finding similar interactions |
 | SN-Get-Table-Schema | Discover available fields on interaction tables | Initial exploration |
 
 ## Best Practices

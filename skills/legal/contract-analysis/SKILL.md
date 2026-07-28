@@ -1,15 +1,15 @@
 ---
 name: contract-analysis
-version: 1.0.0
+version: 1.0.1
 description: Analyze contracts for key terms, obligations, risks, renewal dates, and compliance requirements with metadata extraction and clause flagging
 author: Happy Technologies LLC
 tags: [legal, contract, analysis, risk, compliance, terms, renewal, legal-service-delivery]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Update-Record
     - SN-Add-Work-Notes
     - SN-Create-Record
@@ -60,7 +60,7 @@ Query the contract to obtain its core metadata and current status.
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: ast_contract
   sys_id: [contract_sys_id]
@@ -282,9 +282,9 @@ Content-Type: application/json
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Find contracts by vendor name, type, or description |
+| `SN-Natural-Language-Search` | Find contracts by vendor name, type, or description |
 | `SN-Query-Table` | Structured queries for contracts, cases, tasks, attachments |
-| `SN-Read-Record` | Retrieve a single contract or case by sys_id |
+| `SN-Get-Record` | Retrieve a single contract or case by sys_id |
 | `SN-Create-Record` | Create legal tasks for flagged clauses |
 | `SN-Update-Record` | Update contract risk level and review metadata |
 | `SN-Add-Work-Notes` | Post the analysis report to the legal case |

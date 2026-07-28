@@ -29,32 +29,32 @@ npm run validate
 
 ## Naming Rules
 
-Skill file names must follow these rules:
+Skill directory names must follow these rules:
 
-1. **Use lowercase kebab-case:** `incident-triage.md`, `contract-analysis.md`
-2. **No vendor or trademarked names:** Do not include platform vendor names in file names.
-   - Good: `incident-triage.md`
-   - Bad: `servicenow-incident-triage.md`
+1. **Use lowercase kebab-case directories:** `incident-triage/`, `contract-analysis/`
+2. **No vendor or trademarked names:** Do not include platform vendor names in directory names.
+   - Good: `incident-triage/`
+   - Bad: `servicenow-incident-triage/`
 3. **Describe the action, not the platform:** Focus on what the skill does.
-   - Good: `flow-generation.md`, `ai-search-rag.md`
-   - Bad: `now-assist-setup.md`
+   - Good: `flow-generation/`, `ai-search-rag/`
+   - Bad: `now-assist-setup/`
 4. **Keep it concise:** 2-4 words, max 40 characters.
 
 ## Frontmatter Fields
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| `name` | Yes | Skill identifier (matches filename without `.md`) |
-| `version` | Yes | Semantic version (e.g., `1.0.0`) |
-| `description` | Yes | One-line summary of the skill |
-| `author` | Yes | Your name or organization |
-| `tags` | Yes | Array of searchable tags |
-| `platforms` | Yes | Compatible AI platforms |
-| `tools.mcp` | No | MCP tools used by this skill |
-| `tools.rest` | No | REST API endpoints used |
-| `tools.native` | No | Native AI agent tools used |
-| `complexity` | Yes | `beginner`, `intermediate`, `advanced`, or `expert` |
-| `estimated_time` | Yes | Expected time range (e.g., `5-15 minutes`) |
+| Field | Status | Description |
+|-------|--------|-------------|
+| `name` | Required | Globally unique leaf slug, or `<category>-<leaf-slug>` when needed |
+| `version` | Required | Semantic version (e.g., `1.0.0`) |
+| `description` | Required | One-line summary of the skill |
+| `author` | Recommended | Your name or organization |
+| `tags` | Recommended | Nonempty array of lowercase kebab-case tags |
+| `platforms` | Recommended | Nonempty array of compatible AI platforms |
+| `tools.mcp` | Optional | MCP tools used by this skill |
+| `tools.rest` | Optional | REST API endpoints used |
+| `tools.native` | Optional | Native AI agent tools used |
+| `complexity` | Recommended | `beginner`, `intermediate`, `advanced`, or `expert` |
+| `estimated_time` | Recommended | Expected time range (e.g., `5-15 minutes`) |
 
 ## Required Sections
 

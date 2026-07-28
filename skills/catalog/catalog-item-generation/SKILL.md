@@ -1,6 +1,6 @@
 ---
 name: catalog-item-generation
-version: 1.0.0
+version: 1.0.1
 description: Generate catalog items from natural language descriptions including variables, workflows, and approval rules
 author: Happy Technologies LLC
 tags: [catalog, item-generation, service-catalog, variables, workflows, approval, automation]
@@ -10,7 +10,7 @@ tools:
     - SN-Query-Table
     - SN-Create-Record
     - SN-Update-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Discover-Table-Schema
     - SN-Execute-Background-Script
   rest:
@@ -356,7 +356,7 @@ Parameters:
 | `SN-Query-Table` | Query existing categories, items, variables, and approvals |
 | `SN-Create-Record` | Create new items, variables, choices, categories, and approval rules |
 | `SN-Update-Record` | Activate items, update configurations |
-| `SN-NL-Search` | Find existing similar items or categories by description |
+| `SN-Natural-Language-Search` | Find existing similar items or categories by description |
 | `SN-Discover-Table-Schema` | Explore field definitions for catalog tables |
 | `SN-Execute-Background-Script` | Batch-create variables, choices, and complex configurations |
 

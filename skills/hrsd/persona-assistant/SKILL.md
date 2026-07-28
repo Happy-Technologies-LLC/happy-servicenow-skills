@@ -1,6 +1,6 @@
 ---
 name: persona-assistant
-version: 1.0.0
+version: 1.0.1
 description: Provide persona-based HR assistance tailored to employee role, department, and history with routing to appropriate HR services and personalized policy guidance
 author: Happy Technologies LLC
 tags: [hrsd, persona, assistant, employee-experience, routing, policy, self-service]
@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Get-Record
     - SN-Create-Record
     - SN-Add-Work-Notes
@@ -330,7 +330,7 @@ Content-Type: application/json
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Retrieve profiles, services, policies, cases, COE configuration |
-| `SN-NL-Search` | Find relevant KB articles using natural language queries |
+| `SN-Natural-Language-Search` | Find relevant KB articles using natural language queries |
 | `SN-Get-Record` | Fetch detailed single records for specific lookups |
 | `SN-Create-Record` | Create HR cases with persona context pre-populated |
 | `SN-Add-Work-Notes` | Document persona classification and routing rationale |

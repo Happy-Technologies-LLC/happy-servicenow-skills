@@ -1,47 +1,51 @@
-# Migration Publish Steps
+# Legacy Package Compatibility Release
 
-Follow these steps in order to transition from `happy-servicenow-skills` to `happy-platform-skills` on npm.
+The original rename published `happy-platform-skills@2.0.0` and deprecated
+`happy-servicenow-skills@1.2.0`. The legacy loader export in 1.2.0 was invalid,
+so version 1.2.1 is a final compatibility repair.
 
-## Step 1: Publish `happy-platform-skills@2.0.0`
+The root npm package intentionally excludes this migration directory. Publishing
+`happy-platform-skills@2.4.0` does **not** publish the legacy repair.
 
-From the repo root:
+## Prerequisites
+
+1. Complete the root release procedure in `docs/RELEASING.md`.
+2. Confirm `happy-platform-skills@2.4.0` is available from npm.
+3. Check out the exact pushed root release tag with a clean worktree.
+
+## Verify the 1.2.1 shim
+
+From the repository root:
 
 ```bash
-npm publish
-```
-
-This publishes the main package under its new name.
-
-## Step 2: Publish the deprecation shim as `happy-servicenow-skills@1.2.0`
-
-```bash
+npm test -- --runInBand test/migration-shim.test.js
 cd migration/happy-servicenow-skills
-npm publish
+npm pack --dry-run
+npm publish --dry-run
 ```
 
-This publishes a final version of the old package that:
-- Depends on `happy-platform-skills@^2.0.0`
-- Re-exports everything from the new package
-- Prints a deprecation warning on import
-- Forwards the `sn-skills` CLI to the new `hps` CLI
+The tarball must report version 1.2.1 and include `index.js`, `loader.js`,
+`cli.js`, `README.md`, and `package.json`. The publish dry run must complete
+without npm metadata-correction warnings.
 
-## Step 3: Deprecate the old package on npm
+## Publish and deprecate
+
+From `migration/happy-servicenow-skills`:
 
 ```bash
-npm deprecate happy-servicenow-skills "This package has been renamed to happy-platform-skills. Run: npm install happy-platform-skills"
+npm whoami
+npm publish --access public
+npm deprecate happy-servicenow-skills@1.2.1 "Renamed to happy-platform-skills; install happy-platform-skills instead."
+npm view happy-servicenow-skills@1.2.1 version deprecated
 ```
 
-This adds a visible deprecation warning in `npm search`, `npm install`, and npmjs.com.
+This is a separate npm publish from the root package. Do not tag, push, or
+publish from this directory independently of the reviewed root release tag.
 
-## Step 4: Rename the GitHub repository
+## Supported compatibility surface
 
-1. Go to Settings on https://github.com/Happy-Technologies-LLC/happy-servicenow-skills
-2. Change the repository name to `happy-platform-skills`
-3. GitHub will automatically redirect the old URL to the new one
-
-## What existing users will see
-
-- **`npm install happy-servicenow-skills`** — Gets v1.2.0 (the shim), which pulls in `happy-platform-skills`. They see a deprecation warning in the terminal.
-- **`npm outdated`** — Shows the deprecation message.
-- **Existing `require`/`import` calls** — Continue to work via the shim's re-exports, with a console warning.
-- **`npx sn-skills`** — Still works (aliased in both old shim and new package), with a deprecation notice.
+- Root imports re-export `happy-platform-skills`.
+- `happy-servicenow-skills/loader` re-exports the current loader.
+- The legacy `sn-skills` CLI forwards through the current public CLI export.
+- Raw skill assets must be imported through `happy-platform-skills`; the old
+  package's raw `skills/*` target was never a valid Node.js export.

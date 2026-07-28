@@ -1,6 +1,6 @@
 ---
 name: audit-compliance
-version: 1.0.0
+version: 1.0.2
 description: Comprehensive audit trail analysis, user activity tracking, compliance reporting, and anomaly detection for ServiceNow environments
 author: Happy Technologies LLC
 tags: [security, audit, compliance, monitoring, anomaly-detection, soc, governance]
@@ -95,23 +95,23 @@ Parameters:
   limit: 100
 ```
 
-#### 1.2 Natural Language Audit Queries
+#### 1.2 Encoded Audit Queries
 
-**Using Natural Language Search:**
+**Using an encoded query:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: sys_audit
-  query: "show changes to admin user accounts in the last week"
+  query: tablename=sys_user^fieldnameINuser_name,roles,active,locked_out^newvalueLIKEadmin^sys_created_on>=javascript:gs.daysAgoStart(7)^NQtablename=sys_user^fieldnameINuser_name,roles,active,locked_out^oldvalueLIKEadmin^sys_created_on>=javascript:gs.daysAgoStart(7)
   limit: 50
 ```
 
 **Finding password changes:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: sys_audit
-  query: "password field changes in last 24 hours"
+  query: fieldnameLIKEpassword^sys_created_on>=javascript:gs.hoursAgo(24)
   limit: 100
 ```
 

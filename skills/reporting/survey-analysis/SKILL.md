@@ -1,6 +1,6 @@
 ---
 name: survey-analysis
-version: 1.0.0
+version: 1.0.1
 description: Analyze survey responses by aggregating scores, identifying trends, comparing across periods, and generating improvement recommendations
 author: Happy Technologies LLC
 tags: [reporting, survey, analysis, feedback, trends, assessment, satisfaction, metrics]
@@ -9,7 +9,7 @@ tools:
   mcp:
     - SN-Query-Table
     - SN-Get-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Execute-Background-Script
     - SN-Add-Work-Notes
   rest:
@@ -346,7 +346,7 @@ Parameters:
 |------|-------------|
 | `SN-Query-Table` | Query survey definitions, instances, questions, and responses |
 | `SN-Get-Record` | Retrieve specific survey or assessment details |
-| `SN-NL-Search` | Find surveys by keyword or description |
+| `SN-Natural-Language-Search` | Find surveys by keyword or description |
 | `SN-Execute-Background-Script` | Complex aggregations, trend analysis, segmentation |
 | `SN-Add-Work-Notes` | Post analysis reports to survey or assessment records |
 

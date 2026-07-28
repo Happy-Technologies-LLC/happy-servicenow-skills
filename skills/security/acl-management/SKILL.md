@@ -1,6 +1,6 @@
 ---
 name: acl-management
-version: 1.0.0
+version: 1.0.1
 description: Complete access control list management - understanding ACL structure, creating/modifying ACLs, troubleshooting permission issues, and debugging techniques
 author: Happy Technologies LLC
 tags: [security, acl, access-control, permissions, authorization, rbac]
@@ -585,7 +585,7 @@ Parameters:
   description: "Find users with dangerous role combinations"
 ```
 
-## ACL Best Practices
+## Best Practices
 
 ### Design Principles
 
@@ -761,7 +761,7 @@ Parameters:
 - `security/audit-compliance` - Auditing ACL changes
 - `security/incident-response` - Responding to access violations
 - `security/data-classification` - Identifying what needs protection
-- `admin/role-management` - Managing user roles
+- `admin/user-provisioning` - Managing user roles
 
 ## References
 

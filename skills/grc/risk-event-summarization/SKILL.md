@@ -1,6 +1,6 @@
 ---
 name: risk-event-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize risk events with impact assessment, affected controls, contributing factors, and recommended mitigation actions
 author: Happy Technologies LLC
 tags: [grc, risk, event, summarization, impact-assessment, mitigation, controls]
@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Execute-Background-Script
     - SN-Natural-Language-Search
     - SN-Discover-Table-Schema
@@ -73,7 +73,7 @@ Fetch the target risk event with full context fields.
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_risk_event
   sys_id: [EVENT_SYS_ID]
@@ -337,7 +337,7 @@ Parameters:
 
 | Operation | MCP Tool | REST Endpoint |
 |-----------|----------|---------------|
-| Read Event | SN-Read-Record | GET /api/now/table/sn_risk_event/{sys_id} |
+| Read Event | SN-Get-Record | GET /api/now/table/sn_risk_event/{sys_id} |
 | Query Events | SN-Query-Table | GET /api/now/table/sn_risk_event |
 | Query Controls | SN-Query-Table | GET /api/now/table/sn_compliance_control |
 | Query Risks | SN-Query-Table | GET /api/now/table/sn_grc_risk |

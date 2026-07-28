@@ -1,6 +1,6 @@
 ---
 name: multi-turn-ordering
-version: 1.0.0
+version: 1.0.1
 description: Configure multi-turn catalog ordering for conversational item selection, variable collection, and order placement via Virtual Agent
 author: Happy Technologies LLC
 tags: [catalog, multi-turn, ordering, virtual-agent, conversational, chatbot, natural-language, service-catalog]
@@ -10,7 +10,7 @@ tools:
     - SN-Query-Table
     - SN-Create-Record
     - SN-Update-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Execute-Background-Script
     - SN-Discover-Table-Schema
   rest:
@@ -370,7 +370,7 @@ Parameters:
 | `SN-Query-Table` | Query catalog items, variables, categories, topics |
 | `SN-Create-Record` | Create topics, topic details, and catalog configurations |
 | `SN-Update-Record` | Activate and publish topics, update item settings |
-| `SN-NL-Search` | Find catalog items matching natural language queries |
+| `SN-Natural-Language-Search` | Find catalog items matching natural language queries |
 | `SN-Execute-Background-Script` | Batch-create conversation nodes and test flows |
 | `SN-Discover-Table-Schema` | Explore Virtual Agent and catalog table schemas |
 

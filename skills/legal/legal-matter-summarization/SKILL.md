@@ -1,15 +1,15 @@
 ---
 name: legal-matter-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize legal matters with case timeline, key documents, parties involved, financial exposure, and recommended actions for legal leadership reporting
 author: Happy Technologies LLC
 tags: [legal, matter, summarization, case-timeline, reporting, legal-service-delivery]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Update-Record
     - SN-Add-Work-Notes
   rest:
@@ -58,7 +58,7 @@ Query the legal matter to obtain its core details, including current state, assi
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_legal_matter
   sys_id: [matter_sys_id]
@@ -282,9 +282,9 @@ Content-Type: application/json
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Find matters by natural language description |
+| `SN-Natural-Language-Search` | Find matters by natural language description |
 | `SN-Query-Table` | Structured queries for cases, tasks, holds, attachments |
-| `SN-Read-Record` | Retrieve a single matter record by sys_id |
+| `SN-Get-Record` | Retrieve a single matter record by sys_id |
 | `SN-Update-Record` | Update matter review date and notes |
 | `SN-Add-Work-Notes` | Post the executive summary to the matter record |
 
@@ -364,7 +364,7 @@ Content-Type: application/json
 
 **Analysis steps:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_legal_matter
   sys_id: abc789def...

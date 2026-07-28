@@ -1,15 +1,15 @@
 ---
 name: trending-topics
-version: 1.0.0
+version: 1.0.2
 description: Identify trending customer service topics by analyzing case patterns, channel distribution, and sentiment shifts across the CSM portfolio
 author: Happy Technologies LLC
 tags: [csm, trending, analytics, patterns, sentiment, channel-analysis, case-volume, reporting]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Execute-Background-Script
   rest:
     - /api/now/table/sn_customerservice_case
@@ -296,9 +296,9 @@ RECOMMENDATIONS:
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Semantic search across case descriptions for emerging keyword patterns |
+| `SN-Natural-Language-Search` | Semantic search across case descriptions for emerging keyword patterns |
 | `SN-Query-Table` | Structured aggregate queries for volume, channel, and priority analysis |
-| `SN-Read-Record` | Deep-dive into specific trending cases for root cause analysis |
+| `SN-Get-Record` | Deep-dive into specific trending cases for root cause analysis |
 | `SN-Execute-Background-Script` | Complex aggregation and statistical calculations across large datasets |
 
 ### REST API Reference
@@ -402,4 +402,4 @@ Escalation rate increase often correlates with negative sentiment shifts and can
 - `csm/sentiment-analysis` - Detailed sentiment analysis for trend correlation
 - `csm/sidebar-summarization` - Agent context for trending issue cases
 - `csm/kb-generation` - Generate KB articles for identified trending topics
-- `reporting/dashboard-generation` - Visualize trends on operational dashboards
+- `reporting/analytics-generation` - Visualize trends on operational dashboards

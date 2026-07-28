@@ -1,17 +1,17 @@
 ---
 name: legal-request-triage
-version: 1.0.0
+version: 1.0.2
 description: Triage incoming legal requests by classifying type, assigning priority based on urgency and business impact, and routing to the appropriate legal team
 author: Happy Technologies LLC
 tags: [legal, triage, request, routing, priority, legal-service-delivery]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
     - SN-Update-Record
     - SN-Add-Work-Notes
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/sn_legal_request
     - /api/now/table/sn_legal_case
@@ -56,10 +56,10 @@ Query for active legal requests that are in a new or unassigned state.
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: sn_legal_request
-  query: "new legal requests that are not yet assigned or triaged"
+  query: active=true^assigned_toISEMPTY^ORstate=1
   fields: number,short_description,description,state,priority,request_type,requested_by,opened_at,assignment_group,assigned_to
   limit: 25
 ```
@@ -82,7 +82,7 @@ For each request, analyze the short description and description fields to determ
 
 **Using MCP to retrieve request details:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_legal_request
   sys_id: [request_sys_id]
@@ -244,9 +244,9 @@ Parameters:
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Natural language queries for legal requests |
+| `SN-Natural-Language-Search` | Natural language queries for legal requests |
 | `SN-Query-Table` | Structured queries for requests, groups, users |
-| `SN-Read-Record` | Retrieve a single legal request by sys_id |
+| `SN-Get-Record` | Retrieve a single legal request by sys_id |
 | `SN-Update-Record` | Update request type, priority, assignment, state |
 | `SN-Add-Work-Notes` | Document triage decisions and rationale |
 

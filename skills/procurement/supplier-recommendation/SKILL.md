@@ -1,15 +1,15 @@
 ---
 name: supplier-recommendation
-version: 1.0.0
+version: 1.0.2
 description: Recommend suppliers based on historical performance, pricing competitiveness, compliance status, category expertise, scorecard analysis, and risk factors
 author: Happy Technologies LLC
 tags: [procurement, supplier, vendor, recommendation, scorecard, risk, performance]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/core_company
     - /api/now/table/proc_po
@@ -66,10 +66,10 @@ Parameters:
 
 For broader search by name:
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
-  query: "IT hardware suppliers in the United States"
-  table: core_company
+  query: vendor=true^vendor_type=IT Hardware^country=US^ORDERBYname
+  table_name: core_company
 ```
 
 **Using REST API:**
@@ -265,8 +265,8 @@ RANKED SUPPLIERS:
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Query vendors, POs, receipts, invoices, contracts, and bids |
-| `SN-NL-Search` | Natural language vendor search by category or capability |
-| `SN-Read-Record` | Retrieve full vendor profile by sys_id |
+| `SN-Natural-Language-Search` | Natural language vendor search by category or capability |
+| `SN-Get-Record` | Retrieve full vendor profile by sys_id |
 
 ### REST API Reference
 

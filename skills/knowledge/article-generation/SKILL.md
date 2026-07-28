@@ -1,6 +1,6 @@
 ---
 name: article-generation
-version: 1.0.0
+version: 1.0.2
 description: Generate knowledge articles from resolved incidents, problem records, and change implementations with proper KB structure including symptoms, cause, resolution, and related articles
 author: Happy Technologies LLC
 tags: [knowledge, article, generation, incident, problem, change, authoring, knowledge-management]
@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Create-Record
     - SN-Update-Record
     - SN-Add-Work-Notes
@@ -108,10 +108,10 @@ Before creating a new article, verify no existing article covers the same topic.
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: kb_knowledge
-  query: "published articles about Outlook calendar sync errors on mobile devices"
+  query: workflow_state=published^short_descriptionLIKEoutlook^short_descriptionLIKEcalendar^ORshort_descriptionLIKEsync
   fields: sys_id,number,short_description,kb_knowledge_base,kb_category,workflow_state,sys_updated_on
   limit: 10
 ```
@@ -315,7 +315,7 @@ Parameters:
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Retrieve source records, KB bases, categories |
-| `SN-NL-Search` | Check for existing articles on the topic |
+| `SN-Natural-Language-Search` | Check for existing articles on the topic |
 | `SN-Create-Record` | Create new KB article and link records |
 | `SN-Update-Record` | Update existing articles with new content |
 | `SN-Add-Work-Notes` | Document article creation on source records |

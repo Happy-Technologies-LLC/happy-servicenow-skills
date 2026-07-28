@@ -1,6 +1,6 @@
 ---
 name: detect-conversation-type
-version: 1.0.0
+version: 1.0.2
 description: Detect and classify conversation types including inquiry, complaint, request, feedback, and escalation. Route to appropriate handling workflows based on intent, sentiment, and urgency analysis
 author: Happy Technologies LLC
 tags: [genai, conversation, classification, intent-detection, routing, sentiment, virtual-agent, engagement]
@@ -10,7 +10,7 @@ tools:
     - SN-Query-Table
     - SN-Create-Record
     - SN-Update-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Get-Record
   rest:
     - /api/now/table/sys_cs_conversation
@@ -140,10 +140,10 @@ Some conversations contain multiple intents. Identify all:
 
 **MCP Approach:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
-  query: "laptop delivery delay complaint escalation"
-  table: sys_cb_topic
+  query: 123TEXTQUERY321=laptop delivery delay complaint escalation
+  table_name: sys_cb_topic
   limit: 10
 ```
 
@@ -322,7 +322,7 @@ Analyze misclassifications to identify patterns and update routing rules.
 | SN-Get-Record | Retrieve specific interaction details | Single conversation analysis |
 | SN-Create-Record | Create downstream records (cases, incidents) | Acting on classification |
 | SN-Update-Record | Enrich interaction with classification metadata | Recording classification results |
-| SN-NL-Search | Find matching topics or similar conversations | Topic routing and pattern matching |
+| SN-Natural-Language-Search | Find matching topics or similar conversations | Topic routing and pattern matching |
 
 ## Best Practices
 

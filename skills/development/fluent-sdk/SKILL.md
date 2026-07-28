@@ -1,6 +1,6 @@
 ---
 name: fluent-sdk
-version: 1.0.0
+version: 1.0.1
 description: Hybrid ServiceNow development using the three-tier approach - NowSDK Fluent for metadata-as-code, MCP REST for runtime operations, and fix scripts as manual fallback
 author: Happy Technologies LLC
 tags: [development, nowsdk, fluent, flows, scoped-apps, metadata-as-code, deployment, catalog, tables, business-rules]
@@ -647,6 +647,12 @@ wfa.flowLogic.assignSubflowOutputs({ $id }, params.outputs, { ... })
 | `trigger.record.updated` | Record updated |
 | `trigger.record.createdOrUpdated` | Record created or updated |
 | `trigger.record.deleted` | Record deleted |
+
+## Best Practices
+
+- Consult `vendor/now-sdk-explain.md` before writing Fluent metadata.
+- Keep generated metadata in source control and review the resulting platform changes.
+- Use the tier decision matrix to avoid mixing deployment models without a clear need.
 
 ## Troubleshooting
 

@@ -1,9 +1,9 @@
 ---
 name: app-generation
-version: 1.0.0
+version: 1.0.1
 description: Generate ServiceNow scoped applications from requirements including tables, forms, ACLs, and business logic
 author: Happy Technologies LLC
-tags: [genai, app-generation, scoped-app, sys_scope, sys_app, sys_metadata, tables, acl, business-logic]
+tags: [genai, app-generation, scoped-app, sys-scope, sys-app, sys-metadata, tables, acl, business-logic]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:

@@ -1,6 +1,6 @@
 ---
 name: alert-analysis
-version: 1.0.0
+version: 1.0.1
 description: Analyze operational alerts including severity assessment, pattern recognition, noise reduction, alert correlation, grouping, suppression rules, and root cause indicators
 author: Happy Technologies LLC
 tags: [itom, alerts, event-management, correlation, noise-reduction, severity, operations]
@@ -10,7 +10,7 @@ tools:
     - SN-Query-Table
     - SN-Get-Record
     - SN-Update-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Execute-Background-Script
   rest:
     - /api/now/table/em_alert
@@ -262,7 +262,7 @@ Parameters:
 | `SN-Query-Table` | Query alerts, events, suppression rules |
 | `SN-Get-Record` | Retrieve single alert detail |
 | `SN-Update-Record` | Acknowledge, close, or update alerts |
-| `SN-NL-Search` | Natural language alert search |
+| `SN-Natural-Language-Search` | Natural language alert search |
 | `SN-Execute-Background-Script` | Aggregation, pattern analysis, CI enrichment |
 
 ### REST API Reference

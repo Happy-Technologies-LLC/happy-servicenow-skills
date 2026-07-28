@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "package": "happy-platform-mcp",
+  "version": "5.1.0",
+  "source": "src/natural-language.js",
+  "scope": "Atomic phrases that parse completely in MCP 5.1.0",
+  "supported": [
+    { "query": "high priority", "table": "incident", "encodedQuery": "priority=2", "unmatchedText": "" },
+    { "query": "P1", "table": "incident", "encodedQuery": "priority=1", "unmatchedText": "" },
+    { "query": "priority 2", "table": "incident", "encodedQuery": "priority=2", "unmatchedText": "" },
+    { "query": "high impact", "table": "incident", "encodedQuery": "impact=1", "unmatchedText": "" },
+    { "query": "medium urgency", "table": "incident", "encodedQuery": "urgency=2", "unmatchedText": "" },
+    { "query": "assigned to me", "table": "incident", "encodedQuery": "assigned_to=javascript:gs.getUserID()", "unmatchedText": "" },
+    { "query": "unassigned", "table": "incident", "encodedQuery": "assigned_toISEMPTY", "unmatchedText": "" },
+    { "query": "assigned to John Smith", "table": "incident", "encodedQuery": "assigned_to.nameLIKEJohn Smith", "unmatchedText": "" },
+    { "query": "opened today", "table": "incident", "encodedQuery": "sys_created_on>javascript:gs.daysAgoStart(0)", "unmatchedText": "" },
+    { "query": "opened in the last 7 days", "table": "incident", "encodedQuery": "sys_created_on>javascript:gs.daysAgo(7)", "unmatchedText": "" },
+    { "query": "recent", "table": "change_request", "encodedQuery": "sys_created_on>javascript:gs.daysAgo(7)", "unmatchedText": "" },
+    { "query": "active", "table": "incident", "encodedQuery": "active=true", "unmatchedText": "" },
+    { "query": "description contains authentication", "table": "incident", "encodedQuery": "descriptionLIKEauthentication", "unmatchedText": "" },
+    { "query": "about SAP", "table": "incident", "encodedQuery": "short_descriptionLIKESAP^ORdescriptionLIKESAP", "unmatchedText": "" },
+    { "query": "number is INC0012345", "table": "incident", "encodedQuery": "number=INC0012345", "unmatchedText": "" },
+    { "query": "caller is John Smith", "table": "incident", "encodedQuery": "caller_id.nameLIKEJohn Smith", "unmatchedText": "" },
+    { "query": "category is Software", "table": "incident", "encodedQuery": "categoryLIKESoftware", "unmatchedText": "" },
+    { "query": "assignment group is Network Team", "table": "incident", "encodedQuery": "assignment_group.nameLIKENetwork Team", "unmatchedText": "" }
+  ],
+  "precisionOnly": [
+    { "query": "priority is 1", "table": "incident", "observedEncodedQuery": "", "observedUnmatchedText": "priority is 1" },
+    { "query": "state not equals Closed", "table": "incident", "observedEncodedQuery": "7", "observedUnmatchedText": "state not equals" },
+    { "query": "description starts with Error", "table": "incident", "observedEncodedQuery": "short_descriptionLIKEError^ORdescriptionLIKEError", "observedUnmatchedText": "description starts" },
+    { "query": "assigned to is empty", "table": "incident", "observedEncodedQuery": "assigned_to.nameLIKEis empty", "observedUnmatchedText": "" },
+    { "query": "P1 or P2", "table": "incident", "observedEncodedQuery": "priority=1", "observedUnmatchedText": "P2" },
+    { "query": "sort by priority descending", "table": "incident", "observedEncodedQuery": "", "observedUnmatchedText": "sort by priority descending" }
+  ]
+}

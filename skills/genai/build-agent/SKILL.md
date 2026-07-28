@@ -1,6 +1,6 @@
 ---
 name: build-agent
-version: 1.0.0
+version: 1.0.1
 description: Build custom AI agents for ServiceNow including agent capabilities, knowledge sources, tool access, conversational flows, and guardrails
 author: Happy Technologies LLC
 tags: [genai, agent, virtual-agent, ai, chatbot, conversational, now-assist, skills]
@@ -11,7 +11,7 @@ tools:
     - SN-Create-Record
     - SN-Update-Record
     - SN-Get-Table-Schema
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/sys_cs_topic
     - /api/now/table/sys_cs_topic_goal
@@ -397,7 +397,7 @@ Parameters:
 | SN-Create-Record | Create topics, intents, entities, and actions | Building agent components |
 | SN-Update-Record | Modify agent settings, publish topics | Configuration and deployment |
 | SN-Get-Table-Schema | Discover topic and intent table structures | Initial setup |
-| SN-Read-Record | Get detailed record for specific topic or intent | Reviewing existing configurations |
+| SN-Get-Record | Get detailed record for specific topic or intent | Reviewing existing configurations |
 
 ## Best Practices
 

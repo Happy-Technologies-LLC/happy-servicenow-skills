@@ -1,6 +1,6 @@
 ---
 name: workflow-creation
-version: 1.0.0
+version: 1.0.1
 description: Programmatic workflow creation via API/MCP - build complete workflows without the UI editor
 author: Happy Technologies LLC
 tags: [admin, workflow, automation, approval, scripting, advanced]
@@ -1079,9 +1079,9 @@ SN-Create-Activity:
 ## Related Skills
 
 - `admin/update-set-management` - Capture workflows in update sets
-- `admin/scoped-app-development` - Workflows in scoped applications
+- `admin/application-scope` - Workflows in scoped applications
 - `itsm/change-management` - Change request workflows
-- `itsm/incident-management` - Incident handling workflows
+- `itsm/incident-lifecycle` - Incident handling workflows
 
 ## References
 

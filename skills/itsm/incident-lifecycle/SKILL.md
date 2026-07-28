@@ -1,6 +1,6 @@
 ---
 name: incident-lifecycle
-version: 1.0.0
+version: 1.0.2
 description: Complete incident lifecycle management from creation through resolution and closure
 author: Happy Technologies LLC
 tags: [itsm, incident, lifecycle, resolution, closure, itil]
@@ -9,7 +9,7 @@ tools:
   mcp:
     - SN-Create-Incident
     - SN-Get-Incident
-    - SN-Update-Incident
+    - SN-Update-Record
     - SN-Assign-Incident
     - SN-Resolve-Incident
     - SN-Close-Incident
@@ -289,7 +289,7 @@ Parameters:
 - `itsm/incident-triage` - Initial triage process
 - `itsm/major-incident` - P1 incident handling
 - `itsm/problem-analysis` - Root cause analysis
-- `admin/sla-management` - SLA tracking
+- `reporting/sla-analysis` - SLA tracking
 
 ## References
 

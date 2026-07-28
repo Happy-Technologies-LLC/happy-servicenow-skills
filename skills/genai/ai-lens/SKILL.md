@@ -1,7 +1,7 @@
 ---
 name: ai-lens
-version: 1.0.0
-description: ServiceNow AI Lens that analyzes records in context, surfaces related information, generates insights from patterns, and recommends actions from any list or form view across ITSM, CSM, HRSD, and platform tables
+version: 1.0.3
+description: "Analyze records in context, surface related information, identify patterns, and recommend actions across enterprise platform tables."
 author: Happy Technologies LLC
 tags: [genai, ai-lens, insights, recommendations, context-analysis, record-analysis, patterns, actions, cross-module]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
@@ -9,7 +9,7 @@ tools:
   mcp:
     - SN-Query-Table
     - SN-Get-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Update-Record
     - SN-Get-Table-Schema
   rest:
@@ -112,10 +112,10 @@ Parameters:
 
 **Related Knowledge Articles:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
-  query: "<short_description>"
-  table: kb_knowledge
+  query: workflow_state=published^123TEXTQUERY321=<short_description>
+  table_name: kb_knowledge
   limit: 5
 ```
 
@@ -404,7 +404,7 @@ Priority Actions:
 |------|---------|-------------|
 | SN-Get-Record | Retrieve target record details | Initial context gathering |
 | SN-Query-Table | Fetch related records, history, patterns | Cross-module data retrieval |
-| SN-NL-Search | Find knowledge articles by similarity | Knowledge recommendation |
+| SN-Natural-Language-Search | Find knowledge articles by similarity | Knowledge recommendation |
 | SN-Update-Record | Save lens insights to record | Persisting recommendations |
 | SN-Get-Table-Schema | Discover available fields and references | Understanding record structure |
 

@@ -1,6 +1,6 @@
 ---
 name: approval-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize approval requests with context including what is being requested, who is requesting, business justification, and similar past approvals
 author: Happy Technologies LLC
 tags: [catalog, approval, summarization, employee-experience, approver, request, context, decision-support]
@@ -9,7 +9,7 @@ tools:
   mcp:
     - SN-Query-Table
     - SN-Get-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Execute-Background-Script
     - SN-Add-Work-Notes
   rest:
@@ -343,7 +343,7 @@ Parameters:
 |------|-------------|
 | `SN-Query-Table` | Query approvals, requests, items, variables, and user profiles |
 | `SN-Get-Record` | Retrieve individual approval or request records |
-| `SN-NL-Search` | Find requests or items by description keywords |
+| `SN-Natural-Language-Search` | Find requests or items by description keywords |
 | `SN-Execute-Background-Script` | Batch analysis, historical patterns, digest generation |
 | `SN-Add-Work-Notes` | Post approval summaries to approval or request records |
 

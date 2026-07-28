@@ -1,6 +1,6 @@
 ---
 name: update-set-management
-version: 1.0.0
+version: 1.0.1
 description: Complete update set lifecycle management - creation, tracking, validation, and deployment
 author: Happy Technologies LLC
 tags: [admin, update-set, deployment, migration, development]
@@ -321,7 +321,7 @@ Tool: SN-Get-Current-Update-Set
 ## Related Skills
 
 - `admin/deployment-workflow` - Full deployment process
-- `admin/scoped-app-development` - Scoped application best practices
+- `admin/application-scope` - Scoped application best practices
 - `itsm/change-management` - Change process for deployments
 
 ## References

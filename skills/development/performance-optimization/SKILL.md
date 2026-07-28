@@ -1,6 +1,6 @@
 ---
 name: performance-optimization
-version: 1.0.0
+version: 1.0.1
 description: Comprehensive guide to identifying and resolving ServiceNow performance bottlenecks including GlideRecord optimization, query tuning, index management, caching strategies, and profiling techniques
 author: Happy Technologies LLC
 tags: [development, performance, optimization, scripting, best-practices, gliderecord, indexing, caching]
@@ -1025,7 +1025,7 @@ while (hasMore) {
 3. Reduce visible columns
 4. Use list v3 for better performance
 
-## Best Practices Summary
+## Best Practices
 
 | Practice | Impact | Difficulty |
 |----------|--------|------------|

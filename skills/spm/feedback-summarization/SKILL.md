@@ -1,6 +1,6 @@
 ---
 name: feedback-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize feedback from retrospectives, sprint reviews, and stakeholder surveys to identify themes and action items
 author: Happy Technologies LLC
 tags: [spm, feedback, retrospective, sprint-review, summarization, themes, action-items, agile, continuous-improvement]
@@ -9,7 +9,7 @@ tools:
   mcp:
     - SN-Query-Table
     - SN-Get-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Create-Record
     - SN-Execute-Background-Script
     - SN-Add-Work-Notes
@@ -368,7 +368,7 @@ GET /api/now/table/rm_story?sysparm_query=classification=Improvement^epic=[impro
 |------|-------------|
 | `SN-Query-Table` | Query sprints, stories, assessments, and journal entries |
 | `SN-Get-Record` | Retrieve specific sprint or assessment details |
-| `SN-NL-Search` | Find feedback by keyword or topic description |
+| `SN-Natural-Language-Search` | Find feedback by keyword or topic description |
 | `SN-Create-Record` | Create action items as improvement stories |
 | `SN-Execute-Background-Script` | Aggregate metrics, categorize themes, batch analysis |
 | `SN-Add-Work-Notes` | Post summary reports to sprint or project records |

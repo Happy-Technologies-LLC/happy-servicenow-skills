@@ -1,6 +1,6 @@
 ---
 name: health-log-analytics
-version: 1.0.0
+version: 1.0.2
 description: Health log analytics for anomaly detection, capacity planning, performance trending, log source configuration, and threshold management in ServiceNow ITOM
 author: Happy Technologies LLC
 tags: [itom, health-log-analytics, anomaly-detection, capacity-planning, performance, metrics, thresholds, hla]
@@ -12,7 +12,7 @@ tools:
     - SN-Create-Record
     - SN-Update-Record
     - SN-Execute-Background-Script
-    - SN-NL-Search
+    - SN-Natural-Language-Search
   rest:
     - /api/now/table/em_alert
     - /api/now/table/sa_metric_definition
@@ -313,7 +313,7 @@ Content-Type: application/json
 | `SN-Create-Record` | Create new thresholds, log sources, or metric definitions |
 | `SN-Update-Record` | Tune thresholds or update log source configuration |
 | `SN-Execute-Background-Script` | Capacity analysis, trending reports, bulk validation |
-| `SN-NL-Search` | Natural language queries like "servers with CPU anomalies" |
+| `SN-Natural-Language-Search` | Natural language queries like "servers with CPU anomalies" |
 
 ### REST API Reference
 
@@ -410,10 +410,10 @@ Parameters:
 ### Example 3: Weekly Performance Summary
 
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: em_alert
-  query: "critical health log analytics alerts created in the last 7 days"
+  query: severity=1^source=Health Log Analytics^sys_created_on>=javascript:gs.daysAgoStart(7)
   fields: number,ci,severity,metric_name,description,sys_created_on
   limit: 25
 ```

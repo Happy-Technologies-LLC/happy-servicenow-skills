@@ -1,17 +1,17 @@
 ---
 name: client-scripts
-version: 1.0.0
+version: 1.0.2
 description: Complete guide to ServiceNow client script development including onLoad, onChange, onSubmit, onCellEdit types, g_form API, GlideAjax server calls, and performance optimization
 author: Happy Technologies LLC
-tags: [development, client-scripts, scripting, client-side, forms, g_form, glide-ajax, mobile]
+tags: [development, client-scripts, scripting, client-side, forms, g-form, glide-ajax, mobile]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Create-Record
     - SN-Update-Record
     - SN-Query-Table
+    - SN-Get-Record
     - SN-Get-Table-Schema
-    - SN-Sync-Script-To-Local
   rest:
     - /api/now/table/sys_script_client
     - /api/now/table/sys_ui_script
@@ -1121,7 +1121,7 @@ function onLoad() {
 | Create Script Include | SN-Create-Record | sys_script_include |
 | Create UI Script | SN-Create-Record | sys_ui_script |
 | Get Schema | SN-Get-Table-Schema | Any table |
-| Sync to Local | SN-Sync-Script-To-Local | For version control |
+| Local edit cycle | SN-Get-Record + SN-Update-Record | Pull, freshness check, edit, push |
 
 ## Best Practices
 
@@ -1134,7 +1134,7 @@ function onLoad() {
 - **Error Handling:** Wrap risky code in try-catch blocks
 - **Console Logging:** Use for development, remove in production
 - **Mobile Testing:** Test scripts with ui_type=10 on actual devices
-- **Version Control:** Use SN-Sync-Script-To-Local for code management
+- **Version Control:** Pull `script`, `sys_updated_on`, and `sys_mod_count` with `SN-Get-Record`; edit locally; freshness-check again; then push the reviewed field with `SN-Update-Record`
 
 ## Troubleshooting
 

@@ -1,13 +1,13 @@
 ---
 name: chat-summarization-va
-version: 1.0.0
+version: 1.0.1
 description: Summarize virtual agent chat sessions with topic classification, resolution status, handoff context, and actionable insights for agent productivity
 author: Happy Technologies LLC
 tags: [genai, virtual-agent, chat, summarization, topic-classification, handoff, conversation]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
     - SN-Update-Record
     - SN-Add-Work-Notes
@@ -266,7 +266,7 @@ Produce aggregate metrics:
 | Tool | Purpose | When to Use |
 |------|---------|-------------|
 | `SN-Query-Table` | Retrieve conversations, messages, context, topics | Core data gathering |
-| `SN-NL-Search` | Find conversations by natural language criteria | Ad-hoc investigation |
+| `SN-Natural-Language-Search` | Find conversations by natural language criteria | Ad-hoc investigation |
 | `SN-Update-Record` | Store summaries on conversation records | Persisting results |
 | `SN-Add-Work-Notes` | Document summaries as work notes | Audit trail |
 | `SN-Get-Table-Schema` | Discover conversation table structures | Setup and exploration |

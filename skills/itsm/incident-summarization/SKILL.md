@@ -1,6 +1,6 @@
 ---
 name: itsm-incident-summarization
-version: 1.0.0
+version: 1.0.3
 description: Generate comprehensive incident summaries with timeline, impact assessment, actions taken, and resolution details
 author: Happy Technologies LLC
 tags: [itsm, incident, summarization, timeline, impact, resolution, reporting, itil]
@@ -10,7 +10,7 @@ tools:
     - SN-Query-Table
     - SN-Get-Record
     - SN-Update-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Add-Work-Notes
     - SN-Execute-Background-Script
   rest:
@@ -305,7 +305,7 @@ Parameters:
 |------|-------------|
 | `SN-Get-Record` | Retrieve full incident record |
 | `SN-Query-Table` | Query journal entries, audit trail, related records, affected CIs |
-| `SN-NL-Search` | Find similar incidents or related knowledge |
+| `SN-Natural-Language-Search` | Find similar incidents or related knowledge |
 | `SN-Update-Record` | Update close notes with summary |
 | `SN-Add-Work-Notes` | Post summary as work note |
 | `SN-Execute-Background-Script` | Generate comprehensive multi-source summaries |

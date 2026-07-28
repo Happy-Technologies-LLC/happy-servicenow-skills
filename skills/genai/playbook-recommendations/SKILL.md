@@ -1,6 +1,6 @@
 ---
 name: playbook-recommendations
-version: 1.0.0
+version: 1.0.1
 description: Recommend relevant playbooks based on case or incident context by matching issue patterns to existing playbooks, scoring relevance, and suggesting customizations for better fit
 author: Happy Technologies LLC
 tags: [genai, playbooks, process-automation, recommendations, incident, case, pattern-matching, automation]
@@ -9,7 +9,7 @@ tools:
   mcp:
     - SN-Query-Table
     - SN-Get-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Update-Record
   rest:
     - /api/now/table/sys_pd_playbook
@@ -300,7 +300,7 @@ Parameters:
 |------|---------|-------------|
 | SN-Query-Table | Fetch playbooks, execution history, incidents | Primary data retrieval and analysis |
 | SN-Get-Record | Retrieve specific incident or case details | Getting source record context |
-| SN-NL-Search | Find playbooks by description similarity | When category matching is insufficient |
+| SN-Natural-Language-Search | Find playbooks by description similarity | When category matching is insufficient |
 | SN-Update-Record | Link recommended playbook to record | Recording the recommendation |
 
 ## Best Practices

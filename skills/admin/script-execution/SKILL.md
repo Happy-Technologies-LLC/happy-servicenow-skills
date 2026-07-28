@@ -1,9 +1,9 @@
 ---
 name: script-execution
-version: 1.0.0
+version: 1.0.1
 description: Safe background script execution patterns including automated execution via sys_trigger, fix script generation, error handling, and logging best practices
 author: Happy Technologies LLC
-tags: [admin, scripts, automation, sys_trigger, fix-scripts, debugging, development]
+tags: [admin, scripts, automation, sys-trigger, fix-scripts, debugging, development]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:

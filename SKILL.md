@@ -1,149 +1,113 @@
 ---
 name: happy-platform-skills
-version: 2.2.0
+version: 2.4.0
 author: Happy Technologies LLC
-description: Reusable development patterns and automation recipes for enterprise platforms - 180+ skills across 23 categories
+description: Reusable enterprise platform instructions - 184 skills across 23 categories with a versioned Happy Platform MCP v5.1 contract
 tags:
   - platform-skills
+  - servicenow
   - itsm
-  - itil
   - cmdb
-  - incident-management
-  - change-management
   - development
   - enterprise
+platforms:
+  - claude-code
+  - claude-desktop
+  - chatgpt
+  - cursor
+  - any
 ---
 
 # Happy Platform Skills
 
-A comprehensive library of reusable development patterns and automation recipes for enterprise platforms. Current coverage focuses on the ServiceNow® platform. Works with Claude Code, Claude Desktop, ChatGPT, Cursor, and any agentic AI system.
+Use this root skill to discover the Happy Platform Skills catalog. The package
+contains 184 task-specific skills across 23 categories. Load the narrowest
+matching `skills/<category>/<name>/SKILL.md` file before performing work.
 
 ## When to use this skill
 
-Use these skills when you need to:
-- "help me triage incidents"
-- "create a change request"
-- "write a business rule for incident assignment"
-- "set up a catalog item with approval workflow"
-- "query CMDB relationships"
-- "debug a client script"
-- "manage update sets and deployments"
+Use the catalog for ServiceNow administration, development, IT service
+management, customer and employee workflows, operations, security, governance,
+reporting, and related enterprise-platform tasks.
 
-## Available Skill Categories
+## Catalog
 
-### ITSM (7 skills)
-- **incident-triage** - Automated incident classification and prioritization
-- **incident-lifecycle** - End-to-end incident management workflow
-- **major-incident** - P1/Major incident coordination
-- **problem-analysis** - Root cause analysis and known error management
-- **change-management** - RFC creation, CAB, implementation, PIR
-- **natural-language-queries** - Plain English ServiceNow searches
-- **quick-reference** - Common operations cheat sheet
+| Category | Skills |
+|---|---:|
+| admin | 16 |
+| catalog | 9 |
+| cmdb | 6 |
+| csm | 10 |
+| development | 20 |
+| document | 3 |
+| ea | 2 |
+| fsm | 3 |
+| genai | 19 |
+| grc | 11 |
+| hrsd | 12 |
+| itom | 5 |
+| itsm | 19 |
+| knowledge | 7 |
+| legal | 6 |
+| otsm | 2 |
+| procurement | 6 |
+| psds | 2 |
+| reporting | 6 |
+| sam | 2 |
+| secops | 7 |
+| security | 4 |
+| spm | 7 |
+| **Total** | **184** |
 
-### Development (14 skills)
-- **business-rules** - Server-side automation scripts
-- **client-scripts** - Form manipulation and validation
-- **script-includes** - Reusable server-side libraries
-- **glide-api-reference** - GlideRecord, GlideAggregate, GlideDateTime
-- **debugging-techniques** - Script debugger, logging, troubleshooting
-- **notifications** - Email notifications, events, templates
-- **ui-actions** - Buttons, context menus, client/server actions
-- **scheduled-jobs** - Automated recurring tasks
-- **data-import** - Import sets and transform maps
-- **scripted-rest-apis** - Custom REST endpoints
-- **automated-testing** - ATF and script testing
-- **performance-optimization** - Script optimization techniques
-- **mcp-server-installation** - Install and connect Happy Platform MCP
-- **fluent-sdk** - Hybrid ServiceNow development with NowSDK Fluent and MCP
+Discover exact skill names with:
 
-### Administration (12 skills)
-- **update-set-management** - Configuration tracking and deployment
-- **deployment-workflow** - Instance-to-instance migration
-- **batch-operations** - Bulk record operations
-- **script-execution** - Background script patterns
-- **script-sync** - Local development workflow
-- **user-provisioning** - User lifecycle management
-- **workflow-creation** - Programmatic workflow building
-- **schema-discovery** - Table and field exploration
-- **instance-management** - Multi-instance operations
-- **application-scope** - Scoped app development
-- **configuration-validation** - Catalog item validation
-- **generic-crud-operations** - Universal table operations
+```bash
+npx hps list
+npx hps search "incident"
+```
 
-### Service Catalog (5 skills)
-- **request-fulfillment** - End-to-end request processing
-- **item-creation** - Catalog item setup
-- **approval-workflows** - Approval configuration
-- **variable-management** - Form variables and options
-- **ui-policies** - Dynamic form behavior
+Load one skill with:
 
-### CMDB (4 skills)
-- **ci-discovery** - Configuration item management
-- **relationship-mapping** - CI relationships and dependencies
-- **impact-analysis** - Service impact assessment
-- **data-quality** - CMDB health and validation
+```bash
+npx hps load itsm/incident-triage
+```
 
-### Security (4 skills)
-- **incident-response** - Security incident handling
-- **acl-management** - Access control configuration
-- **audit-compliance** - Compliance monitoring
-- **data-classification** - Data sensitivity management
+## Happy Platform MCP v5.1 contract
 
-### Reporting (3 skills)
-- **sla-analysis** - SLA performance metrics
-- **executive-dashboard** - KPI dashboards
-- **trend-analysis** - Historical trend reporting
+The bundled contract contains exactly 55 live MCP tools. Docs-only startup
+exposes exactly six docs-only tools: the five documentation tools plus
+`SN-Register-Instance`.
+
+Use only tool names present in the bundled versioned contracts under
+`contracts/`. Prefer live MCP tools for ServiceNow operations. Use background
+script execution only when the live MCP contract cannot express the operation.
 
 ## Installation
 
 ```bash
-# Install all skills
+# npm package and CLI
+npm install happy-platform-skills
+
+# Agent skill discovery from GitHub
 npx skills add Happy-Technologies-LLC/happy-platform-skills --all --full-depth
-
-# Install single skill
-npx skills add Happy-Technologies-LLC/happy-platform-skills --full-depth -s "business-rules"
 ```
 
-## Usage with npm
+## Package API
 
-```bash
-# Install globally
-npm install -g happy-platform-skills
+```javascript
+import { SkillLoader, SkillRegistry } from 'happy-platform-skills';
 
-# Search skills
-npx hps search "incident"
+const registry = new SkillRegistry();
+await registry.discover();
 
-# Load skill content
-npx hps load itsm/incident-triage
-
-# Validate skills
-npx hps validate
+const skill = await SkillLoader.load('itsm/incident-triage');
+console.log(skill.getInstructions());
+console.log(skill.toPrompt());
 ```
-
-## Skill Format
-
-Each skill includes:
-- **Overview** - What the skill does and when to use it
-- **Prerequisites** - Required roles and knowledge
-- **Procedure** - Step-by-step instructions with MCP tool examples
-- **Best Practices** - ITIL-aligned recommendations
-- **Troubleshooting** - Common issues and solutions
-- **Related Skills** - Cross-references to related content
-
-## MCP Tool Coverage
-
-These skills provide full parity with the platform MCP Server tools:
-- Query and CRUD operations (SN-Query-Table, SN-Create-Record, etc.)
-- Update set management (SN-Set-Update-Set, SN-Clone-Update-Set)
-- Script execution (SN-Execute-Background-Script)
-- Natural language interface (SN-NL-Search, SN-NL-Query-Builder)
-- Batch operations (SN-Batch-Create, SN-Batch-Update)
-- Workflow creation (SN-Create-Workflow, SN-Create-Activity)
-- And 35+ more tools
 
 ## Contributing
 
-See [CREATING_SKILLS.md](docs/CREATING_SKILLS.md) for contribution guidelines.
+See `docs/CREATING_SKILLS.md` and `docs/SKILL_SPEC.md`.
 
 ## License
 

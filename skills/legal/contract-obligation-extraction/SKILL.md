@@ -1,15 +1,15 @@
 ---
 name: contract-obligation-extraction
-version: 1.0.0
+version: 1.0.1
 description: Extract obligations from contract documents including deadlines, deliverables, payment terms, SLA commitments, and termination conditions with compliance tracking
 author: Happy Technologies LLC
 tags: [legal, contract, obligation, extraction, compliance, tracking, deadlines, legal-service-delivery]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Update-Record
     - SN-Add-Work-Notes
     - SN-Create-Record
@@ -59,7 +59,7 @@ Fetch the contract metadata and associated document attachments.
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: ast_contract
   sys_id: [contract_sys_id]
@@ -371,9 +371,9 @@ Content-Type: application/json
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Find contracts by vendor, type, or obligation keywords |
+| `SN-Natural-Language-Search` | Find contracts by vendor, type, or obligation keywords |
 | `SN-Query-Table` | Query contracts, tasks, terms, and attachments |
-| `SN-Read-Record` | Retrieve a specific contract record |
+| `SN-Get-Record` | Retrieve a specific contract record |
 | `SN-Create-Record` | Create obligation tracking tasks |
 | `SN-Update-Record` | Update contract metadata and task status |
 | `SN-Add-Work-Notes` | Document the obligation register and compliance reports |

@@ -366,25 +366,7 @@ Parameters:
 
 ### Native Tools (Claude Code)
 
-For REST API access without MCP:
-
-```bash
-# Query records
-curl -u "username:password" \
-  "https://instance.service-now.com/api/now/table/incident?sysparm_query=active=true&sysparm_limit=10"
-
-# Create record
-curl -X POST -u "username:password" \
-  -H "Content-Type: application/json" \
-  -d '{"short_description":"Test incident"}' \
-  "https://instance.service-now.com/api/now/table/incident"
-
-# Update record
-curl -X PATCH -u "username:password" \
-  -H "Content-Type: application/json" \
-  -d '{"state":"2"}' \
-  "https://instance.service-now.com/api/now/table/incident/abc123..."
-```
+Use the MCP tools above as the primary path. Raw REST is a last resort only when an operation is unavailable through MCP. In that case, rely on an organization-approved local credential helper that is already configured outside the conversation. Never ask the user to paste authentication material, embed it in a command, or generate a request containing authentication headers. Preserve the same schema checks, field selection, pagination, ACLs, and explicit instance targeting used by the MCP workflow.
 
 ## Best Practices
 

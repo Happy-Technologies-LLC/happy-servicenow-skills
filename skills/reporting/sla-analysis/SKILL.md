@@ -1,6 +1,6 @@
 ---
 name: sla-analysis
-version: 1.0.0
+version: 1.0.2
 description: SLA performance tracking including breach detection, achievement metrics, and trend analysis
 author: Happy Technologies LLC
 tags: [reporting, sla, performance, metrics, breach, compliance, itil]
@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Get-Record
   rest:
     - /api/now/table/task_sla
@@ -206,7 +206,7 @@ Parameters:
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Primary tool for querying task_sla and contract_sla tables |
-| `SN-NL-Search` | Natural language queries like "show breached SLAs this week" |
+| `SN-Natural-Language-Search` | Natural language queries like "show breached SLAs this week" |
 | `SN-Get-Record` | Get details of specific SLA record |
 
 ### REST API Reference
@@ -265,10 +265,10 @@ Parameters:
 
 **Step 1: Get breach summary**
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: task_sla
-  query: "active SLAs that have breached"
+  query: active=true^has_breached=true
   fields: task,sla,percentage,business_time_left
   limit: 20
 ```

@@ -1,15 +1,15 @@
 ---
 name: document-extraction
-version: 1.0.0
+version: 1.0.2
 description: Extract structured data from documents (invoices, forms, contracts) using ServiceNow Document Intelligence with extraction template configuration and validation rules
 author: Happy Technologies LLC
 tags: [document, extraction, intelligence, ocr, invoice, forms, templates, validation]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Update-Record
     - SN-Add-Work-Notes
     - SN-Create-Record
@@ -347,9 +347,9 @@ Content-Type: application/json
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Find extraction records or templates by description |
+| `SN-Natural-Language-Search` | Find extraction records or templates by description |
 | `SN-Query-Table` | Query templates, extractions, results, and field mappings |
-| `SN-Read-Record` | Retrieve a specific extraction or template record |
+| `SN-Get-Record` | Retrieve a specific extraction or template record |
 | `SN-Create-Record` | Create templates, field mappings, and extraction requests |
 | `SN-Update-Record` | Update extraction status, validate results, correct data |
 | `SN-Add-Work-Notes` | Document extraction outcomes and processing notes |
@@ -463,4 +463,4 @@ Parameters:
 - `legal/contract-analysis` - Analyze extracted contract data for risks and terms
 - `legal/contract-obligation-extraction` - Extract obligations from contract documents
 - `procurement/invoice-management` - Process extracted invoice data through AP workflows
-- `admin/data-import` - Bulk import extracted data into ServiceNow tables
+- `development/data-import` - Bulk import extracted data into ServiceNow tables

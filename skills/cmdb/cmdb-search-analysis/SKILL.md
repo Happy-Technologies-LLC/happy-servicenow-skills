@@ -1,6 +1,6 @@
 ---
 name: cmdb-search-analysis
-version: 1.0.0
+version: 1.0.2
 description: Analyze CMDB search requests, interpret natural language CI queries, and provide structured search results with relationships and dependency context
 author: Happy Technologies LLC
 tags: [cmdb, search, analysis, ci, natural-language, query, relationships, discovery]
@@ -10,7 +10,7 @@ tools:
     - SN-Query-Table
     - SN-List-CmdbCis
     - SN-Get-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Discover-Table-Schema
     - SN-Execute-Background-Script
   rest:
@@ -88,12 +88,12 @@ GET /api/now/cmdb/meta?sysparm_type=class_hierarchy&sysparm_ci_type=cmdb_ci
 
 Translate the natural language request into a ServiceNow encoded query string.
 
-**Using natural language search:**
+**Using an encoded query:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
-  query: "production Linux servers in the New York datacenter with critical business classification"
-  tables: cmdb_ci_server
+  query: environment=production^osLIKELinux^location.nameLIKENew York^business_criticality=1
+  table_name: cmdb_ci_server
   limit: 25
 ```
 
@@ -301,7 +301,7 @@ GET /api/now/table/cmdb_ci?sysparm_query=nameLIKEpayment^operational_status=1&sy
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Translate natural language queries into CMDB searches |
+| `SN-Natural-Language-Search` | Translate natural language queries into CMDB searches |
 | `SN-Query-Table` | Execute structured queries against CMDB tables |
 | `SN-List-CmdbCis` | Convenience tool for common CI lookups by class |
 | `SN-Get-Record` | Retrieve a single CI record by sys_id |
@@ -389,10 +389,10 @@ Parameters:
 
 ```
 # 1. Find the payroll application CI
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
-  query: "payroll application"
-  tables: cmdb_ci_appl
+  query: nameLIKEpayroll^ORshort_descriptionLIKEpayroll
+  table_name: cmdb_ci_appl
   limit: 5
 
 # 2. Find downstream database dependencies

@@ -1,6 +1,6 @@
 ---
 name: executive-dashboard
-version: 1.0.0
+version: 1.0.1
 description: Executive KPI generation including MTTR, MTBF, resolution rates, and report data aggregation
 author: Happy Technologies LLC
 tags: [reporting, kpi, executive, metrics, mttr, mtbf, dashboard, analytics]
@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Execute-Background-Script
   rest:
     - /api/now/table/incident
@@ -275,7 +275,7 @@ Parameters:
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Primary tool for querying metrics data |
-| `SN-NL-Search` | Natural language queries for quick insights |
+| `SN-Natural-Language-Search` | Natural language queries for quick insights |
 | `SN-Execute-Background-Script` | Complex aggregations using GlideAggregate |
 
 ### REST API Reference

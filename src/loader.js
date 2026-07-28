@@ -4,8 +4,8 @@
  * @author Happy Technologies LLC
  */
 
-import { readFile } from 'fs/promises';
-import { join, dirname } from 'path';
+import { readFile, realpath } from 'fs/promises';
+import { join, dirname, isAbsolute, relative, resolve, sep } from 'path';
 import { fileURLToPath } from 'url';
 import matter from 'gray-matter';
 
@@ -19,16 +19,27 @@ export class SkillLoader {
    * @returns {Promise<Skill>} Parsed skill object
    */
   static async load(skillPath) {
-    const fullPath = join(SKILLS_DIR, skillPath, 'SKILL.md');
-    const legacyPath = join(SKILLS_DIR, `${skillPath}.md`);
+    if (typeof skillPath !== 'string' || !/^[a-z0-9][a-z0-9-]*\/[a-z0-9][a-z0-9-]*$/.test(skillPath)) {
+      throw new Error('Invalid skill path: expected "category/skill-name" using lowercase letters, numbers, and hyphens');
+    }
+
+    const fullPath = resolve(SKILLS_DIR, skillPath, 'SKILL.md');
+    const legacyPath = resolve(SKILLS_DIR, `${skillPath}.md`);
+    const skillsRoot = `${resolve(SKILLS_DIR)}${sep}`;
+
+    if (!fullPath.startsWith(skillsRoot) || !legacyPath.startsWith(skillsRoot)) {
+      throw new Error('Invalid skill path: path must remain inside the skills directory');
+    }
+
+    const canonicalSkillsDir = await realpath(SKILLS_DIR);
 
     try {
-      const content = await readFile(fullPath, 'utf-8');
+      const content = await this.readContained(fullPath, canonicalSkillsDir);
       return this.parse(content, skillPath);
     } catch (error) {
       if (error.code === 'ENOENT') {
         try {
-          const content = await readFile(legacyPath, 'utf-8');
+          const content = await this.readContained(legacyPath, canonicalSkillsDir);
           return this.parse(content, skillPath);
         } catch (legacyError) {
           if (legacyError.code === 'ENOENT') {
@@ -39,6 +50,17 @@ export class SkillLoader {
       }
       throw error;
     }
+  }
+
+  static async readContained(candidatePath, canonicalSkillsDir) {
+    const canonicalPath = await realpath(candidatePath);
+    const relativePath = relative(canonicalSkillsDir, canonicalPath);
+
+    if (relativePath === '..' || relativePath.startsWith(`..${sep}`) || isAbsolute(relativePath)) {
+      throw new Error('Invalid skill path: canonical target is outside the skills directory');
+    }
+
+    return readFile(canonicalPath, 'utf-8');
   }
 
   /**
@@ -102,7 +124,7 @@ export class SkillLoader {
       },
 
       toPrompt() {
-        return `# ${this.name}\n\n${this.description}\n\n## Procedure\n${this.procedure}\n\n## Best Practices\n${this.bestPractices}`;
+        return this.rawContent.trim();
       }
     };
   }

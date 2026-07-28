@@ -1,15 +1,15 @@
 ---
 name: procurement-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize procurement cases including vendor communications, approval status, spend analysis, pipeline reports, and bottleneck identification
 author: Happy Technologies LLC
 tags: [procurement, summarization, spend-analysis, pipeline, procurement-case, reporting]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/sn_proc_case
     - /api/now/table/proc_po
@@ -237,8 +237,8 @@ KEY OBSERVATIONS:
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Query cases, POs, requisitions, invoices, and approvals |
-| `SN-NL-Search` | Natural language searches (e.g., "show all procurement cases from last week") |
-| `SN-Read-Record` | Retrieve a single case or PO record by sys_id |
+| `SN-Natural-Language-Search` | Natural language searches (e.g., "show all procurement cases from last week") |
+| `SN-Get-Record` | Retrieve a single case or PO record by sys_id |
 
 ### REST API Reference
 

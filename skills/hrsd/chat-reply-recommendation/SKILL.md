@@ -1,6 +1,6 @@
 ---
 name: hrsd-chat-reply-recommendation
-version: 1.0.0
+version: 1.0.4
 description: Generate recommended replies for HR agents handling employee inquiries via chat, considering HR policies, case history, and confidentiality requirements
 author: Happy Technologies LLC
 tags: [hrsd, chat, reply, recommendation, agent-assist, hr-policy, confidentiality]
@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Get-Record
     - SN-Add-Work-Notes
   rest:
@@ -133,10 +133,10 @@ Find applicable policy documents and knowledge articles based on the inquiry top
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
-  query: [employee_inquiry_topic]
-  table: kb_knowledge
+  query: workflow_state=published^kb_knowledge_base.titleLIKEHR^123TEXTQUERY321=[employee_inquiry_topic]
+  table_name: kb_knowledge
   limit: 5
 ```
 
@@ -233,7 +233,7 @@ Parameters:
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Retrieve conversations, messages, cases, profiles, KB articles |
-| `SN-NL-Search` | Natural language search for relevant knowledge articles |
+| `SN-Natural-Language-Search` | Natural language search for relevant knowledge articles |
 | `SN-Get-Record` | Fetch a single record by sys_id for detailed review |
 | `SN-Add-Work-Notes` | Log recommendation details on the case record |
 

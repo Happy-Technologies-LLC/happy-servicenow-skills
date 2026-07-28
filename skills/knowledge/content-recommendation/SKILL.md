@@ -1,6 +1,6 @@
 ---
 name: content-recommendation
-version: 1.0.0
+version: 1.0.2
 description: Recommend relevant knowledge articles based on incident or case context by matching keywords, categories, and historical resolution patterns to surface the most useful articles
 author: Happy Technologies LLC
 tags: [knowledge, recommendation, incident, case, search, matching, knowledge-management]
@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Update-Record
     - SN-Add-Work-Notes
   rest:
@@ -106,10 +106,10 @@ Extract key terms from the incident short description and description, then sear
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: kb_knowledge
-  query: "published articles about VPN connection timeout error when connecting to corporate network"
+  query: workflow_state=published^short_descriptionLIKEvpn^ORtextLIKEvpn^short_descriptionLIKEtimeout^ORtextLIKEtimeout^short_descriptionLIKEconnection^ORtextLIKEconnection
   fields: sys_id,number,short_description,text,kb_knowledge_base,kb_category,sys_view_count,rating
   limit: 15
 ```
@@ -251,7 +251,7 @@ Parameters:
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Structured queries for incidents, articles, usage data |
-| `SN-NL-Search` | Natural language search for topic-based article discovery |
+| `SN-Natural-Language-Search` | Natural language search for topic-based article discovery |
 | `SN-Update-Record` | Attach recommended articles to incidents/cases |
 | `SN-Add-Work-Notes` | Document recommendation rationale |
 

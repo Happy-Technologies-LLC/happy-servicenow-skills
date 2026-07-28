@@ -1,9 +1,9 @@
 ---
 name: metrics-analysis
-version: 1.0.0
+version: 1.0.1
 description: Analyze security operations metrics including MTTD, MTTR, incident volume trends, false positive rates, and analyst workload distribution
 author: Happy Technologies LLC
-tags: [secops, metrics, MTTD, MTTR, KPI, analytics, performance, soc-metrics]
+tags: [secops, metrics, mttd, mttr, kpi, analytics, performance, soc-metrics]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:

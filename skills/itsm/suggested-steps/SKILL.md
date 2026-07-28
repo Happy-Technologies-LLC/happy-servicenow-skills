@@ -1,13 +1,13 @@
 ---
 name: itsm-suggested-steps
-version: 1.0.0
+version: 1.0.4
 description: Generate suggested resolution steps for incidents based on category, symptoms, historical similar tickets, and knowledge base articles
 author: Happy Technologies LLC
 tags: [itsm, incident, resolution, suggested-steps, knowledge-base, similar-tickets, troubleshooting]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
     - SN-Update-Record
     - SN-Add-Work-Notes
@@ -81,10 +81,10 @@ Query published KB articles matching the incident's symptoms and category.
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: kb_knowledge
-  query: "[incident short_description keywords] [category]"
+  query: workflow_state=published^active=true^short_descriptionLIKE[keyword1]^ORshort_descriptionLIKE[keyword2]^ORtextLIKE[keyword1]
   fields: sys_id,number,short_description,text,kb_category,rating,sys_view_count,workflow_state
   limit: 10
 ```
@@ -270,7 +270,7 @@ Track metrics:
 
 | Tool | Purpose | When to Use |
 |------|---------|-------------|
-| `SN-NL-Search` | Natural language search for KB articles and incidents | Symptom-based discovery |
+| `SN-Natural-Language-Search` | Natural language search for KB articles and incidents | Symptom-based discovery |
 | `SN-Query-Table` | Structured queries for incidents, KB, changes, problems | Core data gathering |
 | `SN-Update-Record` | Update incident with resolution steps | Applying suggestions |
 | `SN-Add-Work-Notes` | Post resolution plan as work notes | Agent guidance |

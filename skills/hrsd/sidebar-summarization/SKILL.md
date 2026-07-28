@@ -1,6 +1,6 @@
 ---
-name: hr-sidebar-summarization
-version: 1.0.0
+name: hrsd-sidebar-summarization
+version: 1.0.3
 description: Generate sidebar discussion summaries for HR cases with key decision points, stakeholder input, and next actions
 author: Happy Technologies LLC
 tags: [hrsd, summarization, sidebar, discussion, decisions, next-actions, hr-cases, collaboration]
@@ -10,7 +10,7 @@ tools:
     - SN-Query-Table
     - SN-Get-Record
     - SN-Update-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Add-Work-Notes
     - SN-Execute-Background-Script
   rest:
@@ -277,7 +277,7 @@ Parameters:
 |------|-------------|
 | `SN-Get-Record` | Retrieve HR case header details |
 | `SN-Query-Table` | Query journal entries, audit trail, related tasks |
-| `SN-NL-Search` | Natural language queries for case context |
+| `SN-Natural-Language-Search` | Natural language queries for case context |
 | `SN-Update-Record` | Update case with summary or state changes |
 | `SN-Add-Work-Notes` | Post the summary as a work note |
 | `SN-Execute-Background-Script` | Generate comprehensive summaries from multiple data sources |

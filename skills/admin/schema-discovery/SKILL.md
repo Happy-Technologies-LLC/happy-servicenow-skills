@@ -1,6 +1,6 @@
 ---
 name: schema-discovery
-version: 1.0.0
+version: 1.0.1
 description: Explore and understand ServiceNow table schemas, field definitions, and relationships
 author: Happy Technologies LLC
 tags: [admin, schema, tables, discovery, metadata, development]
@@ -469,8 +469,8 @@ Parameters:
 
 - `admin/update-set-management` - Managing update sets during development
 - `admin/batch-operations` - Creating multiple records using schema knowledge
-- `development/business-rule-creation` - Writing scripts that use discovered fields
-- `integration/rest-api-integration` - Building integrations based on schema
+- `development/business-rules` - Writing scripts that use discovered fields
+- `development/scripted-rest-apis` - Building integrations based on schema
 
 ## References
 

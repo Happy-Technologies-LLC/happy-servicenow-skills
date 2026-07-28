@@ -22,6 +22,7 @@ export class SkillRegistry {
       byComplexity: new Map()
     };
     this.discovered = false;
+    this.discoveryPromise = null;
   }
 
   /**
@@ -29,6 +30,28 @@ export class SkillRegistry {
    * @returns {Promise<void>}
    */
   async discover() {
+    if (this.discoveryPromise) {
+      return this.discoveryPromise;
+    }
+
+    this.discoveryPromise = this.discoverOnce();
+
+    try {
+      await this.discoveryPromise;
+    } finally {
+      this.discoveryPromise = null;
+    }
+  }
+
+  async discoverOnce() {
+    const nextSkills = new Map();
+    const nextIndex = {
+      byTag: new Map(),
+      byCategory: new Map(),
+      byPlatform: new Map(),
+      byComplexity: new Map()
+    };
+
     const categories = await readdir(SKILLS_DIR, { withFileTypes: true });
 
     for (const category of categories) {
@@ -51,34 +74,30 @@ export class SkillRegistry {
           continue;
         }
 
-        try {
-          const content = await readFile(fullPath, 'utf-8');
-          const { data: frontmatter } = matter(content);
+        const content = await readFile(fullPath, 'utf-8');
+        const { data: frontmatter } = matter(content);
 
-          const fallbackName = item.isDirectory() ? item.name : item.name.replace('.md', '');
-          const skillInfo = {
-            path: skillPath,
-            name: frontmatter.name || fallbackName,
-            description: frontmatter.description || '',
-            version: frontmatter.version || '1.0.0',
-            author: frontmatter.author || 'Unknown',
-            tags: frontmatter.tags || [],
-            platforms: frontmatter.platforms || ['any'],
-            complexity: frontmatter.complexity || 'intermediate',
-            category: category.name,
-            tools: frontmatter.tools || {}
-          };
+        const fallbackName = item.isDirectory() ? item.name : item.name.replace('.md', '');
+        const skillInfo = {
+          path: skillPath,
+          name: frontmatter.name || fallbackName,
+          description: frontmatter.description || '',
+          version: frontmatter.version || '1.0.0',
+          author: frontmatter.author || 'Unknown',
+          tags: frontmatter.tags || [],
+          platforms: frontmatter.platforms || ['any'],
+          complexity: frontmatter.complexity || 'intermediate',
+          category: category.name,
+          tools: frontmatter.tools || {}
+        };
 
-          this.skills.set(skillPath, skillInfo);
-          this.indexSkill(skillInfo);
-        } catch (error) {
-          if (error.code !== 'ENOENT') {
-            console.warn(`Warning: Could not parse skill ${skillPath}: ${error.message}`);
-          }
-        }
+        nextSkills.set(skillPath, skillInfo);
+        this.indexSkill(skillInfo, nextIndex);
       }
     }
 
+    this.skills = nextSkills;
+    this.index = nextIndex;
     this.discovered = true;
   }
 
@@ -86,34 +105,34 @@ export class SkillRegistry {
    * Index a skill for fast lookup
    * @param {Object} skill - Skill info object
    */
-  indexSkill(skill) {
+  indexSkill(skill, index = this.index) {
     // Index by tags
     for (const tag of skill.tags) {
-      if (!this.index.byTag.has(tag)) {
-        this.index.byTag.set(tag, []);
+      if (!index.byTag.has(tag)) {
+        index.byTag.set(tag, []);
       }
-      this.index.byTag.get(tag).push(skill.path);
+      index.byTag.get(tag).push(skill.path);
     }
 
     // Index by category
-    if (!this.index.byCategory.has(skill.category)) {
-      this.index.byCategory.set(skill.category, []);
+    if (!index.byCategory.has(skill.category)) {
+      index.byCategory.set(skill.category, []);
     }
-    this.index.byCategory.get(skill.category).push(skill.path);
+    index.byCategory.get(skill.category).push(skill.path);
 
     // Index by platform
     for (const platform of skill.platforms) {
-      if (!this.index.byPlatform.has(platform)) {
-        this.index.byPlatform.set(platform, []);
+      if (!index.byPlatform.has(platform)) {
+        index.byPlatform.set(platform, []);
       }
-      this.index.byPlatform.get(platform).push(skill.path);
+      index.byPlatform.get(platform).push(skill.path);
     }
 
     // Index by complexity
-    if (!this.index.byComplexity.has(skill.complexity)) {
-      this.index.byComplexity.set(skill.complexity, []);
+    if (!index.byComplexity.has(skill.complexity)) {
+      index.byComplexity.set(skill.complexity, []);
     }
-    this.index.byComplexity.get(skill.complexity).push(skill.path);
+    index.byComplexity.get(skill.complexity).push(skill.path);
   }
 
   /**

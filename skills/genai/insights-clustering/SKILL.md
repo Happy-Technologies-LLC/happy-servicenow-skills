@@ -1,6 +1,6 @@
 ---
 name: insights-clustering
-version: 1.0.0
+version: 1.0.1
 description: Cluster and analyze insights from incidents, conversations, and cases grouping by topic, sentiment, and resolution pattern to generate actionable POV summaries
 author: Happy Technologies LLC
 tags: [genai, insights, clustering, analytics, sentiment, incidents, cases, patterns, trends, nlp]
@@ -8,8 +8,8 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-Read-Record
-    - SN-NL-Search
+    - SN-Get-Record
+    - SN-Natural-Language-Search
     - SN-Create-Record
   rest:
     - /api/now/table/incident
@@ -386,8 +386,8 @@ Parameters:
 | Tool | Purpose | When to Use |
 |------|---------|-------------|
 | SN-Query-Table | Extract incident, case, and interaction data | Primary data collection |
-| SN-Read-Record | Get detailed record for deep analysis | Investigating specific records |
-| SN-NL-Search | Find related records by description similarity | Cross-referencing patterns |
+| SN-Get-Record | Get detailed record for deep analysis | Investigating specific records |
+| SN-Natural-Language-Search | Find related records by description similarity | Cross-referencing patterns |
 | SN-Create-Record | Create problem records from cluster findings | Acting on insights |
 
 ## Best Practices

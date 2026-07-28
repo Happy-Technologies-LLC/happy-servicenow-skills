@@ -1,15 +1,15 @@
 ---
 name: ot-incident-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize OT incidents with affected device inventory, safety impact analysis, containment status, and operational continuity assessment for industrial environments
 author: Happy Technologies LLC
 tags: [otsm, ot, incident, summarization, safety, devices, containment, industrial]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/sn_ot_incident
     - /api/now/table/sn_ot_vulnerability
@@ -53,7 +53,7 @@ Fetch the primary incident record with safety and operational fields.
 
 **Using MCP:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_ot_incident
   sys_id: [INCIDENT_SYS_ID]
@@ -81,7 +81,7 @@ Retrieve all OT devices affected by or related to the incident.
 
 **Using MCP:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: cmdb_ci_ot_device
   sys_id: [AFFECTED_CI_SYS_ID]
@@ -255,9 +255,9 @@ REGULATORY CONSIDERATIONS:
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Natural language searches (e.g., "show critical OT incidents this week") |
+| `SN-Natural-Language-Search` | Natural language searches (e.g., "show critical OT incidents this week") |
 | `SN-Query-Table` | Structured queries for incidents, devices, vulnerabilities |
-| `SN-Read-Record` | Retrieve specific records by sys_id |
+| `SN-Get-Record` | Retrieve specific records by sys_id |
 
 ### REST API Reference
 

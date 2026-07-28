@@ -1,13 +1,13 @@
 ---
 name: release-notes-generation
-version: 1.0.0
+version: 1.0.1
 description: Generate release notes from change requests, stories, and defects for a given release window with categorization, impact summaries, and stakeholder-ready formatting
 author: Happy Technologies LLC
 tags: [itsm, release-notes, change-request, release-management, documentation, stories, defects]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
     - SN-Update-Record
     - SN-Add-Work-Notes
@@ -322,7 +322,7 @@ Parameters:
 | Tool | Purpose | When to Use |
 |------|---------|-------------|
 | `SN-Query-Table` | Retrieve changes, stories, defects, release data | Core data gathering |
-| `SN-NL-Search` | Find related items using natural language | Supplementary discovery |
+| `SN-Natural-Language-Search` | Find related items using natural language | Supplementary discovery |
 | `SN-Create-Record` | Publish release notes as KB article | Documentation |
 | `SN-Update-Record` | Update release record with notes status | Tracking and audit |
 | `SN-Add-Work-Notes` | Document generation process | Audit trail |

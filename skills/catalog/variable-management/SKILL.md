@@ -1,9 +1,9 @@
 ---
 name: variable-management
-version: 1.0.0
+version: 1.0.1
 description: Complete guide to catalog variables including all types, reference qualifiers, cascading variables, and UI policies
 author: Happy Technologies LLC
-tags: [catalog, variables, item_option_new, question_choice, ui-policy, service-catalog]
+tags: [catalog, variables, item-option-new, question-choice, ui-policy, service-catalog]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
@@ -927,7 +927,7 @@ Parameters:
 - `catalog/item-creation` - Creating complete catalog items
 - `catalog/approval-workflows` - Approval configuration
 - `catalog/request-fulfillment` - Processing submitted requests
-- `admin/client-script-development` - Dynamic form behavior
+- `development/client-scripts` - Dynamic form behavior
 
 ## References
 

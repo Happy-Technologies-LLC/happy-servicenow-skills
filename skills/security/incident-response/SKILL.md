@@ -1,6 +1,6 @@
 ---
 name: incident-response
-version: 1.0.0
+version: 1.0.1
 description: Security incident detection, containment, and response procedures for ServiceNow environments
 author: Happy Technologies LLC
 tags: [security, incident-response, soc, threat, containment]
@@ -324,7 +324,7 @@ Parameters:
 
 - `security/audit-compliance` - Compliance checking
 - `itsm/major-incident` - Major incident handling
-- `admin/acl-management` - Access control
+- `security/acl-management` - Access control
 
 ## References
 

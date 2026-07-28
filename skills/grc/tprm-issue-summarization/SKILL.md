@@ -1,6 +1,6 @@
 ---
 name: tprm-issue-summarization
-version: 1.0.0
+version: 1.0.2
 description: Summarize Third-Party Risk Management issues including vendor risk exposure, assessment gaps, remediation status, and compliance impact across the TPRM lifecycle
 author: Happy Technologies LLC
 tags: [grc, tprm, vendor-risk, third-party, assessment, remediation, compliance, risk-exposure]
@@ -11,7 +11,7 @@ tools:
     - SN-Natural-Language-Search
     - SN-Execute-Background-Script
     - SN-Discover-Table-Schema
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Add-Work-Notes
   rest:
     - /api/now/table/sn_tprm_assessment
@@ -289,10 +289,10 @@ Search for issues with regulatory or compliance implications.
 
 **Using MCP:**
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: sn_tprm_issue
-  query: "third-party vendor issues related to data privacy, GDPR, SOC 2, regulatory compliance, or security controls"
+  query: 123TEXTQUERY321=data privacy GDPR SOC 2 regulatory compliance security controls
   limit: 30
 ```
 
@@ -382,10 +382,10 @@ Verify the vendor reference field name. Some configurations use `entity` or `com
 **Scenario:** VP of Risk needs a portfolio-wide TPRM summary for the quarterly committee meeting.
 
 ```
-Tool: SN-Natural-Language-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: sn_tprm_issue
-  query: "all open third-party risk issues with critical or high priority updated in the last quarter"
+  query: active=true^priorityIN1,2^sys_updated_on>=javascript:gs.monthsAgoStart(3)
   limit: 50
 ```
 

@@ -1,13 +1,15 @@
 ---
 name: instance-management
-version: 1.0.0
-description: Manage multiple ServiceNow instances including switching between dev/test/prod environments
+version: 1.1.1
+description: Manage and safely route Happy Platform MCP v5.1 operations across ServiceNow instances
 author: Happy Technologies LLC
 tags: [admin, instance, multi-instance, environment, configuration]
 platforms: [claude-code, claude-desktop, cursor, any]
 tools:
-  mcp: [SN-Query-Table, SN-Get-Current-Instance, SN-List-Instances]
-  rest: [/api/now/table/sys_properties]
+  mcp: [SN-Set-Instance, SN-Get-Current-Instance, SN-Query-Table, SN-Create-Record, SN-Update-Record]
+  cli:
+    - happy-platform-mcp instance list
+    - happy-platform-mcp instance test
   native: [Bash, Read]
 complexity: intermediate
 estimated_time: 5-10 minutes
@@ -17,395 +19,128 @@ estimated_time: 5-10 minutes
 
 ## Overview
 
-Multi-instance management is essential for ServiceNow development workflows that span development, testing, and production environments. This skill covers safely switching between instances, verifying current context, and following best practices for environment-specific operations.
-
-- **What problem does it solve?** Prevents accidental changes to wrong environments and ensures proper instance targeting for all operations
-- **Who should use this skill?** ServiceNow administrators, developers, and integrators working across multiple instances
-- **What are the expected outcomes?** Safe, reliable instance switching with verification and proper isolation of environment-specific changes
+Happy Platform MCP v5.1 separates persistent registration from runtime routing. Local CLI commands manage a metadata-only user registry and keychain-backed credentials. MCP tools select a target for the current session or for one explicit call. This separation prevents one workflow from accidentally redirecting another.
 
 ## Prerequisites
 
-- Required ServiceNow roles: `admin` or `itil` (varies by operation)
-- MCP server configured with multiple instances in `config/servicenow-instances.json`
-- Network access to all target instances
-- Valid credentials for each instance
-- Related skills: `admin/update-set-management` (for update set operations after switching)
+- Happy Platform MCP v5.1 configured through `development/mcp-server-installation`
+- One or more instances added with the local interactive CLI
+- Appropriate ServiceNow roles for the intended read or write
 
 ## Procedure
 
-### Step 1: List Available Instances
+### Step 1: Inspect Registered Instances
 
-First, identify all configured instances and their current status.
+For local configuration inspection, prefer:
 
-**Using MCP tools:**
-```
-Tool: SN-List-Instances
-Parameters: (none required)
-```
-
-**Expected Response:**
-```json
-{
-  "instances": [
-    {
-      "name": "dev",
-      "url": "https://dev12345.service-now.com",
-      "default": true,
-      "status": "connected"
-    },
-    {
-      "name": "test",
-      "url": "https://test12345.service-now.com",
-      "default": false,
-      "status": "available"
-    },
-    {
-      "name": "prod",
-      "url": "https://prod12345.service-now.com",
-      "default": false,
-      "status": "available"
-    }
-  ]
-}
+```bash
+happy-platform-mcp instance list
+happy-platform-mcp instance test dev
 ```
 
-### Step 2: Verify Current Instance Context
+From MCP, call parameterless `SN-Set-Instance` to list the configured choices without changing the target:
 
-Before making any changes, confirm which instance is currently active.
-
-**Using MCP tools:**
+```text
+Tool: SN-Set-Instance
+Parameters: none
 ```
+
+There is no separate MCP list tool in v5.1; parameterless `SN-Set-Instance` is the supported listing operation.
+
+### Step 2: Confirm the Session Target
+
+```text
 Tool: SN-Get-Current-Instance
-Parameters: (none required)
+Parameters: none
 ```
 
-**Decision Points:**
-- If current instance matches target → Proceed with operations
-- If current instance differs from target → Switch instance first (Step 3)
-- If instance status is "disconnected" → Check network/credentials
+This reports the current session's implicit target. Check it immediately before a sequential write workflow.
 
-### Step 3: Switch to Target Instance
+### Step 3: Select a Target for Sequential Work
 
-Route operations to a specific instance by including the `instance` parameter.
-
-**Using MCP tools (per-operation targeting):**
+```text
+Tool: SN-Set-Instance
+Parameters:
+  instance_name: dev
 ```
+
+`SN-Set-Instance` changes only the current session's implicit target in memory. It does not edit the registry, alter another MCP session, or change the configured startup default. A new session starts from its configured default.
+
+### Step 4: Route Concurrent or Critical Calls Explicitly
+
+Every live ServiceNow operation accepts an optional `instance` parameter except `SN-Register-Instance`, `SN-Set-Instance`, `SN-Get-Current-Instance`, and the documentation tools (`SN-Docs-Families`, `SN-Docs-Status`, `SN-Docs-Sync`, `SN-Docs-Search`, and `SN-Docs-Get`). Registration accepts no `instance` field. An explicit per-call value on supported operations does not mutate the session target.
+
+```text
 Tool: SN-Query-Table
 Parameters:
-  table_name: sys_properties
-  query: name=glide.installation.name
-  fields: name,value
+  instance: prod
+  table_name: incident
+  query: active=true^priority=1
+  fields: number,short_description,state
+  limit: 10
+```
+
+Use explicit `instance` routing for concurrent work, critical operations, production changes, or calls that could race with `SN-Set-Instance`. Concurrent calls against one stable implicit target can omit it, but explicit routing is easier to audit.
+
+### Step 5: Verify Before a Write
+
+Query an instance-specific property using an explicit target, compare the response with the intended environment, and only then write:
+
+```text
+Tool: SN-Query-Table
+Parameters:
   instance: dev
-```
-
-**Important:** The `instance` parameter must be included on EVERY operation that should target a specific instance. There is no persistent "current instance" state that persists across operations.
-
-### Step 4: Verify Instance Switch
-
-Confirm the operation executed on the correct instance by checking instance-specific identifiers.
-
-**Using MCP tools:**
-```
-Tool: SN-Query-Table
-Parameters:
   table_name: sys_properties
   query: name=instance_name^ORname=glide.installation.name
   fields: name,value
-  instance: dev
+  limit: 5
 ```
 
-**Verification Checklist:**
-- [ ] Instance URL in response matches expected environment
-- [ ] Instance name property confirms correct target
-- [ ] No cross-environment data contamination
+Then preserve the same explicit target on the mutation:
 
-### Step 5: Instance-Specific Operations
-
-Once verified, perform your intended operations with the `instance` parameter.
-
-**Example: Query incidents on production:**
-```
-Tool: SN-Query-Table
+```text
+Tool: SN-Update-Record
 Parameters:
+  instance: dev
   table_name: incident
-  query: active=true^priority=1
-  fields: number,short_description,state,assigned_to
-  limit: 10
-  instance: prod
-```
-
-**Example: Create record on development:**
-```
-Tool: SN-Create-Record
-Parameters:
-  table_name: sys_properties
+  sys_id: <verified-record-sys-id>
   data:
-    name: x_custom.feature_flag
-    value: enabled
-  instance: dev
+    work_notes: Verified dev routing before update
 ```
 
 ## Tool Usage
 
-### MCP Tools (Claude Code/Desktop)
-
-| Tool | Purpose | Instance Parameter |
-|------|---------|-------------------|
-| `SN-List-Instances` | List all configured instances | N/A |
-| `SN-Get-Current-Instance` | Get default instance info | N/A |
-| `SN-Query-Table` | Query records on specific instance | Required for non-default |
-| `SN-Create-Record` | Create records on specific instance | Required for non-default |
-| `SN-Update-Record` | Update records on specific instance | Required for non-default |
-| `SN-Execute-Background-Script` | Run scripts on specific instance | Required for non-default |
-
-### REST API (ChatGPT/Other)
-
-| Endpoint | Method | Purpose |
-|----------|--------|---------|
-| `{instance_url}/api/now/table/sys_properties` | GET | Query instance properties |
-| `{instance_url}/api/now/table/incident` | GET | Query incidents |
-
-**Note:** For REST API, target different instances by using different base URLs in your requests.
-
-### Native Tools (Claude Code)
-
 | Tool | Purpose |
-|------|---------|
-| `Bash` | Execute curl commands with instance-specific URLs |
-| `Read` | Read instance configuration files |
+|---|---|
+| `SN-Set-Instance` | With no parameters, list choices; with `instance_name`, change the sequential session target |
+| `SN-Get-Current-Instance` | Report the current session target |
+| `SN-Query-Table` | Verify or read from an explicit named instance |
+| `SN-Create-Record` | Create on an explicitly verified target |
+| `SN-Update-Record` | Update on an explicitly verified target |
 
-## Configuration
-
-### Instance Configuration File
-
-Located at `config/servicenow-instances.json`:
-
-```json
-{
-  "instances": [
-    {
-      "name": "dev",
-      "url": "https://dev12345.service-now.com",
-      "username": "admin",
-      "password": "${DEV_SN_PASSWORD}",
-      "default": true
-    },
-    {
-      "name": "test",
-      "url": "https://test12345.service-now.com",
-      "username": "integration_user",
-      "password": "${TEST_SN_PASSWORD}",
-      "default": false
-    },
-    {
-      "name": "prod",
-      "url": "https://prod12345.service-now.com",
-      "username": "integration_user",
-      "password": "${PROD_SN_PASSWORD}",
-      "default": false
-    }
-  ]
-}
-```
-
-### Environment Variables
-
-Store credentials securely using environment variables:
-
-```bash
-# Development
-export DEV_SN_PASSWORD="dev_password_here"
-
-# Test
-export TEST_SN_PASSWORD="test_password_here"
-
-# Production (use restricted access)
-export PROD_SN_PASSWORD="prod_password_here"
-```
+Persistent additions, removals, metadata updates, tests, migrations, and credential rotation belong to the local CLI. MCP calls must not collect credential material or modify keychain entries.
 
 ## Best Practices
 
-- **Always Verify Before Write Operations:** Query the instance identifier before creating or updating records to prevent accidental production changes
-- **Use Least Privilege Accounts:** Configure different credentials per environment with appropriate permission levels (read-only for prod queries)
-- **Explicit Instance Parameter:** Always include the `instance` parameter explicitly rather than relying on defaults for critical operations
-- **Environment Naming Convention:** Use consistent, clear names (dev, test, staging, prod) across all configuration
-- **Credential Isolation:** Never share credentials across environments; use environment-specific service accounts
-- **Audit Logging:** Enable audit logging on all instances to track cross-environment operations
-- **Network Segmentation:** Consider VPN or IP restrictions for production instance access
-
-## Environment-Specific Considerations
-
-### Development Instance
-- Full read/write access for experimentation
-- Frequent data resets acceptable
-- Use for initial development and testing
-- May have relaxed ACLs for developer productivity
-
-### Test/QA Instance
-- Mirrors production configuration
-- Restricted write access
-- Used for integration testing
-- Data should represent production scenarios
-
-### Production Instance
-- **Read-only operations preferred**
-- All changes require change management approval
-- Use dedicated integration accounts
-- Enable comprehensive audit logging
-- Consider time-of-day restrictions for updates
+- Prefer explicit per-call routing for all production writes.
+- Pair every critical mutation with a same-target read-only verification.
+- Use `SN-Set-Instance` only for sequential convenience, never as a parallel isolation mechanism.
+- Keep development as the configured default when operational policy permits.
+- Run `happy-platform-mcp instance test <name>` locally when connectivity changes.
+- Keep raw REST as a last resort and rely only on a pre-existing local credential helper.
 
 ## Troubleshooting
 
-### Common Issue 1: Instance Connection Failed
-
-**Symptom:** Operations fail with "Unable to connect to instance"
-**Cause:** Network issues, incorrect URL, or firewall restrictions
-**Solution:**
-1. Verify instance URL is correct and accessible
-2. Check VPN connection if required
-3. Test with curl: `curl -u username:password https://instance.service-now.com/api/now/table/sys_properties?sysparm_limit=1`
-4. Verify credentials are not expired
-
-### Common Issue 2: Authentication Failure
-
-**Symptom:** 401 Unauthorized errors
-**Cause:** Invalid credentials or locked account
-**Solution:**
-1. Verify username and password in configuration
-2. Check if account is locked in ServiceNow User Administration
-3. Confirm account has appropriate roles assigned
-4. Check for password expiration
-
-### Common Issue 3: Wrong Instance Targeted
-
-**Symptom:** Operation succeeded but on wrong instance
-**Cause:** Missing or incorrect `instance` parameter
-**Solution:**
-1. Always include explicit `instance` parameter
-2. Verify instance name matches configuration exactly (case-sensitive)
-3. Query sys_properties to confirm target before write operations
-
-### Common Issue 4: Permission Denied on Specific Instance
-
-**Symptom:** 403 Forbidden on one instance but not others
-**Cause:** Different ACL configurations or role assignments per instance
-**Solution:**
-1. Compare user roles across instances
-2. Check instance-specific ACL rules
-3. Request appropriate roles from instance admin
-
-## Examples
-
-### Example 1: Safe Production Query
-
-Query production incidents without risk of modification:
-
-```
-# Step 1: Verify targeting production
-Tool: SN-Query-Table
-Parameters:
-  table_name: sys_properties
-  query: name=instance_name
-  fields: value
-  instance: prod
-
-# Step 2: Query incidents (read-only operation)
-Tool: SN-Query-Table
-Parameters:
-  table_name: incident
-  query: active=true^priority=1^state!=6
-  fields: number,short_description,state,assigned_to,sys_updated_on
-  limit: 25
-  instance: prod
-```
-
-### Example 2: Development to Test Comparison
-
-Compare record counts across environments:
-
-```
-# Query dev instance
-Tool: SN-Query-Table
-Parameters:
-  table_name: incident
-  query: active=true
-  fields: sys_id
-  limit: 1
-  instance: dev
-
-# Query test instance (parallel call)
-Tool: SN-Query-Table
-Parameters:
-  table_name: incident
-  query: active=true
-  fields: sys_id
-  limit: 1
-  instance: test
-```
-
-### Example 3: Multi-Instance Health Check
-
-Verify connectivity to all instances:
-
-```
-# Check dev
-Tool: SN-Query-Table
-Parameters:
-  table_name: sys_properties
-  query: name=glide.installation.name
-  fields: value
-  instance: dev
-
-# Check test (parallel)
-Tool: SN-Query-Table
-Parameters:
-  table_name: sys_properties
-  query: name=glide.installation.name
-  fields: value
-  instance: test
-
-# Check prod (parallel)
-Tool: SN-Query-Table
-Parameters:
-  table_name: sys_properties
-  query: name=glide.installation.name
-  fields: value
-  instance: prod
-```
-
-### Example 4: Instance-Aware Update Set Operations
-
-Set update set on specific instance:
-
-```
-# First, set application scope on dev
-Tool: SN-Set-Current-Application
-Parameters:
-  app_sys_id: abc123def456...
-  instance: dev
-
-# Then, set update set on dev
-Tool: SN-Set-Update-Set
-Parameters:
-  update_set_sys_id: xyz789ghi012...
-  instance: dev
-
-# Verify update set is active
-Tool: SN-Get-Current-Update-Set
-Parameters:
-  instance: dev
-```
+| Issue | Cause | Resolution |
+|---|---|---|
+| Instance is not listed | It is not in the user registry | Run `happy-platform-mcp instance add` locally |
+| Current target is unexpected | A prior sequential switch changed this session | Call `SN-Get-Current-Instance`, then `SN-Set-Instance` with the intended name |
+| Parallel work reaches the wrong target | Calls relied on mutable session state | Add explicit `instance` to each overlapping call |
+| A new registration is not live | Server started in docs-only mode | Restart the MCP host after registration |
+| Connectivity test fails | Local registration or ServiceNow access is invalid | Run the local `instance test` flow; never send credentials through MCP |
 
 ## Related Skills
 
-- `admin/update-set-management` - Managing update sets (often done after instance switching)
-- `admin/application-scope` - Setting application scope for scoped development
-- `admin/deployment-workflow` - Deploying changes across instances
-- `admin/batch-operations` - Performing bulk operations on specific instances
-
-## References
-
-- [ServiceNow Multi-Instance Architecture](https://docs.servicenow.com/bundle/utah-platform-administration/page/administer/multi-instance/concept/c_MultiInstanceArchitecture.html)
-- [ServiceNow Instance Configuration](https://docs.servicenow.com/bundle/utah-platform-administration/page/administer/configuring-servicenow/concept/c_ConfiguringServiceNow.html)
-- [MCP Multi-Instance Configuration Guide](docs/MULTI_INSTANCE_CONFIGURATION.md)
-- [Instance Switching Guide](docs/INSTANCE_SWITCHING_GUIDE.md)
+- `development/mcp-server-installation` - Secure local registration and migration
+- `admin/generic-crud-operations` - Table operations after routing
+- `admin/update-set-management` - Environment-specific configuration transport

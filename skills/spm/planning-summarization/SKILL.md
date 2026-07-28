@@ -1,6 +1,6 @@
 ---
 name: planning-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize planning items, demand records, and portfolio decisions with executive summaries for planning meetings including key metrics and recommendations
 author: Happy Technologies LLC
 tags: [spm, planning, demand, portfolio, summarization, executive, meetings, decisions]
@@ -8,9 +8,8 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-Read-Record
-    - SN-NL-Search
-    - SN-Aggregate
+    - SN-Get-Record
+    - SN-Natural-Language-Search
   rest:
     - /api/now/table/dm_demand
     - /api/now/table/pm_portfolio
@@ -306,10 +305,9 @@ RECOMMENDATIONS:
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-Query-Table` | Query demands, projects, sprints, stories, releases, contracts |
-| `SN-Read-Record` | Retrieve a single portfolio, program, or project record |
-| `SN-NL-Search` | Natural language search for planning items (e.g., "find approved demands for engineering") |
-| `SN-Aggregate` | Calculate totals, averages, and counts across planning records |
+| `SN-Query-Table` | Query bounded demand, project, sprint, story, release, and contract fields; calculate summaries locally |
+| `SN-Get-Record` | Retrieve a single portfolio, program, or project record |
+| `SN-Natural-Language-Search` | Natural language search for planning items (e.g., "find approved demands for engineering") |
 
 ### REST API Reference
 

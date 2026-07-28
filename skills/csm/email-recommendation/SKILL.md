@@ -1,15 +1,15 @@
 ---
 name: email-recommendation
-version: 1.0.0
+version: 1.0.3
 description: Generate professional email responses for customer service cases by analyzing case details, customer sentiment, communication history, and knowledge base articles
 author: Happy Technologies LLC
 tags: [csm, email, recommendation, response-generation, customer-service, communication]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/sn_customerservice_case
     - /api/now/table/sys_email
@@ -54,7 +54,7 @@ Fetch the full case record to understand what the customer is contacting about.
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_customerservice_case
   sys_id: [case_sys_id]
@@ -150,10 +150,10 @@ Find relevant KB articles to reference or include in the email response.
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
-  query: [short_description + key terms from description]
-  table: kb_knowledge
+  query: workflow_state=published^short_descriptionLIKE[key_terms]^ORtextLIKE[key_terms]
+  table_name: kb_knowledge
   limit: 5
 ```
 
@@ -296,9 +296,9 @@ Best regards,
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Natural language search for KB articles matching the customer issue |
+| `SN-Natural-Language-Search` | Natural language search for KB articles matching the customer issue |
 | `SN-Query-Table` | Structured queries for emails, case history, SLA status |
-| `SN-Read-Record` | Retrieve a single case or contact record by sys_id |
+| `SN-Get-Record` | Retrieve a single case or contact record by sys_id |
 
 ### REST API Reference
 
@@ -364,10 +364,10 @@ Parameters:
 
 **Step 2 - Search KB:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
-  query: software license activation failure error code
-  table: kb_knowledge
+  query: workflow_state=published^123TEXTQUERY321=software license activation failure error code
+  table_name: kb_knowledge
   limit: 3
 ```
 
@@ -405,7 +405,7 @@ Software Support Team
 
 **Step 1 - Get case and SLA:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_customerservice_case
   sys_id: [case_sys_id]
@@ -461,4 +461,4 @@ Critical Incident Manager
 - `csm/chat-recommendation` - Generate chat responses instead of emails
 - `csm/sentiment-analysis` - Assess customer sentiment to calibrate email tone
 - `csm/resolution-notes` - Generate resolution documentation for closure emails
-- `knowledge/article-search` - Deep knowledge base search for email references
+- `knowledge/content-recommendation` - Deep knowledge base search for email references

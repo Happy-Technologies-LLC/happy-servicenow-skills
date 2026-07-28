@@ -1,13 +1,13 @@
 ---
 name: process-mining-insights
-version: 1.0.0
+version: 1.0.1
 description: Generate process mining insights to identify inefficiencies, bottlenecks, compliance deviations, and optimization opportunities from ServiceNow process data
 author: Happy Technologies LLC
 tags: [genai, process-mining, bottleneck, compliance, optimization, analytics, workflow, efficiency]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
     - SN-Update-Record
     - SN-Add-Work-Notes
@@ -274,7 +274,7 @@ Parameters:
 | Tool | Purpose | When to Use |
 |------|---------|-------------|
 | `SN-Query-Table` | Retrieve process, variant, activity, and transition data | Core analysis data gathering |
-| `SN-NL-Search` | Find processes or cases by natural language | Ad-hoc investigation |
+| `SN-Natural-Language-Search` | Find processes or cases by natural language | Ad-hoc investigation |
 | `SN-Update-Record` | Update process records with analysis results | Persisting findings |
 | `SN-Add-Work-Notes` | Document analysis and recommendations | Reports and audit trail |
 | `SN-Get-Table-Schema` | Explore process mining table structures | Setup and field discovery |

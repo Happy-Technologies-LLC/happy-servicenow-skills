@@ -1,15 +1,15 @@
 ---
 name: csm-kb-generation
-version: 1.0.0
+version: 1.0.4
 description: Generate knowledge articles from resolved CSM cases with customer-facing language, structured content, screenshot placeholders, and FAQ sections
 author: Happy Technologies LLC
 tags: [csm, knowledge, kb-generation, case-resolution, customer-facing, faq, documentation]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Create-Record
     - SN-Update-Record
     - SN-Execute-Background-Script
@@ -79,7 +79,7 @@ Retrieve the complete case record including close notes, work notes, and resolut
 
 **Using MCP:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_customerservice_case
   sys_id: [case_sys_id]
@@ -128,10 +128,10 @@ Search for duplicate or related articles to avoid redundancy.
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
-  query: [case_short_description]
-  table: kb_knowledge
+  query: workflow_state=published^123TEXTQUERY321=[case_short_description]
+  table_name: kb_knowledge
   limit: 5
 ```
 
@@ -273,9 +273,9 @@ Content-Type: application/json
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Find existing KB articles semantically matching the case topic |
+| `SN-Natural-Language-Search` | Find existing KB articles semantically matching the case topic |
 | `SN-Query-Table` | Query resolved cases, work notes, KB bases, and categories |
-| `SN-Read-Record` | Retrieve full case details by sys_id |
+| `SN-Get-Record` | Retrieve full case details by sys_id |
 | `SN-Create-Record` | Create the KB article and case-article association |
 | `SN-Update-Record` | Update article content or workflow state |
 | `SN-Execute-Background-Script` | Batch-generate articles from multiple resolved cases |
@@ -331,7 +331,7 @@ Content-Type: application/json
 **Scenario:** Case CS0045678 resolved a recurring login issue.
 
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_customerservice_case
   sys_id: [case_sys_id]
@@ -389,4 +389,4 @@ Parameters:
 - `csm/resolution-notes` - Generate structured resolution notes on case closure
 - `csm/suggested-steps` - Generate resolution steps that can seed KB content
 - `knowledge/content-recommendation` - Recommend existing articles to avoid duplication
-- `knowledge/article-optimization` - Optimize article searchability and quality
+- `knowledge/article-generation` - Optimize article searchability and quality

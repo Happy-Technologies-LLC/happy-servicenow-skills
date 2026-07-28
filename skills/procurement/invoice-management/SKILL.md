@@ -1,13 +1,13 @@
 ---
 name: invoice-management
-version: 1.0.0
+version: 1.0.1
 description: Manage accounts payable invoices including data extraction, PO matching, three-way matching (PO, receipt, invoice), discrepancy identification, and resolution routing
 author: Happy Technologies LLC
 tags: [procurement, invoice, accounts-payable, three-way-match, po-matching, finance]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
     - SN-Update-Record
     - SN-Add-Work-Notes
@@ -218,7 +218,7 @@ Content-Type: application/json
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Query invoices, POs, receipts, and vendors |
-| `SN-NL-Search` | Natural language search for invoices by vendor or amount |
+| `SN-Natural-Language-Search` | Natural language search for invoices by vendor or amount |
 | `SN-Create-Record` | Create invoice exception cases |
 | `SN-Update-Record` | Update invoice state and match status |
 | `SN-Add-Work-Notes` | Document matching results and decisions |

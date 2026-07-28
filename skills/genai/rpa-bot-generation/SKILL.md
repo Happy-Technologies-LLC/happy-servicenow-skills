@@ -1,6 +1,6 @@
 ---
 name: rpa-bot-generation
-version: 1.0.0
+version: 1.0.1
 description: Generate RPA bots from process descriptions including bot actions, triggers, error handling, credential management, and integration with ServiceNow RPA Hub
 author: Happy Technologies LLC
 tags: [genai, rpa, automation, bot, process, robotic, rpa-hub, credential, workflow]
@@ -10,7 +10,7 @@ tools:
     - SN-Query-Table
     - SN-Create-Record
     - SN-Update-Record
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Execute-Background-Script
     - SN-Discover-Table-Schema
   rest:

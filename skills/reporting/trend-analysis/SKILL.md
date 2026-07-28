@@ -1,6 +1,6 @@
 ---
 name: trend-analysis
-version: 1.0.0
+version: 1.0.2
 description: Incident volume trends, category distribution, seasonal patterns, and predictive indicators
 author: Happy Technologies LLC
 tags: [reporting, trends, analytics, forecasting, patterns, capacity, planning]
@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Execute-Background-Script
   rest:
     - /api/now/table/incident
@@ -318,10 +318,10 @@ Any day outside 14-38 range = Anomaly requiring investigation
 **Query Recent Anomalies:**
 If daily count exceeds threshold, investigate:
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: incident
-  query: "incidents created today grouped by category"
+  query: sys_created_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()^ORDERBYcategory
   fields: sys_id,category,short_description,cmdb_ci
   limit: 100
 ```
@@ -333,7 +333,7 @@ Parameters:
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Primary tool for querying historical data |
-| `SN-NL-Search` | Natural language queries for quick exploration |
+| `SN-Natural-Language-Search` | Natural language queries for quick exploration |
 | `SN-Execute-Background-Script` | Complex aggregations using GlideAggregate |
 
 ### REST API Reference
@@ -566,10 +566,10 @@ CRM subcategory driving entire increase!
 
 **Step 3: Analyze CRM incidents**
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: incident
-  query: "software incidents for CRM created this month"
+  query: category=software^cmdb_ci.nameLIKECRM^sys_created_on>=javascript:gs.beginningOfThisMonth()
   fields: sys_id,short_description,sys_created_on
   limit: 100
 ```

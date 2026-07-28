@@ -1,15 +1,15 @@
 ---
 name: government-case-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize government and public sector cases with regulatory compliance context, service eligibility tracking, inter-agency coordination, and audit trail documentation
 author: Happy Technologies LLC
 tags: [psds, government, case-summarization, public-sector, regulatory, compliance, citizen-services]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/sn_psds_case
     - /api/now/table/sn_psds_service
@@ -54,7 +54,7 @@ Fetch the primary case record with all citizen, service, and compliance fields.
 
 **Using MCP:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_psds_case
   sys_id: [CASE_SYS_ID]
@@ -265,9 +265,9 @@ Response Time: [within/exceeded] target
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Natural language case search (e.g., "find open benefits cases in Region 5") |
+| `SN-Natural-Language-Search` | Natural language case search (e.g., "find open benefits cases in Region 5") |
 | `SN-Query-Table` | Structured queries for cases, services, eligibility, and interactions |
-| `SN-Read-Record` | Retrieve a single case or service record by sys_id |
+| `SN-Get-Record` | Retrieve a single case or service record by sys_id |
 
 ### REST API Reference
 

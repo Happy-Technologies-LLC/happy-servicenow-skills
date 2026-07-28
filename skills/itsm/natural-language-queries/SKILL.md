@@ -1,381 +1,193 @@
 ---
 name: natural-language-queries
-version: 1.0.0
-description: Master natural language search patterns to query ServiceNow without complex encoded queries
+version: 1.0.2
+description: Use parser-verified Happy Platform MCP 5.1 natural-language search phrases and fall back to precise encoded table queries
 author: Happy Technologies LLC
 tags: [itsm, search, natural-language, queries]
 platforms: [claude-code, claude-desktop]
 tools:
-  mcp: [SN-NL-Search, SN-NL-Query-Builder, SN-Query-Table]
+  mcp: [SN-Natural-Language-Search, SN-Query-Table]
   rest: ["/api/now/table/{table}"]
-  native: []
 complexity: beginner
 estimated_time: 5-10 minutes
 ---
 
-# Natural Language Queries
+# Natural-Language Queries
 
 ## Overview
 
-Natural language search allows you to query ServiceNow using plain English instead of complex encoded queries. This skill teaches you how to leverage the NL search capabilities for faster, more intuitive data retrieval.
+Happy Platform MCP 5.1 converts a bounded set of natural-language phrases into
+ServiceNow encoded conditions. Use `SN-Natural-Language-Search` for the atomic,
+parser-verified patterns below. Use `SN-Query-Table` whenever exact operators,
+multiple branches, exclusions, field-specific text behavior, or deterministic
+ordering matter.
 
-- **What problem does it solve?** Eliminates the need to memorize encoded query syntax
-- **Who should use this skill?** Anyone who needs to search ServiceNow data quickly
-- **What are the expected outcomes?** Faster query building, easier exploration, intuitive searches
+The authoritative fixtures are packaged in
+`contracts/happy-platform-mcp-5.1.0-natural-language.json` and can be checked
+against the sibling MCP source with `npm run contract:nl-check`.
 
 ## Prerequisites
 
-- MCP ServiceNow server configured and running
-- Access to query ServiceNow tables (typically `itil` or `admin` role)
-- Understanding of basic ServiceNow table structures
+- Happy Platform MCP 5.1.0 configured for the target instance
+- Read access to the target table
+- The exact table name
+- A small result limit and explicit return fields for exploratory searches
 
 ## Procedure
 
-### Step 1: Understand NL Search Basics
+### 1. Choose one parser-verified phrase
 
-Natural language search translates plain English queries into ServiceNow encoded queries. Start with simple queries and build complexity.
+The following atomic phrases parse completely in MCP 5.1.0:
 
-**Basic NL Search:**
-```
-Tool: SN-NL-Search
+| Intent | Supported phrase | Encoded condition produced |
+|---|---|---|
+| Priority label | `high priority` | `priority=2` |
+| Priority number | `P1` or `priority 2` | `priority=1` or `priority=2` |
+| Impact | `high impact` | `impact=1` |
+| Urgency | `medium urgency` | `urgency=2` |
+| Current user | `assigned to me` | `assigned_to=javascript:gs.getUserID()` |
+| No assignee | `unassigned` | `assigned_toISEMPTY` |
+| Named assignee | `assigned to John Smith` | `assigned_to.nameLIKEJohn Smith` |
+| Opened today | `opened today` | `sys_created_on>javascript:gs.daysAgoStart(0)` |
+| Opened recently | `opened in the last 7 days` | `sys_created_on>javascript:gs.daysAgo(7)` |
+| Recent record | `recent` | `sys_created_on>javascript:gs.daysAgo(7)` |
+| Active record | `active` | `active=true` |
+| Description text | `description contains authentication` | `descriptionLIKEauthentication` |
+| General content | `about SAP` | `short_descriptionLIKESAP^ORdescriptionLIKESAP` |
+| Exact number | `number is INC0012345` | `number=INC0012345` |
+| Caller | `caller is John Smith` | `caller_id.nameLIKEJohn Smith` |
+| Category | `category is Software` | `categoryLIKESoftware` |
+| Assignment group | `assignment group is Network Team` | `assignment_group.nameLIKENetwork Team` |
+
+The mappings above are literal v5.1 parser outputs. For example, “high” maps to
+priority value 2, while “critical” maps to value 1.
+
+### 2. Execute a bounded search
+
+Always provide `table`; the v5.1 argument is not named `table_name`. Specify the
+target instance for live or concurrent work.
+
+```text
+Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: incident
-  query: show me active high priority incidents
+  table: incident
+  query: P1
+  fields: sys_id,number,short_description,priority
   limit: 10
+  instance: dev
 ```
 
-**Equivalent Encoded Query:**
-```
-active=true^priority=1
-```
+Inspect `encodedQuery`, `matchedPatterns`, `unmatchedText`, and the returned
+records. Treat non-empty `unmatchedText` as a failed validation, even if the tool
+also returns an encoded condition.
 
-### Step 2: Learn Supported Patterns
+### 3. Keep exploratory calls atomic
 
-The NL engine supports several query patterns. Master these for effective searching.
+Use a separate bounded call for each independent question:
 
-#### Field Comparisons
-
-| Natural Language | Encoded Query | Description |
-|------------------|---------------|-------------|
-| `priority is 1` | `priority=1` | Exact match |
-| `priority equals Critical` | `priority=1` | Label-to-value mapping |
-| `state not equals Closed` | `state!=7` | Negation |
-| `priority greater than 2` | `priority>2` | Greater than |
-| `priority less than 3` | `priority<3` | Less than |
-
-**Example:**
-```
-Tool: SN-NL-Search
+```text
+Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: incident
-  query: incidents where priority is 1 and state not equals Closed
-  limit: 20
-```
-
-#### Text Searches
-
-| Natural Language | Encoded Query | Description |
-|------------------|---------------|-------------|
-| `description contains network` | `descriptionLIKEnetwork` | Contains text |
-| `short description starts with Error` | `short_descriptionSTARTSWITHError` | Prefix match |
-| `description ends with timeout` | `descriptionENDSWITHtimeout` | Suffix match |
-| `description does not contain test` | `descriptionNOTLIKEtest` | Does not contain |
-
-**Example:**
-```
-Tool: SN-NL-Search
-Parameters:
-  table_name: incident
-  query: incidents where description contains database and short description starts with Error
+  table: incident
+  query: unassigned
+  fields: sys_id,number,assigned_to
   limit: 10
+  instance: dev
 ```
 
-#### Assignment Patterns
-
-| Natural Language | Encoded Query | Description |
-|------------------|---------------|-------------|
-| `assigned to John Smith` | `assigned_to=<sys_id>` | User assignment |
-| `assigned to is empty` | `assigned_toISEMPTY` | Unassigned |
-| `assigned to is not empty` | `assigned_toISNOTEMPTY` | Assigned |
-| `assignment group is Network` | `assignment_group=<sys_id>` | Group assignment |
-
-**Example:**
-```
-Tool: SN-NL-Search
+```text
+Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: incident
-  query: active incidents where assigned to is empty and priority is 1
+  table: incident
+  query: opened in the last 7 days
+  fields: sys_id,number,sys_created_on
   limit: 10
+  instance: dev
 ```
 
-#### Date Patterns
+Do not infer that two separately supported phrases can be freely composed. The
+v5.1 parser processes each pattern at most once, and leftover words can change
+or weaken the result.
 
-| Natural Language | Encoded Query | Description |
-|------------------|---------------|-------------|
-| `created today` | `sys_created_onONToday@javascript:...` | Today's records |
-| `created yesterday` | `sys_created_onONYesterday@javascript:...` | Yesterday |
-| `created last 7 days` | `sys_created_onONLast 7 days@javascript:...` | Last week |
-| `updated last 24 hours` | `sys_updated_onRELATIVEGE@hour@ago@24` | Recent updates |
-| `resolved this month` | `resolved_atONThis month@javascript:...` | This month |
+### 4. Use encoded queries for precision
 
-**Example:**
-```
-Tool: SN-NL-Search
+When the requirement includes exact comparisons, exclusions, multiple values,
+field-specific text operators, or deterministic ordering, construct and review
+an encoded query and use `SN-Query-Table`:
+
+```text
+Tool: SN-Query-Table
 Parameters:
   table_name: incident
-  query: high priority incidents created last 7 days
-  limit: 20
-```
-
-#### Logical Operators
-
-| Natural Language | Encoded Query | Description |
-|------------------|---------------|-------------|
-| `priority is 1 AND state is New` | `priority=1^state=1` | Both conditions |
-| `priority is 1 OR priority is 2` | `priority=1^ORpriority=2` | Either condition |
-| `NOT priority is 5` | `priority!=5` | Exclusion |
-
-**Example:**
-```
-Tool: SN-NL-Search
-Parameters:
-  table_name: incident
-  query: incidents where priority is 1 or priority is 2 and state is New
-  limit: 15
-```
-
-#### Ordering
-
-| Natural Language | Encoded Query | Description |
-|------------------|---------------|-------------|
-| `sort by priority` | `ORDERBYpriority` | Ascending order |
-| `sort by priority descending` | `ORDERBYDESCpriority` | Descending order |
-| `order by created date descending` | `ORDERBYDESCsys_created_on` | Newest first |
-
-**Example:**
-```
-Tool: SN-NL-Search
-Parameters:
-  table_name: incident
-  query: active incidents sort by priority descending
+  query: priority=1^state!=7^assigned_toISEMPTY^ORDERBYDESCsys_created_on
+  fields: sys_id,number,short_description,priority,state,assigned_to,sys_created_on
   limit: 25
+  instance: dev
 ```
 
-### Step 3: Build Complex Queries
+The encoded-query path is also the correct choice for automation because its
+meaning does not depend on pattern extraction from free-form text.
 
-Combine patterns for sophisticated searches.
+### 5. Validate non-incident targets explicitly
 
-**Complex Query Example:**
-```
-Tool: SN-NL-Search
+Natural-language parsing uses the supplied table for table-dependent behavior.
+Never rely on the default when searching another table:
+
+```text
+Tool: SN-Natural-Language-Search
 Parameters:
-  table_name: incident
-  query: active high priority incidents assigned to is empty created last 7 days where description contains network sort by created date descending
-  limit: 20
-  fields: number,short_description,priority,state,sys_created_on
+  table: change_request
+  query: recent
+  fields: sys_id,number,short_description,sys_created_on
+  limit: 10
+  instance: dev
 ```
 
-### Step 4: Validate Queries with Query Builder
-
-Before executing, validate your NL query translates correctly.
-
-**Validate Query:**
-```
-Tool: SN-NL-Query-Builder
-Parameters:
-  natural_query: active incidents where priority is 1 and assigned to is empty
-```
-
-**Returns:**
-```
-active=true^priority=1^assigned_toISEMPTY
-```
-
-Use the returned encoded query to verify accuracy before searching large datasets.
-
-### Step 5: Decide NL vs Encoded Queries
-
-**Use Natural Language When:**
-- Exploring data (figuring out what you need)
-- Building ad-hoc queries quickly
-- Prototyping before automation
-- Communicating requirements to stakeholders
-- Simple to moderate complexity queries
-
-**Use Encoded Queries When:**
-- Performance-critical operations (large datasets)
-- Complex nested OR conditions
-- Programmatic/automated workflows
-- You already know the exact query needed
-- Precise control over query structure required
+For unfamiliar tables, prefer an encoded `SN-Query-Table` query until the
+natural-language result has been verified against known records.
 
 ## Tool Usage
 
-### MCP Tools (Claude Code/Desktop)
-
-| Tool | Purpose |
-|------|---------|
-| `SN-NL-Search` | Execute natural language searches directly |
-| `SN-NL-Query-Builder` | Convert NL to encoded query for validation |
-| `SN-Query-Table` | Execute encoded queries for precision |
-
-### REST API (Fallback)
-
-For REST API access, first use `SN-NL-Query-Builder` to get the encoded query, then:
-
-| Endpoint | Method | Purpose |
-|----------|--------|---------|
-| `/api/now/table/{table}` | GET | Query with `sysparm_query` parameter |
+| Tool | Use |
+|---|---|
+| `SN-Natural-Language-Search` | Bounded exploration with one parser-verified phrase |
+| `SN-Query-Table` | Exact, repeatable encoded-query execution |
 
 ## Best Practices
 
-- **Start Simple:** Begin with basic queries and add complexity gradually
-- **Validate First:** Use `SN-NL-Query-Builder` to check query translation before large searches
-- **Specify Fields:** Always include the `fields` parameter to reduce response payload
-- **Use Limits:** Set appropriate `limit` values to avoid overwhelming results
-- **Be Specific:** More specific language yields more accurate translations
+- Provide `table`, `fields`, `limit`, and `instance` explicitly.
+- Start with one atomic phrase from the packaged fixture contract.
+- Require empty `unmatchedText` before trusting the parser result.
+- Compare exploratory results with known records before expanding the limit.
+- Use encoded queries for production automation and complex conditions.
+- Keep field selection minimal to reduce payload and accidental data exposure.
 
 ## Troubleshooting
 
-### Query Returns Unexpected Results
+### No encoded condition is returned
 
-**Symptom:** NL query returns different results than expected
-**Cause:** Ambiguous language or unsupported pattern
-**Solution:** Use `SN-NL-Query-Builder` to see the actual encoded query, then adjust natural language
+The phrase did not match a v5.1 pattern. Use one fixture-backed atomic phrase or
+switch to `SN-Query-Table` with a reviewed encoded query.
 
-### Field Name Not Recognized
+### A condition is returned with leftover text
 
-**Symptom:** Query ignores a field condition
-**Cause:** Field name not mapped to NL patterns
-**Solution:** Use the actual field name (e.g., `assigned_to` instead of `assignee`)
+The parser matched only part of the request. Do not treat the result as an
+equivalent query. Reduce the request to one verified phrase or use an encoded
+query.
 
-### Date Queries Not Working
+### The returned condition has the wrong meaning
 
-**Symptom:** Date-based queries return empty results
-**Cause:** Ambiguous date reference (e.g., "yesterday" vs "last day")
-**Solution:** Use explicit patterns: `created today`, `created last 7 days`, `updated last 24 hours`
+Stop using that phrase. Natural-language matching can accept words in an
+unintended pattern. Express the requirement directly as an encoded query and
+verify it on a small result set.
 
-### Complex OR Conditions Fail
+### A non-incident search returns incident-shaped results
 
-**Symptom:** OR conditions not applied correctly
-**Cause:** NL parser has limited OR support
-**Solution:** For complex OR logic, use `SN-NL-Query-Builder` then modify the encoded query manually
-
-## Table-Specific Mappings
-
-### Incident Table
-
-| Natural Language | Field | Values |
-|------------------|-------|--------|
-| `high priority` | priority | 1, 2 |
-| `critical priority` | priority | 1 |
-| `new` | state | 1 |
-| `in progress` | state | 2 |
-| `on hold` | state | 3 |
-| `resolved` | state | 6 |
-| `closed` | state | 7 |
-| `active` | active | true |
-
-### Change Request Table
-
-| Natural Language | Field | Values |
-|------------------|-------|--------|
-| `emergency` | type | emergency |
-| `normal` | type | normal |
-| `standard` | type | standard |
-| `draft` | state | -5 |
-| `assess` | state | -4 |
-| `authorize` | state | -3 |
-| `scheduled` | state | -2 |
-| `implement` | state | -1 |
-| `review` | state | 0 |
-| `closed` | state | 3 |
-| `canceled` | state | 4 |
-
-### Problem Table
-
-| Natural Language | Field | Values |
-|------------------|-------|--------|
-| `new` | state | 1 |
-| `assess` | state | 2 |
-| `root cause analysis` | state | 3 |
-| `fix in progress` | state | 4 |
-| `resolved` | state | 5 |
-| `closed` | state | 6 |
-
-## Examples
-
-### Example 1: Basic Incident Search
-
-Find active P1 incidents:
-
-```
-Tool: SN-NL-Search
-Parameters:
-  table_name: incident
-  query: active incidents with priority 1
-  fields: number,short_description,state,assigned_to
-  limit: 10
-```
-
-### Example 2: Unassigned Work
-
-Find unassigned high priority work:
-
-```
-Tool: SN-NL-Search
-Parameters:
-  table_name: incident
-  query: active incidents where priority is 1 or priority is 2 and assigned to is empty
-  fields: number,short_description,priority,sys_created_on
-  limit: 20
-```
-
-### Example 3: Recent Changes
-
-Find recent emergency changes:
-
-```
-Tool: SN-NL-Search
-Parameters:
-  table_name: change_request
-  query: emergency changes created last 7 days
-  fields: number,short_description,state,start_date,end_date
-  limit: 15
-```
-
-### Example 4: Text Search with Filters
-
-Find network-related problems:
-
-```
-Tool: SN-NL-Search
-Parameters:
-  table_name: problem
-  query: problems where description contains network and state not equals closed sort by priority
-  fields: number,short_description,state,priority
-  limit: 10
-```
-
-### Example 5: Query Validation
-
-Validate a complex query before execution:
-
-```
-Tool: SN-NL-Query-Builder
-Parameters:
-  natural_query: active high priority incidents assigned to Network Team created today
-```
-
-**Returns:** `active=true^priority IN (1,2)^assignment_group=<network_team_sys_id>^sys_created_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()`
+Confirm the call uses `table`, not an obsolete argument name, and that the
+explicit table value is correct.
 
 ## Related Skills
 
-- `itsm/incident-triage` - Incident triage and prioritization
-- `itsm/quick-reference` - ITSM quick reference card
-- `admin/generic-crud-operations` - Basic table operations
-
-## References
-
-- [ServiceNow Encoded Query Syntax](https://docs.servicenow.com/bundle/utah-platform-user-interface/page/use/using-lists/concept/c_EncodedQueryStrings.html)
-- [GlideRecord Query Operations](https://docs.servicenow.com/bundle/utah-api-reference/page/app-store/dev_portal/API_reference/GlideRecord/concept/c_GlideRecordAPI.html)
+- `itsm/incident-triage`
+- `itsm/quick-reference`
+- `admin/generic-crud-operations`

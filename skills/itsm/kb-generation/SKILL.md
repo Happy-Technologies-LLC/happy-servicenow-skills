@@ -1,6 +1,6 @@
 ---
 name: itsm-kb-generation
-version: 1.0.0
+version: 1.0.4
 description: Generate knowledge articles from resolved incidents and problems, structured with symptoms, cause, resolution, and workaround sections
 author: Happy Technologies LLC
 tags: [itsm, knowledge, kb-generation, incident, problem, resolution, workaround, self-service]
@@ -11,7 +11,7 @@ tools:
     - SN-Get-Record
     - SN-Create-Record
     - SN-Update-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Execute-Background-Script
   rest:
     - /api/now/table/incident
@@ -161,10 +161,10 @@ Avoid duplicates by searching for existing knowledge on the topic.
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: kb_knowledge
-  query: "[keywords from incident short_description]"
+  query: short_descriptionLIKE[keyword]^ORtextLIKE[keyword]^workflow_stateINpublished,draft
   fields: sys_id,number,short_description,workflow_state,sys_updated_on
   limit: 10
 ```
@@ -359,7 +359,7 @@ Parameters:
 | `SN-Get-Record` | Retrieve full incident/problem record details |
 | `SN-Create-Record` | Create new knowledge articles |
 | `SN-Update-Record` | Link articles to source records, update article content |
-| `SN-NL-Search` | Semantic search for existing articles to avoid duplicates |
+| `SN-Natural-Language-Search` | Semantic search for existing articles to avoid duplicates |
 | `SN-Execute-Background-Script` | Bulk candidate identification and article generation |
 
 ### REST API Reference
@@ -420,10 +420,10 @@ Parameters:
   limit: 10
 
 # 2. Check for existing KB
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: kb_knowledge
-  query: "VPN connection troubleshooting"
+  query: workflow_state=published^123TEXTQUERY321=VPN connection troubleshooting
   fields: number,short_description,workflow_state
   limit: 5
 

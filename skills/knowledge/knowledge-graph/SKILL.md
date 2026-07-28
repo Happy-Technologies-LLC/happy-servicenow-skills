@@ -1,6 +1,6 @@
 ---
 name: knowledge-graph
-version: 1.0.0
+version: 1.0.1
 description: Build and navigate knowledge graphs showing article relationships, topic hierarchies, cross-reference maps, content dependency analysis, and knowledge domain coverage visualization
 author: Happy Technologies LLC
 tags: [knowledge, knowledge-graph, relationships, topic-hierarchy, cross-references, dependencies, content-analysis, visualization]
@@ -11,7 +11,7 @@ tools:
     - SN-Get-Record
     - SN-Create-Record
     - SN-Update-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
   rest:
     - /api/now/table/kb_knowledge
     - /api/now/table/kb_knowledge_base
@@ -348,7 +348,7 @@ For each new article, check if it has been connected to the graph. Flag unconnec
 | SN-Get-Record | Retrieve single article details for content analysis | Deep-dive into specific nodes |
 | SN-Create-Record | Create new relationship records | Adding edges to the graph |
 | SN-Update-Record | Update article tags, topics, metadata | Enriching node properties |
-| SN-NL-Search | Find semantically related articles | Discovering implicit relationships |
+| SN-Natural-Language-Search | Find semantically related articles | Discovering implicit relationships |
 
 ## Best Practices
 

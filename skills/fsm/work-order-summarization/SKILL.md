@@ -1,15 +1,15 @@
 ---
 name: work-order-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize field service work orders with tasks, SLAs, asset information, travel logistics, and parts requirements for dispatch coordinators and field technicians
 author: Happy Technologies LLC
 tags: [fsm, work-order, summarization, field-service, sla, assets, travel, parts]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/wm_order
     - /api/now/table/wm_task
@@ -55,7 +55,7 @@ Fetch the primary work order record with all scheduling, location, and classific
 
 **Using MCP:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: wm_order
   sys_id: [WORK_ORDER_SYS_ID]
@@ -256,9 +256,9 @@ KEY OBSERVATIONS:
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Natural language work order lookup (e.g., "find open work orders for Building A") |
+| `SN-Natural-Language-Search` | Natural language work order lookup (e.g., "find open work orders for Building A") |
 | `SN-Query-Table` | Structured queries across work order, task, asset, and parts tables |
-| `SN-Read-Record` | Retrieve a single work order or asset record by sys_id |
+| `SN-Get-Record` | Retrieve a single work order or asset record by sys_id |
 
 ### REST API Reference
 

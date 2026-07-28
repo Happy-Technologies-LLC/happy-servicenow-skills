@@ -1,6 +1,6 @@
 ---
 name: document-screening
-version: 1.0.0
+version: 1.0.1
 description: Screen inbound documents for completeness, policy risk, and routing readiness before extraction or case workflows
 author: Happy Technologies LLC
 tags: [document, screening, intake, triage, compliance, routing, risk]
@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Create-Record
     - SN-Update-Record
     - SN-Add-Work-Notes
@@ -123,7 +123,7 @@ Document the screening rationale and the exact routing decision.
 | Tool | Purpose |
 |---|---|
 | `SN-Query-Table` | Retrieve attachments, templates, and extraction results |
-| `SN-Read-Record` | Inspect source record context for submitted documents |
+| `SN-Get-Record` | Inspect source record context for submitted documents |
 | `SN-Create-Record` | Create remediation tasks for failed screenings |
 | `SN-Update-Record` | Update screening status and routing fields |
 | `SN-Add-Work-Notes` | Persist decision rationale for auditability |

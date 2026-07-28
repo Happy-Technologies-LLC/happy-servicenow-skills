@@ -1,9 +1,9 @@
 ---
 name: query-generation
-version: 1.0.0
+version: 1.0.1
 description: Generate ServiceNow queries, GlideAggregate scripts, and reporting filters from natural language descriptions
 author: Happy Technologies LLC
-tags: [reporting, queries, glide-aggregate, filters, encoded-query, sys_report, natural-language, data-analysis]
+tags: [reporting, queries, glide-aggregate, filters, encoded-query, sys-report, natural-language, data-analysis]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
@@ -517,5 +517,5 @@ Parameters:
 
 - `reporting/analytics-generation` - Build full dashboards with PA indicators
 - `development/code-assist` - Generate complete scripts with query logic
-- `itsm/incident-management` - Incident data model and field reference
-- `admin/list-configuration` - Apply queries to list views and filters
+- `itsm/incident-lifecycle` - Incident data model and field reference
+- `admin/schema-discovery` - Apply queries to list views and filters

@@ -1,6 +1,6 @@
 ---
 name: itsm-email-recommendation
-version: 1.0.0
+version: 1.0.4
 description: Generate professional email responses for IT service cases with technical context, resolution steps, and next actions
 author: Happy Technologies LLC
 tags: [itsm, email, recommendation, incident, communication, resolution, professional, support]
@@ -10,7 +10,7 @@ tools:
     - SN-Query-Table
     - SN-Get-Record
     - SN-Update-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Add-Work-Notes
     - SN-Execute-Background-Script
   rest:
@@ -109,10 +109,10 @@ Search for KB articles to reference in the email.
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: kb_knowledge
-  query: "[keywords from incident description]"
+  query: workflow_state=published^short_descriptionLIKE[keyword1]^ORtextLIKE[keyword1]
   fields: sys_id,number,short_description,text
   limit: 5
 ```
@@ -315,7 +315,7 @@ Parameters:
 |------|-------------|
 | `SN-Get-Record` | Retrieve full incident/change/problem context |
 | `SN-Query-Table` | Query email history, work notes, related records |
-| `SN-NL-Search` | Find relevant knowledge articles for email references |
+| `SN-Natural-Language-Search` | Find relevant knowledge articles for email references |
 | `SN-Update-Record` | Update incident with email notification details |
 | `SN-Add-Work-Notes` | Document the recommended email |
 | `SN-Execute-Background-Script` | Gather cross-record context, bulk email generation |
@@ -351,7 +351,7 @@ Parameters:
 ### KB Articles Not Matching
 
 **Cause:** Search terms too specific or KB articles categorized differently
-**Solution:** Broaden search terms. Try category-based searching. Use `SN-NL-Search` for semantic matching.
+**Solution:** Broaden search terms. Try category-based searching. Use `SN-Natural-Language-Search` for semantic matching.
 
 ### Email Template Not Fitting the Scenario
 
@@ -397,10 +397,10 @@ Parameters:
   fields: number,short_description,close_code,close_notes,caller_id.name
 
 # 2. Find relevant KB article
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: kb_knowledge
-  query: "[resolution topic]"
+  query: workflow_state=published^123TEXTQUERY321=[resolution topic]
   fields: number,short_description
   limit: 3
 ```

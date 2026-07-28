@@ -1,6 +1,6 @@
 ---
 name: duplicate-detection
-version: 1.0.0
+version: 1.0.2
 description: Identify duplicate knowledge articles using content similarity analysis, compare titles and metadata across knowledge bases, and recommend merge or deduplication strategies
 author: Happy Technologies LLC
 tags: [knowledge, duplicate, deduplication, content-analysis, quality, knowledge-management]
@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Update-Record
     - SN-Add-Work-Notes
   rest:
@@ -71,10 +71,10 @@ Duplicates often use different phrasing. Search for common synonyms and alternat
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Query-Table
 Parameters:
   table_name: kb_knowledge
-  query: "published knowledge articles about resetting passwords or changing credentials or account lockout"
+  query: workflow_state=published^short_descriptionLIKEpassword^ORshort_descriptionLIKEcredential^ORshort_descriptionLIKElockout
   fields: sys_id,number,short_description,text,kb_knowledge_base,author
   limit: 30
 ```
@@ -215,7 +215,7 @@ Parameters:
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Structured queries for articles, usage data, feedback |
-| `SN-NL-Search` | Natural language search for topic-based duplicate discovery |
+| `SN-Natural-Language-Search` | Natural language search for topic-based duplicate discovery |
 | `SN-Update-Record` | Retire duplicates, update authoritative articles |
 | `SN-Add-Work-Notes` | Document deduplication decisions and rationale |
 

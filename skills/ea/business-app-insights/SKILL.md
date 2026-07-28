@@ -1,9 +1,9 @@
 ---
 name: business-app-insights
-version: 1.0.0
+version: 1.0.1
 description: Generate insights for business applications including health, dependencies, technology stack, and modernization recommendations
 author: Happy Technologies LLC
-tags: [enterprise-architecture, business-application, cmdb, dependencies, modernization, cmdb_ci_business_app, sn_ea_tech_standard]
+tags: [enterprise-architecture, business-application, cmdb, dependencies, modernization, cmdb-ci-business-app, sn-ea-tech-standard]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
@@ -432,7 +432,7 @@ Parameters:
 ## Related Skills
 
 - `ea/adr-summarization` - Architecture Decision Record summarization
-- `cmdb/ci-management` - CMDB configuration item management
-- `cmdb/dependency-mapping` - Deep dependency analysis
+- `cmdb/ci-discovery` - CMDB configuration item management
+- `cmdb/relationship-mapping` - Deep dependency analysis
 - `reporting/analytics-generation` - Dashboard creation for portfolio views
 - `spm/project-insights` - Project and portfolio management insights

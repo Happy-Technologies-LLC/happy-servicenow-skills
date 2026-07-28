@@ -1,6 +1,6 @@
 ---
 name: approval-workflows
-version: 1.0.0
+version: 1.0.1
 description: Complete guide to configuring catalog approval rules, multi-level approvals, delegation, and escalation
 author: Happy Technologies LLC
 tags: [catalog, approval, workflow, sysapproval, service-catalog, itil]
@@ -556,8 +556,8 @@ Parameters:
 
 - `catalog/item-creation` - Creating catalog items (prerequisite)
 - `catalog/request-fulfillment` - Processing approved requests
-- `admin/workflow-management` - Building approval workflows
-- `admin/notification-management` - Approval notification setup
+- `admin/workflow-creation` - Building approval workflows
+- `development/notifications` - Approval notification setup
 
 ## References
 

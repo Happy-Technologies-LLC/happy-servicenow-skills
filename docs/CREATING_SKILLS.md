@@ -6,8 +6,8 @@ This guide walks you through creating your own skills for the library.
 
 1. Copy the template:
    ```bash
-   mkdir -p skills/[category]/my-skill
-   cp templates/skill-template.md skills/[category]/my-skill/SKILL.md
+   mkdir -p skills/<category>/my-skill
+   cp templates/skill-template/TEMPLATE.md skills/<category>/my-skill/SKILL.md
    ```
 
 2. Edit the frontmatter:
@@ -22,11 +22,14 @@ This guide walks you through creating your own skills for the library.
    ---
    ```
 
+   The `name` must be globally unique and path-derived: use either `my-skill`
+   or `<category>-my-skill` when another category already uses that leaf name.
+
 3. Write the content following the template structure
 
 4. Validate:
    ```bash
-   npm run validate skills/[category]/my-skill
+   npx hps validate <category>/my-skill
    ```
 
 5. Test with an AI agent
@@ -166,13 +169,7 @@ Parameters:
 | sysparm_fields | Query | Fields to return |
 | sysparm_limit | Query | Max records |
 
-**Example:**
-\`\`\`bash
-curl -X GET \
-  'https://instance.service-now.com/api/now/table/incident?sysparm_query=active=true&sysparm_limit=10' \
-  -H 'Authorization: Basic <token>' \
-  -H 'Accept: application/json'
-\`\`\`
+**Safe fallback guidance:** Prefer an equivalent MCP tool example. If raw REST is genuinely required, describe the endpoint and request shape without authentication material. Refer readers to an organization-approved local credential helper; never put credentials, tokens, authentication headers, or secret placeholders in commands, JSON, MCP arguments, logs, or generated documentation.
 ```
 
 ## Testing Your Skill
@@ -192,7 +189,7 @@ curl -X GET \
 
 ```bash
 # Validate single skill
-npm run validate skills/category/my-skill
+npx hps validate category/my-skill
 
 # Validate all skills
 npm run validate
@@ -244,7 +241,7 @@ Any additional context or considerations.
 
 - Use triple backticks with language identifier
 - For tool calls, use plain text (no language)
-- For REST/curl, use `bash`
+- For secret-safe REST request shapes, use `bash`; omit all authentication material
 - For JavaScript, use `javascript`
 
 ### Tables

@@ -1,14 +1,13 @@
 ---
 name: quick-reference
-version: 1.0.0
+version: 1.0.2
 description: ITSM quick reference card with common operations, state values, priority matrix, and encoded query examples
 author: Happy Technologies LLC
 tags: [itsm, reference, cheatsheet, quick-start]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
-  mcp: [SN-Query-Table, SN-Create-Record, SN-Update-Record, SN-Get-Record, SN-List-Incidents, SN-Create-Incident, SN-Update-Incident, SN-Close-Incident, SN-Assign-Incident, SN-Add-Work-Notes, SN-Search-Incidents, SN-List-ChangeRequests, SN-List-Problems]
+  mcp: [SN-Query-Table, SN-Create-Record, SN-Update-Record, SN-Get-Record, SN-List-Incidents, SN-Create-Incident, SN-Resolve-Incident, SN-Close-Incident, SN-Assign-Incident, SN-Add-Work-Notes, SN-Natural-Language-Search, SN-List-ChangeRequests, SN-List-Problems]
   rest: [/api/now/table/incident, /api/now/table/change_request, /api/now/table/problem]
-  native: []
 complexity: beginner
 estimated_time: 5 minutes
 ---
@@ -23,6 +22,11 @@ A quick reference card for common ITSM operations in ServiceNow. Keep this handy
 - **Who should use this skill?** Anyone working with incidents, changes, or problems
 - **What are the expected outcomes?** Faster development with fewer documentation lookups
 
+## Prerequisites
+
+- Appropriate roles and table access for the operation being performed
+- A confirmed target instance before making changes
+
 ## Procedure
 
 ### Incident Operations
@@ -33,12 +37,12 @@ A quick reference card for common ITSM operations in ServiceNow. Keep this handy
 |--------|----------|----------------|
 | List incidents | `SN-List-Incidents` | `query`, `limit` |
 | Create incident | `SN-Create-Incident` | `short_description`, `caller_id`, `category` |
-| Update incident | `SN-Update-Incident` | `sys_id`, field updates |
+| Update incident | `SN-Update-Record` | `table_name: incident`, `sys_id`, `data` |
 | Get incident | `SN-Get-Incident` | `sys_id` |
 | Close incident | `SN-Close-Incident` | `sys_id`, `resolution_code`, `resolution_notes` |
 | Assign incident | `SN-Assign-Incident` | `sys_id`, `assigned_to`, `assignment_group` |
 | Add work notes | `SN-Add-Work-Notes` | `sys_id`, `work_notes` |
-| Search incidents | `SN-Search-Incidents` | Natural language query |
+| Search incidents | `SN-Natural-Language-Search` | `table: incident`, natural language query |
 
 ### Create Incident
 
@@ -299,11 +303,11 @@ Parameters:
 | `SN-List-Incidents` | Query incidents | - |
 | `SN-Get-Incident` | Get single incident | `sys_id` |
 | `SN-Create-Incident` | Create incident | `short_description` |
-| `SN-Update-Incident` | Update incident | `sys_id` |
+| `SN-Update-Record` | Update incident | `table_name`, `sys_id`, `data` |
 | `SN-Close-Incident` | Close incident | `sys_id`, `resolution_code` |
 | `SN-Assign-Incident` | Assign incident | `sys_id` |
 | `SN-Add-Work-Notes` | Add work notes | `sys_id`, `work_notes` |
-| `SN-Search-Incidents` | NL search | `query` |
+| `SN-Natural-Language-Search` | NL search | `table`, `query` |
 
 ### Generic Tools
 
@@ -321,15 +325,15 @@ Parameters:
 ```
 1. Query: SN-Query-Table(table_name: incident, query: state=1^active=true)
 2. Review: Check short_description, category, caller_id
-3. Categorize: SN-Update-Incident(sys_id: X, category: network, subcategory: connectivity)
-4. Prioritize: SN-Update-Incident(sys_id: X, impact: 2, urgency: 2)
+3. Categorize: SN-Update-Record(table_name: incident, sys_id: X, data: {category: network, subcategory: connectivity}, instance: dev)
+4. Prioritize: SN-Update-Record(table_name: incident, sys_id: X, data: {impact: 2, urgency: 2}, instance: dev)
 5. Assign: SN-Assign-Incident(sys_id: X, assignment_group: <network_team>)
 ```
 
 ### Escalate Incident
 
 ```
-1. Update state: SN-Update-Incident(sys_id: X, state: 2)
+1. Update state: SN-Update-Record(table_name: incident, sys_id: X, data: {state: 2}, instance: dev)
 2. Add notes: SN-Add-Work-Notes(sys_id: X, work_notes: Escalating to L2 per procedure)
 3. Reassign: SN-Assign-Incident(sys_id: X, assignment_group: <l2_team>)
 ```
@@ -337,7 +341,7 @@ Parameters:
 ### Resolve Incident
 
 ```
-1. Update: SN-Update-Incident(sys_id: X, state: 6, resolution_code: Solved (Permanently), resolution_notes: Restarted service)
+1. Resolve: SN-Resolve-Incident(sys_id: X, resolution_code: Solved (Permanently), resolution_notes: Restarted service, instance: dev)
 2. Notify: SN-Add-Work-Notes(sys_id: X, work_notes: Resolution confirmed by user)
 ```
 
@@ -370,6 +374,12 @@ Parameters:
 | `sysparm_limit` | Max records | `100` |
 | `sysparm_offset` | Skip records | `50` |
 | `sysparm_display_value` | Display values | `all`, `true`, `false` |
+
+## Best Practices
+
+- Query and verify records before updating them.
+- Prefer the narrowest table, field list, and encoded query that satisfies the task.
+- Confirm state and resolution values against the target instance before closing records.
 
 ## Related Skills
 

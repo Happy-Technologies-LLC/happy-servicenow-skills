@@ -1,6 +1,6 @@
 ---
 name: flow-generation
-version: 1.0.0
+version: 1.0.1
 description: Generate ServiceNow Flow Designer flows from natural language descriptions including triggers, actions, conditions, subflows, approval flows, notification flows, and data manipulation flows
 author: Happy Technologies LLC
 tags: [genai, flow-designer, automation, flows, triggers, actions, subflows, approvals, notifications]
@@ -343,4 +343,4 @@ Generate a scheduled flow to archive old resolved incidents:
 - `genai/playbook-generation` - Process Automation Designer playbooks
 - `genai/spoke-generation` - Integration Hub spoke creation
 - `catalog/approval-workflows` - Catalog-specific approval configuration
-- `itsm/incident-management` - Incident table structure and fields
+- `itsm/incident-lifecycle` - Incident table structure and fields

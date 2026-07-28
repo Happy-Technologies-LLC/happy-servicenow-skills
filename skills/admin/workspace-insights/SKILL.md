@@ -1,6 +1,6 @@
 ---
 name: workspace-insights
-version: 1.0.0
+version: 1.0.1
 description: Workplace service delivery insights including space utilization, service request patterns, facility management metrics, and desk booking analytics
 author: Happy Technologies LLC
 tags: [admin, workplace, facilities, space-utilization, desk-booking, service-delivery, analytics, wsd]
@@ -8,8 +8,8 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-Read-Record
-    - SN-NL-Search
+    - SN-Get-Record
+    - SN-Natural-Language-Search
   rest:
     - /api/now/table/wsd_space
     - /api/now/table/wsd_reservation
@@ -361,8 +361,8 @@ TRENDS:
 | Tool | Purpose | When to Use |
 |------|---------|-------------|
 | SN-Query-Table | Retrieve space, reservation, and request data | Primary data collection |
-| SN-Read-Record | Get specific building or space details | Detailed record inspection |
-| SN-NL-Search | Find spaces or requests by description | Exploratory search |
+| SN-Get-Record | Get specific building or space details | Detailed record inspection |
+| SN-Natural-Language-Search | Find spaces or requests by description | Exploratory search |
 
 ## Best Practices
 

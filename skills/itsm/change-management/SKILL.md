@@ -1,6 +1,6 @@
 ---
 name: change-management
-version: 1.0.0
+version: 1.0.1
 description: Complete change lifecycle management including RFC creation, CAB preparation, approval workflows, implementation coordination, and post-implementation review
 author: Happy Technologies LLC
 tags: [itsm, change, rfc, cab, approval, implementation, pir, itil]
@@ -923,8 +923,8 @@ Testing: Minimal (risk accepted)
 - `itsm/incident-lifecycle` - For related incidents
 - `itsm/major-incident` - Emergency changes during major incidents
 - `itsm/problem-analysis` - Changes for permanent fixes
-- `admin/release-management` - Release coordination
-- `admin/configuration-management` - CMDB updates
+- `admin/deployment-workflow` - Release coordination
+- `admin/update-set-management` - CMDB updates
 
 ## References
 

@@ -1,6 +1,6 @@
 ---
 name: incident-activity-summarization
-version: 1.0.0
+version: 1.0.1
 description: Summarize incident activity streams including work notes, comments, state changes, assignment history, and communications into concise narratives for handoffs, escalations, and management reviews
 author: Happy Technologies LLC
 tags: [itsm, incident, summarization, activity, work-notes, state-changes, assignment-history, handoff, zero-touch]
@@ -9,7 +9,7 @@ tools:
   mcp:
     - SN-Query-Table
     - SN-Get-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Add-Work-Notes
   rest:
     - /api/now/table/incident
@@ -304,7 +304,7 @@ Parameters:
 |------|---------|-------------|
 | SN-Get-Record | Retrieve incident record details | Initial context gathering |
 | SN-Query-Table | Fetch journal entries, audit trail, SLA records | Activity data retrieval |
-| SN-NL-Search | Find related incidents by description | Cross-incident pattern analysis |
+| SN-Natural-Language-Search | Find related incidents by description | Cross-incident pattern analysis |
 | SN-Add-Work-Notes | Attach generated summary to incident | Documentation and handoff |
 
 ## Best Practices

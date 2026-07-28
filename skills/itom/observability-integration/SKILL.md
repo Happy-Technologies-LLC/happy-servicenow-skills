@@ -1,6 +1,6 @@
 ---
 name: observability-integration
-version: 1.0.0
+version: 1.0.1
 description: Integrate observability data from Datadog, Dynatrace, and New Relic into ServiceNow ITOM, covering metric ingestion, alert normalization, and event management connectors
 author: Happy Technologies LLC
 tags: [itom, observability, datadog, dynatrace, new-relic, monitoring, alerts, event-management, integration]
@@ -12,7 +12,7 @@ tools:
     - SN-Create-Record
     - SN-Update-Record
     - SN-Execute-Background-Script
-    - SN-NL-Search
+    - SN-Natural-Language-Search
   rest:
     - /api/now/table/em_alert
     - /api/now/table/em_event
@@ -309,7 +309,7 @@ GET /api/now/table/sa_metric_definition?sysparm_query=active=true^ORDERBYname&sy
 | `SN-Create-Record` | Create new connector instances or match rules |
 | `SN-Update-Record` | Modify connector configuration or alert states |
 | `SN-Execute-Background-Script` | CI binding analysis, bulk validation, normalization review |
-| `SN-NL-Search` | Natural language queries like "unbound alerts from Datadog" |
+| `SN-Natural-Language-Search` | Natural language queries like "unbound alerts from Datadog" |
 
 ### REST API Reference
 

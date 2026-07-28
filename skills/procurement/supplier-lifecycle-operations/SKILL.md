@@ -1,6 +1,6 @@
 ---
 name: supplier-lifecycle-operations
-version: 1.0.0
+version: 1.0.1
 description: Manage supplier onboarding, qualification, performance monitoring, and offboarding with auditable lifecycle controls
 author: Happy Technologies LLC
 tags: [procurement, supplier, lifecycle, onboarding, qualification, performance, offboarding]
@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Create-Record
     - SN-Update-Record
     - SN-Add-Work-Notes
@@ -136,7 +136,7 @@ Capture decision evidence and next steps in work notes, including owners and due
 | Tool | Purpose |
 |---|---|
 | `SN-Query-Table` | Gather supplier, purchasing, and invoice history |
-| `SN-Read-Record` | Retrieve full supplier and contract context |
+| `SN-Get-Record` | Retrieve full supplier and contract context |
 | `SN-Create-Record` | Create lifecycle tasks and governance actions |
 | `SN-Update-Record` | Update supplier status and lifecycle stage |
 | `SN-Add-Work-Notes` | Record qualification and offboarding rationale |
