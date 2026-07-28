@@ -17,10 +17,40 @@ const contents = Object.fromEntries(await Promise.all(
   ])
 ));
 
+function fencedExamples(markdown) {
+  return [...markdown.matchAll(/^```[^\n]*\n([\s\S]*?)^```[ \t]*$/gm)]
+    .map(match => match[1]);
+}
+
+function unsafeSecretExamples(markdown) {
+  const secretOption = /--(?:password|client-secret|(?:access-|api-)?token|api-key|apikey)(?:=\S+|[ \t]+\S+)/i;
+  const credentialHeader = /(?:^|\s)(?:-H\s+|--header\s+)?["']?(?:Authorization|X-API-Key)["']?\s*:/im;
+
+  return fencedExamples(markdown).filter(example =>
+    secretOption.test(example) || credentialHeader.test(example)
+  );
+}
+
+function positiveDocsOnlyRecommendations(markdown) {
+  const recommendations = [];
+
+  for (const example of fencedExamples(markdown)) {
+    if (/--docs-only\b/i.test(example)) recommendations.push(example);
+  }
+
+  const prose = markdown.replace(/^```[^\n]*\n[\s\S]*?^```[ \t]*$/gm, '');
+  for (const line of prose.split('\n').filter(candidate => /--docs-only\b/i.test(candidate))) {
+    const explicitlyNegative = /\b(?:do not|don't|never|must not|avoid)\b|\b(?:unreliable|broken)\b|\b(?:does not|doesn't|cannot|can't|not reliably)\b/i.test(line);
+    const recommendsUse = /\b(?:use|run|recommend|launch|start|invoke|pass|configure|add|set)\b/i.test(line);
+    if (recommendsUse && !explicitlyNegative) recommendations.push(line);
+  }
+
+  return recommendations;
+}
+
 describe('Happy Platform MCP v5.1 setup guidance', () => {
   test.each(Object.entries(contents))('%s contains no secret-bearing examples', (_name, markdown) => {
     const forbidden = [
-      /Authorization\s*:/i,
       /curl[^\n]*(?:\s-u\s|--user\b)/i,
       /["'](?:password|clientSecret|client_secret|access_token|token)["']\s*:/i,
       /["'][^"'\n]*(?:PASSWORD|CLIENT_SECRET|ACCESS_TOKEN|API_TOKEN)[^"'\n]*["']\s*:/i,
@@ -33,6 +63,27 @@ describe('Happy Platform MCP v5.1 setup guidance', () => {
     for (const pattern of forbidden) {
       expect(markdown).not.toMatch(pattern);
     }
+    expect(unsafeSecretExamples(markdown)).toEqual([]);
+  });
+
+  test.each([
+    ['password argument', '```bash\nhappy-platform-mcp instance add --password VALUE\n```'],
+    ['password equals argument', '```bash\nhappy-platform-mcp instance add --password=VALUE\n```'],
+    ['client secret argument', '```bash\nhappy-platform-mcp instance add --client-secret VALUE\n```'],
+    ['client secret equals argument', '```bash\nhappy-platform-mcp instance add --client-secret=VALUE\n```'],
+    ['token argument', '```bash\nprobe --token VALUE\n```'],
+    ['access token argument', '```bash\nprobe --access-token=VALUE\n```'],
+    ['API token argument', '```bash\nprobe --api-token VALUE\n```'],
+    ['API key argument', '```bash\nprobe --api-key=VALUE\n```'],
+    ['authorization header', '```bash\ncurl -H "Authorization: Bearer VALUE" https://example.invalid\n```'],
+    ['API key header', '```bash\ncurl -H "X-API-Key: VALUE" https://example.invalid\n```']
+  ])('detects unsafe fenced %s', (_name, markdown) => {
+    expect(unsafeSecretExamples(markdown)).toHaveLength(1);
+  });
+
+  test('allows prose that explains forbidden credential patterns', () => {
+    const policy = 'Never use --password VALUE or generate an Authorization: header in documentation.';
+    expect(unsafeSecretExamples(policy)).toEqual([]);
   });
 
   test('installation documents the supported local CLI and storage model', () => {
@@ -60,13 +111,26 @@ describe('Happy Platform MCP v5.1 setup guidance', () => {
   test('docs-only and registration guidance reflects v5.1 behavior and caveats', () => {
     const guidance = `${contents.installation}\n${contents.docsOnly}`;
     expect(guidance).toContain('HAPPY_MCP_DOCS_ONLY=true');
-    expect(guidance).not.toMatch(/recommend[^\n]*--docs-only/i);
+    expect(positiveDocsOnlyRecommendations(guidance)).toEqual([]);
     expect(guidance).toMatch(/automatic(?:ally)?[^\n]*docs-only/i);
     expect(guidance).toMatch(/metadata-only[^\n]*SN-Register-Instance|SN-Register-Instance[^\n]*metadata-only/i);
     expect(guidance).toMatch(/rejects? secret fields?/i);
     expect(guidance).toMatch(/live reload/i);
     expect(guidance).toMatch(/restart[^\n]*docs-only/i);
     expect(guidance).toMatch(/externally preprovisioned deterministic keychain refs?/i);
+  });
+
+  test.each([
+    ['fenced command', '```bash\nhappy-platform-mcp --docs-only\n```'],
+    ['imperative prose', 'Run `happy-platform-mcp --docs-only` to start documentation mode.'],
+    ['recommendation prose', 'We recommend using `--docs-only` for documentation mode.']
+  ])('detects a positive docs-only recommendation in %s', (_name, markdown) => {
+    expect(positiveDocsOnlyRecommendations(markdown)).toHaveLength(1);
+  });
+
+  test('allows an explicit warning about the unreliable docs-only flag', () => {
+    const policy = 'The v5.1 `--docs-only` flag is unreliable and must not be used; set `HAPPY_MCP_DOCS_ONLY=true` instead.';
+    expect(positiveDocsOnlyRecommendations(policy)).toEqual([]);
   });
 
   test('instance routing uses the live v5.1 tools and concurrency semantics', () => {
