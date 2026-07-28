@@ -5,7 +5,7 @@
  */
 
 import { readFile } from 'fs/promises';
-import { join, dirname } from 'path';
+import { join, dirname, resolve, sep } from 'path';
 import { fileURLToPath } from 'url';
 import matter from 'gray-matter';
 
@@ -19,8 +19,17 @@ export class SkillLoader {
    * @returns {Promise<Skill>} Parsed skill object
    */
   static async load(skillPath) {
-    const fullPath = join(SKILLS_DIR, skillPath, 'SKILL.md');
-    const legacyPath = join(SKILLS_DIR, `${skillPath}.md`);
+    if (typeof skillPath !== 'string' || !/^[a-z0-9][a-z0-9-]*\/[a-z0-9][a-z0-9-]*$/.test(skillPath)) {
+      throw new Error('Invalid skill path: expected "category/skill-name" using lowercase letters, numbers, and hyphens');
+    }
+
+    const fullPath = resolve(SKILLS_DIR, skillPath, 'SKILL.md');
+    const legacyPath = resolve(SKILLS_DIR, `${skillPath}.md`);
+    const skillsRoot = `${resolve(SKILLS_DIR)}${sep}`;
+
+    if (!fullPath.startsWith(skillsRoot) || !legacyPath.startsWith(skillsRoot)) {
+      throw new Error('Invalid skill path: path must remain inside the skills directory');
+    }
 
     try {
       const content = await readFile(fullPath, 'utf-8');

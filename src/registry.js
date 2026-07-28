@@ -29,6 +29,11 @@ export class SkillRegistry {
    * @returns {Promise<void>}
    */
   async discover() {
+    this.skills.clear();
+    for (const index of Object.values(this.index)) {
+      index.clear();
+    }
+
     const categories = await readdir(SKILLS_DIR, { withFileTypes: true });
 
     for (const category of categories) {
