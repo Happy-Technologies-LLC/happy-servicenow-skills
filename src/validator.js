@@ -13,6 +13,8 @@ import matter from 'gray-matter';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SKILLS_DIR = join(__dirname, '..', 'skills');
 const REPOSITORY_ROOT = join(__dirname, '..');
+const PACKAGE_MANIFEST = JSON.parse(await readFile(join(REPOSITORY_ROOT, 'package.json'), 'utf8'));
+const PACKAGED_FILE_RULES = PACKAGE_MANIFEST.files || [];
 const MCP_TOOL_CONTRACT = JSON.parse(await readFile(
   join(REPOSITORY_ROOT, 'contracts', 'happy-platform-mcp-5.1.0.json'),
   'utf8'
@@ -308,29 +310,31 @@ export class SkillValidator {
     const canonicalRoot = realpathSync(absoluteRoot);
 
     for (const link of this.markdownLinks(body)) {
-      if (this.isUnsafeLink(link.target)) {
-        this.error(bodyStartLine + link.line - 1, `Unsafe Markdown link scheme: ${link.target}`);
-        continue;
-      }
-      if (this.isExternalLink(link.target) || link.target.startsWith('#')) continue;
-      const targetWithoutFragment = link.target.split('#')[0];
-      if (!targetWithoutFragment) continue;
       let decodedTarget;
       try {
-        decodedTarget = decodeURIComponent(targetWithoutFragment);
+        decodedTarget = decodeURIComponent(link.target);
       } catch {
         this.error(bodyStartLine + link.line - 1, `Malformed percent-encoding in Markdown link: ${link.target}`);
         continue;
       }
-      if (this.isUnsafeLink(decodedTarget)) {
+      if (decodedTarget.startsWith('#')) continue;
+      const scheme = this.uriScheme(decodedTarget);
+      if (scheme && ['http', 'https'].includes(scheme)) continue;
+      if (scheme && ['javascript', 'data', 'file'].includes(scheme)) {
         this.error(bodyStartLine + link.line - 1, `Unsafe Markdown link scheme: ${link.target}`);
         continue;
       }
-      if (this.isAbsoluteFilesystemPath(decodedTarget)) {
+      if (scheme || decodedTarget.startsWith('//')) {
+        this.error(bodyStartLine + link.line - 1, `Unsupported Markdown URI scheme: ${link.target}`);
+        continue;
+      }
+      const targetWithoutFragment = decodedTarget.split('#')[0];
+      if (!targetWithoutFragment) continue;
+      if (this.isAbsoluteFilesystemPath(targetWithoutFragment)) {
         this.error(bodyStartLine + link.line - 1, `Absolute local Markdown link is not allowed: ${link.target}`);
         continue;
       }
-      const absoluteTarget = resolve(dirname(absoluteSourcePath), decodedTarget);
+      const absoluteTarget = resolve(dirname(absoluteSourcePath), targetWithoutFragment);
       if (!this.isPathContained(absoluteRoot, absoluteTarget)) {
         this.error(bodyStartLine + link.line - 1, `Local Markdown link escapes the packed root: ${link.target}`);
         continue;
@@ -342,6 +346,8 @@ export class SkillValidator {
       const canonicalTarget = realpathSync(absoluteTarget);
       if (!this.isPathContained(canonicalRoot, canonicalTarget)) {
         this.error(bodyStartLine + link.line - 1, `Local Markdown link resolves outside the packed root: ${link.target}`);
+      } else if (!this.isPackagedPath(canonicalRoot, canonicalTarget)) {
+        this.error(bodyStartLine + link.line - 1, `Local Markdown link target is not included in the package: ${link.target}`);
       }
     }
 
@@ -364,16 +370,17 @@ export class SkillValidator {
     const markdownTargets = new Set(relatedLinks.map(link => link.raw));
     for (const link of relatedLinks) {
       const line = related.startLine + link.line - 1;
-      if (this.isExternalLink(link.target) || link.target.startsWith('#')) {
-        this.error(line, `Related Skills Markdown link must resolve to a catalog skill: ${link.target}`);
-        continue;
-      }
       let decodedTarget;
       try {
-        decodedTarget = decodeURIComponent(link.target.split('#')[0]);
+        decodedTarget = decodeURIComponent(link.target);
       } catch {
         continue;
       }
+      if (this.uriScheme(decodedTarget) || decodedTarget.startsWith('//') || decodedTarget.startsWith('#')) {
+        this.error(line, `Related Skills Markdown link must resolve to a catalog skill: ${link.target}`);
+        continue;
+      }
+      decodedTarget = decodedTarget.split('#')[0];
       if (this.isAbsoluteFilesystemPath(decodedTarget)) continue;
       const absoluteTarget = resolve(dirname(absoluteSourcePath), decodedTarget);
       const catalogTarget = this.catalogPathForLocalTarget(absoluteTarget, skillsRoot);
@@ -428,7 +435,7 @@ export class SkillValidator {
     };
 
     for (const match of content.matchAll(/`([^`]+)`/g)) add(match[1], match[0], match.index);
-    for (const match of content.matchAll(/^\s*-\s+((?:[a-z0-9]+(?:-[a-z0-9]+)*\/)?[a-z0-9]+(?:-[a-z0-9]+)*)(?=\s*(?:-|$))/gm)) {
+    for (const match of content.matchAll(/^\s*-\s+((?:[a-z0-9]+(?:-[a-z0-9]+)*\/)?[a-z0-9]+(?:-[a-z0-9]+)*)(?=\s+(?:-{1,2}|—)\s+|\s*$)/gm)) {
       add(match[1], match[0], match.index);
     }
     return candidates;
@@ -446,12 +453,8 @@ export class SkillValidator {
     return entries;
   }
 
-  isExternalLink(target) {
-    return /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(target);
-  }
-
-  isUnsafeLink(target) {
-    return /^(?:javascript|data|file):/i.test(target);
+  uriScheme(target) {
+    return /^([a-z][a-z0-9+.-]*):/i.exec(target)?.[1].toLowerCase() || null;
   }
 
   isAbsoluteFilesystemPath(target) {
@@ -463,6 +466,18 @@ export class SkillValidator {
     return targetRelative !== '..' &&
       !targetRelative.startsWith(`..${sep}`) &&
       !isAbsolute(targetRelative);
+  }
+
+  isPackagedPath(root, target) {
+    const packagedPath = relative(resolve(root), resolve(target)).split(sep).join('/');
+    if (packagedPath === 'package.json') return true;
+    return PACKAGED_FILE_RULES.some(rule => {
+      if (rule.endsWith('/**/*')) {
+        const prefix = rule.slice(0, -5);
+        return packagedPath === prefix || packagedPath.startsWith(`${prefix}/`);
+      }
+      return packagedPath === rule;
+    });
   }
 
   inferSkillSlug(path, sourcePath) {
@@ -572,6 +587,19 @@ export class SkillValidator {
     return result;
   }
 
+  static unreadableResult(skillPath, sourcePath, error, isDirectory) {
+    const message = error?.code === 'ENOENT' && isDirectory
+      ? `${sourcePath}:1: Missing required skill file: SKILL.md`
+      : `${sourcePath}:1: Could not read file: ${error?.message || 'unknown error'}`;
+    return {
+      path: skillPath,
+      valid: false,
+      errors: [message],
+      warnings: [],
+      summary: '❌ Could not read file'
+    };
+  }
+
   /**
    * Extract section names from markdown
    * @param {string} content - Markdown content
@@ -624,46 +652,38 @@ export class SkillValidator {
     const nameOwners = new Map();
     const categories = await readdir(skillsDir, { withFileTypes: true });
     const catalogPaths = new Set();
+    const skillFiles = [];
 
     for (const category of categories) {
       if (!category.isDirectory()) continue;
       const categoryPath = join(skillsDir, category.name);
       const items = await readdir(categoryPath, { withFileTypes: true });
       for (const item of items) {
-        if (item.isDirectory()) catalogPaths.add(`${category.name}/${item.name}`);
-        else if (item.name.endsWith('.md')) {
-          catalogPaths.add(`${category.name}/${item.name.replace(/\.md$/, '')}`);
+        if (!item.isDirectory() && !item.name.endsWith('.md')) continue;
+        const slug = item.isDirectory() ? item.name : item.name.replace(/\.md$/, '');
+        const skillPath = `${category.name}/${slug}`;
+        const fullPath = item.isDirectory()
+          ? join(categoryPath, item.name, 'SKILL.md')
+          : join(categoryPath, item.name);
+        const descriptor = { fullPath, isDirectory: item.isDirectory(), skillPath, slug };
+        skillFiles.push(descriptor);
+        try {
+          descriptor.content = await readFile(fullPath, 'utf-8');
+          matter(descriptor.content);
+          catalogPaths.add(skillPath);
+        } catch (error) {
+          descriptor.error = error;
         }
       }
     }
 
-    for (const category of categories) {
-      if (!category.isDirectory()) continue;
-
-      const categoryPath = join(skillsDir, category.name);
-      const items = await readdir(categoryPath, { withFileTypes: true });
-
-      for (const item of items) {
-        let skillPath, fullPath;
-
-        if (item.isDirectory()) {
-          // New skills.sh format: skill/SKILL.md
-          skillPath = `${category.name}/${item.name}`;
-          fullPath = join(categoryPath, item.name, 'SKILL.md');
-        } else if (item.name.endsWith('.md')) {
-          // Old format: skill.md
-          skillPath = `${category.name}/${item.name.replace('.md', '')}`;
-          fullPath = join(categoryPath, item.name);
-        } else {
-          continue;
-        }
-
+    for (const { content, error, fullPath, isDirectory, skillPath, slug } of skillFiles) {
+      if (content !== undefined) {
         try {
-          const content = await readFile(fullPath, 'utf-8');
           const validator = new SkillValidator();
           const result = validator.validate(content, skillPath, {
             sourcePath: fullPath,
-            skillSlug: item.isDirectory() ? item.name : item.name.replace(/\.md$/, ''),
+            skillSlug: slug,
             catalogPaths,
             skillsRoot: skillsDir
           });
@@ -674,19 +694,11 @@ export class SkillValidator {
             owners.push({ result, sourcePath: fullPath, line: validator.frontmatterLine('name') });
             nameOwners.set(name, owners);
           }
-        } catch (error) {
-          const sourcePath = fullPath;
-          const message = error.code === 'ENOENT' && item.isDirectory()
-            ? `${sourcePath}:1: Missing required skill file: SKILL.md`
-            : `${sourcePath}:1: Could not read file: ${error.message}`;
-          results.push({
-            path: skillPath,
-            valid: false,
-            errors: [message],
-            warnings: [],
-            summary: '❌ Could not read file'
-          });
+        } catch (validationError) {
+          results.push(SkillValidator.unreadableResult(skillPath, fullPath, validationError, isDirectory));
         }
+      } else {
+        results.push(SkillValidator.unreadableResult(skillPath, fullPath, error, isDirectory));
       }
     }
 

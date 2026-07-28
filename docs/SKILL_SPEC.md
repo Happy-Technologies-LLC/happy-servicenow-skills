@@ -1,6 +1,6 @@
 # Happy ServiceNow Skills Specification
 
-Version: 1.2.0
+Version: 1.3.0
 
 This document defines the specification for creating skills in the Happy ServiceNow AI Skills library.
 
@@ -269,12 +269,16 @@ created directory is a validation error.
 - Local links must remain inside the packaged repository root after both lexical
   and real-path resolution. Absolute filesystem paths, symlink escapes,
   malformed percent encoding, and `javascript:`, `data:`, or `file:` links are errors.
+- Local targets must be included by the npm package manifest; a repository file
+  that is excluded from the tarball is not a valid link target.
 - Entries under `## Related Skills` may use a full `category/skill` path, a
   same-category `skill` slug, or a relative Markdown link to another skill.
 - Every Related Skills target must resolve to a different skill in the catalog;
   anchors, external URLs, self-references, and duplicate targets are invalid.
-- External `http`, `https`, and other URI links are not checked for network
-  availability by the local validator.
+- A catalog target is resolvable only when its `SKILL.md` is readable and its
+  frontmatter is parseable.
+- Only `http:` and `https:` external Markdown links are allowed. Other URI
+  schemes are rejected after percent decoding; network availability is not checked.
 
 ### Category Guidelines
 
@@ -343,3 +347,7 @@ See `templates/skill-template/TEMPLATE.md` for a full example.
 ### 1.2.0 (2026-07-27)
 - Added globally unique path-derived names, safe local-link containment, strict
   Related Skills integrity, and present-value complexity validation.
+
+### 1.3.0 (2026-07-27)
+- Added external URI allowlisting, packed-target membership, and readable,
+  parseable catalog-target requirements.

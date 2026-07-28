@@ -58,4 +58,19 @@ describe('hps validate <skill-path>', () => {
       new RegExp(`${sourcePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}:21:.*unknown related skill`, 'i')
     );
   });
+
+  test('reports a missing single skill concisely without a stack trace', () => {
+    const result = spawnSync(process.execPath, [
+      'src/cli.js',
+      'validate',
+      'missing-category/missing-skill'
+    ], {
+      cwd: repositoryRoot,
+      encoding: 'utf8'
+    });
+
+    expect(result.status).toBe(1);
+    expect(`${result.stdout}\n${result.stderr}`).toMatch(/Skill not found: missing-category\/missing-skill/);
+    expect(`${result.stdout}\n${result.stderr}`).not.toMatch(/\bat SkillValidator\.|src\/validator\.js:\d+/);
+  });
 });

@@ -337,6 +337,10 @@ describe('canonical skill integrity contract', () => {
           '[Data](data:text/plain,unsafe)',
           '[File](file:///etc/passwd)',
           '[Encoded](java%73cript:alert(1))',
+          '[VBScript](vbscript:msgbox(1))',
+          '[Encoded VBScript](vb%73cript:msgbox(1))',
+          '[Unknown](custom:resource)',
+          '[Encoded unknown](cust%6fm:resource)',
           '[Malformed](bad%E0%A4%A.md)'
         ].join('\n'),
         '## Prerequisites\n\n- Read access',
@@ -356,7 +360,86 @@ describe('canonical skill integrity contract', () => {
     expect(errors).toMatch(/unsafe Markdown link scheme.*data:/i);
     expect(errors).toMatch(/unsafe Markdown link scheme.*file:/i);
     expect(errors).toMatch(/unsafe Markdown link scheme.*java%73cript:/i);
+    expect(errors).toMatch(/unsupported Markdown URI scheme.*vbscript:/i);
+    expect(errors).toMatch(/unsupported Markdown URI scheme.*vb%73cript:/i);
+    expect(errors).toMatch(/unsupported Markdown URI scheme.*custom:/i);
+    expect(errors).toMatch(/unsupported Markdown URI scheme.*cust%6fm:/i);
     expect(errors).toMatch(/malformed percent-encoding.*bad%E0%A4%A\.md/i);
+  });
+
+  test('allows only HTTP and HTTPS external Markdown links', async () => {
+    const skillsRoot = await temporarySkillsRoot();
+    await writeSkill(skillsRoot, 'demo/sample-skill', skill({
+      sections: [
+        '## Overview\n\nRead [HTTP](http://example.com) and [HTTPS](https://example.com).',
+        '## Prerequisites\n\n- Read access',
+        '## Procedure\n\n1. Follow the external references safely.'
+      ]
+    }));
+
+    const [result] = await SkillValidator.validateAll({
+      skillsDir: skillsRoot,
+      includeContractDocuments: false
+    });
+    expect(result.errors).toEqual([]);
+  });
+
+  test('rejects an existing local link target excluded from the npm package', async () => {
+    const skillsRoot = await temporarySkillsRoot();
+    await writeFile(join(skillsRoot, '..', 'package-lock.json'), '{}\n');
+    await writeSkill(skillsRoot, 'demo/sample-skill', skill({
+      sections: [
+        '## Overview\n\nDo not link the [lockfile](../../../package-lock.json).',
+        '## Prerequisites\n\n- Read access',
+        '## Procedure\n\n1. Validate package membership.'
+      ]
+    }));
+
+    const [result] = await SkillValidator.validateAll({
+      skillsDir: skillsRoot,
+      includeContractDocuments: false
+    });
+    expect(result.errors.join('\n')).toMatch(
+      /SKILL\.md:\d+:.*local Markdown link target is not included in the package.*package-lock\.json/i
+    );
+  });
+
+  test('validateOne rejects Related targets whose SKILL.md is missing or malformed', async () => {
+    const skillsRoot = await temporarySkillsRoot();
+    await mkdir(join(skillsRoot, 'demo', 'missing-target'), { recursive: true });
+    await writeSkill(skillsRoot, 'demo/malformed-target', '---\nname: [malformed\n---\n');
+    await writeSkill(skillsRoot, 'demo/source-skill', skill({
+      name: 'source-skill',
+      sections: [
+        '## Overview\n\nExplain the goal.',
+        '## Prerequisites\n\n- Read access',
+        '## Procedure\n\n1. Validate each target.',
+        '## Related Skills\n\n- `demo/missing-target`\n- `demo/malformed-target`'
+      ]
+    }));
+
+    const result = await SkillValidator.validateOne('demo/source-skill', { skillsDir: skillsRoot });
+    const errors = result.errors.join('\n');
+    expect(errors).toMatch(/unknown related skill target.*demo\/missing-target/i);
+    expect(errors).toMatch(/unknown related skill target.*demo\/malformed-target/i);
+  });
+
+  test('extracts the complete missing plain Related target before an em dash', async () => {
+    const skillsRoot = await temporarySkillsRoot();
+    await writeSkill(skillsRoot, 'demo/source-skill', skill({
+      name: 'source-skill',
+      sections: [
+        '## Overview\n\nExplain the goal.',
+        '## Prerequisites\n\n- Read access',
+        '## Procedure\n\n1. Validate the target.',
+        '## Related Skills\n\n- missing/missing-skill — Target is intentionally absent'
+      ]
+    }));
+
+    const result = await SkillValidator.validateOne('demo/source-skill', { skillsDir: skillsRoot });
+    expect(result.errors.join('\n')).toMatch(
+      /unknown related skill target: missing\/missing-skill/i
+    );
   });
 
   test('requires Related Skills to be unique catalog targets other than the current skill', async () => {

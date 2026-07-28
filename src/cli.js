@@ -191,7 +191,13 @@ program
   .description('Validate skill files')
   .action(async (skillPath) => {
     if (skillPath) {
-      const result = await SkillValidator.validateOne(skillPath);
+      let result;
+      try {
+        result = await SkillValidator.validateOne(skillPath);
+      } catch (error) {
+        console.error(chalk.red(`\n❌ ${error.message}\n`));
+        process.exit(1);
+      }
 
       console.log(`\n${result.summary}\n`);
       result.errors.forEach(e => console.log(chalk.red(`  ❌ ${e}`)));
