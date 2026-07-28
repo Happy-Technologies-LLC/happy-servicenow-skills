@@ -45,6 +45,16 @@
     "url": "git+https://github.com/Happy-Technologies-LLC/happy-platform-skills.git"
   },
   "homepage": "https://github.com/Happy-Technologies-LLC/happy-platform-skills#readme",
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/Happy-Technologies-LLC"
+    },
+    {
+      "type": "buy_me_a_coffee",
+      "url": "https://buymeacoffee.com/nickzitzer"
+    }
+  ],
   "bugs": {
     "url": "https://github.com/Happy-Technologies-LLC/happy-platform-skills/issues"
   },
