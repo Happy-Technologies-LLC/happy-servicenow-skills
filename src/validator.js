@@ -417,13 +417,16 @@ export class SkillValidator {
     const links = [];
     const occupied = [];
     const definitions = new Map();
-    const definitionPattern = /^ {0,3}\[([^\]\n]+)\]:[ \t]*(?:<([^>\n]+)>|(\S+))(?:[ \t]+(?:"[^"\n]*"|'[^'\n]*'|\([^\)\n]*\)))?[ \t]*$/gm;
+    const definitionPattern = /^ {0,3}\[([^\]\n]+)\]:[ \t]*(?:\n[ \t]+)?(?:<([^>\n]+)>|(\S+))(?:[ \t]+(?:"[^"\n]*"|'[^'\n]*'|\([^\)\n]*\)))?[ \t]*$/gm;
     for (const match of referenceSource.matchAll(definitionPattern)) {
       const label = this.normalizeReferenceLabel(match[1]);
       if (!definitions.has(label)) {
+        const target = match[2] || match[3];
+        const renderedTarget = match[2] ? `<${target}>` : target;
+        const targetOffset = match[0].lastIndexOf(renderedTarget) + (match[2] ? 1 : 0);
         definitions.set(label, {
-          target: match[2] || match[3],
-          line: this.lineOf(referenceSource, match[0], match.index)
+          target,
+          line: this.lineOf(referenceSource, target, match.index + targetOffset)
         });
       }
       if (referenceSource === content) occupied.push([match.index, match.index + match[0].length]);
@@ -437,7 +440,7 @@ export class SkillValidator {
       occupied.push([match.index, match.index + raw.length]);
     }
 
-    const referencePattern = /!?\[([^\]\n]+)\]\[([^\]\n]*)\]/g;
+    const referencePattern = /!?\[([^\]\n]*)\]\[([^\]\n]*)\]/g;
     for (const match of content.matchAll(referencePattern)) {
       const definition = definitions.get(this.normalizeReferenceLabel(match[2] || match[1]));
       if (!definition) continue;
@@ -450,7 +453,7 @@ export class SkillValidator {
       occupied.push([match.index, match.index + match[0].length]);
     }
 
-    const shortcutPattern = /!?\[([^\]\n]+)\](?!\s*(?:\(|\[|:))/g;
+    const shortcutPattern = /!?\[([^\]\n]+)\](?![ \t]*(?:\(|\[|:))/g;
     for (const match of content.matchAll(shortcutPattern)) {
       if (occupied.some(([start, end]) => match.index >= start && match.index < end)) continue;
       const definition = definitions.get(this.normalizeReferenceLabel(match[1]));

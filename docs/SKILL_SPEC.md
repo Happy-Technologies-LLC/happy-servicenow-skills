@@ -1,6 +1,6 @@
 # Happy ServiceNow Skills Specification
 
-Version: 1.3.1
+Version: 1.3.2
 
 This document defines the specification for creating skills in the Happy ServiceNow AI Skills library.
 
@@ -281,7 +281,8 @@ created directory is a validation error.
   schemes are rejected after percent decoding; network availability is not checked.
 - Link validation covers inline links and images, full/collapsed/shortcut
   reference links, reference images, and URI autolinks. Ordinary HTML tags are
-  not interpreted as links.
+  not interpreted as links. Reference destinations may appear on the following
+  indented line as permitted by CommonMark.
 
 ### Category Guidelines
 
@@ -357,3 +358,6 @@ See `templates/skill-template/TEMPLATE.md` for a full example.
 
 ### 1.3.1 (2026-07-27)
 - Extended link integrity checks to reference-style Markdown and URI autolinks.
+
+### 1.3.2 (2026-07-27)
+- Added multiline reference destinations and empty-text reference forms.

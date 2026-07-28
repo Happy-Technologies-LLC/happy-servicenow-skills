@@ -466,6 +466,76 @@ describe('canonical skill integrity contract', () => {
     expect(result.errors).toEqual([]);
   });
 
+  test('validates multiline reference definitions and empty image or link text', async () => {
+    const skillsRoot = await temporarySkillsRoot();
+    const content = skill({
+      sections: [
+        [
+          '## Overview',
+          '',
+          '[danger]',
+          '',
+          '![][encoded-danger]',
+          '[][unknown-danger]',
+          '',
+          '[danger]:',
+          '  javascript:alert(1)',
+          '[encoded-danger]:',
+          '  vb%73cript:msgbox(1)',
+          '[unknown-danger]:',
+          '  custom:resource'
+        ].join('\n'),
+        '## Prerequisites\n\n- Read access',
+        '## Procedure\n\n1. Validate multiline definitions.'
+      ]
+    });
+    await writeSkill(skillsRoot, 'demo/sample-skill', content);
+
+    const [result] = await SkillValidator.validateAll({
+      skillsDir: skillsRoot,
+      includeContractDocuments: false
+    });
+    const dangerousTargetLine = content.slice(0, content.indexOf('javascript:alert')).split('\n').length;
+    const errors = result.errors.join('\n');
+    expect(errors).toMatch(
+      new RegExp(`SKILL\\.md:${dangerousTargetLine}:.*unsafe Markdown link scheme.*javascript:`, 'i')
+    );
+    expect(errors).toMatch(/unsupported Markdown URI scheme.*vb%73cript:/i);
+    expect(errors).toMatch(/unsupported Markdown URI scheme.*custom:/i);
+  });
+
+  test('accepts multiline HTTP and packaged local definitions with empty text forms', async () => {
+    const skillsRoot = await temporarySkillsRoot();
+    await writeSkill(skillsRoot, 'demo/sample-skill', skill({
+      sections: [
+        [
+          '## Overview',
+          '',
+          '[web]',
+          '',
+          '![][local-guide]',
+          '[][plain-http]',
+          '',
+          '[web]:',
+          '  https://example.com/multiline',
+          '[local-guide]:',
+          '  guide.md',
+          '[plain-http]:',
+          '  http://example.com/empty-text'
+        ].join('\n'),
+        '## Prerequisites\n\n- Read access',
+        '## Procedure\n\n1. Follow the valid references.'
+      ]
+    }));
+    await writeFile(join(skillsRoot, 'demo', 'sample-skill', 'guide.md'), '# Guide\n');
+
+    const [result] = await SkillValidator.validateAll({
+      skillsDir: skillsRoot,
+      includeContractDocuments: false
+    });
+    expect(result.errors).toEqual([]);
+  });
+
   test('rejects an existing local link target excluded from the npm package', async () => {
     const skillsRoot = await temporarySkillsRoot();
     await writeFile(join(skillsRoot, '..', 'package-lock.json'), '{}\n');
