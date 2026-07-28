@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Get-Record
     - SN-Add-Work-Notes
   rest:
@@ -133,7 +133,7 @@ Find applicable policy documents and knowledge articles based on the inquiry top
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   query: [employee_inquiry_topic]
   table: kb_knowledge
@@ -233,7 +233,7 @@ Parameters:
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Retrieve conversations, messages, cases, profiles, KB articles |
-| `SN-NL-Search` | Natural language search for relevant knowledge articles |
+| `SN-Natural-Language-Search` | Natural language search for relevant knowledge articles |
 | `SN-Get-Record` | Fetch a single record by sys_id for detailed review |
 | `SN-Add-Work-Notes` | Log recommendation details on the case record |
 

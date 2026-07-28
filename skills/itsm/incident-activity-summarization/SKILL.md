@@ -9,7 +9,7 @@ tools:
   mcp:
     - SN-Query-Table
     - SN-Get-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Add-Work-Notes
   rest:
     - /api/now/table/incident
@@ -304,7 +304,7 @@ Parameters:
 |------|---------|-------------|
 | SN-Get-Record | Retrieve incident record details | Initial context gathering |
 | SN-Query-Table | Fetch journal entries, audit trail, SLA records | Activity data retrieval |
-| SN-NL-Search | Find related incidents by description | Cross-incident pattern analysis |
+| SN-Natural-Language-Search | Find related incidents by description | Cross-incident pattern analysis |
 | SN-Add-Work-Notes | Attach generated summary to incident | Documentation and handoff |
 
 ## Best Practices

@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Execute-Background-Script
   rest:
     - /api/now/table/incident
@@ -318,7 +318,7 @@ Any day outside 14-38 range = Anomaly requiring investigation
 **Query Recent Anomalies:**
 If daily count exceeds threshold, investigate:
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: incident
   query: "incidents created today grouped by category"
@@ -333,7 +333,7 @@ Parameters:
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Primary tool for querying historical data |
-| `SN-NL-Search` | Natural language queries for quick exploration |
+| `SN-Natural-Language-Search` | Natural language queries for quick exploration |
 | `SN-Execute-Background-Script` | Complex aggregations using GlideAggregate |
 
 ### REST API Reference
@@ -566,7 +566,7 @@ CRM subcategory driving entire increase!
 
 **Step 3: Analyze CRM incidents**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: incident
   query: "software incidents for CRM created this month"

@@ -7,9 +7,9 @@ tags: [document, smart-documents, templates, version-control, approval, merge-fi
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Update-Record
     - SN-Add-Work-Notes
     - SN-Create-Record
@@ -460,9 +460,9 @@ Parameters:
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Find documents by description or content keywords |
+| `SN-Natural-Language-Search` | Find documents by description or content keywords |
 | `SN-Query-Table` | Query documents, templates, versions, approvals, distributions |
-| `SN-Read-Record` | Retrieve a specific document or template record |
+| `SN-Get-Record` | Retrieve a specific document or template record |
 | `SN-Create-Record` | Create documents, versions, approvals, distributions, merge fields |
 | `SN-Update-Record` | Update document state, publish, archive |
 | `SN-Add-Work-Notes` | Document lifecycle events and review notes |

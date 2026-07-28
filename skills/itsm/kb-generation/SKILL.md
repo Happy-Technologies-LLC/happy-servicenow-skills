@@ -11,7 +11,7 @@ tools:
     - SN-Get-Record
     - SN-Create-Record
     - SN-Update-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Execute-Background-Script
   rest:
     - /api/now/table/incident
@@ -161,7 +161,7 @@ Avoid duplicates by searching for existing knowledge on the topic.
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: kb_knowledge
   query: "[keywords from incident short_description]"
@@ -359,7 +359,7 @@ Parameters:
 | `SN-Get-Record` | Retrieve full incident/problem record details |
 | `SN-Create-Record` | Create new knowledge articles |
 | `SN-Update-Record` | Link articles to source records, update article content |
-| `SN-NL-Search` | Semantic search for existing articles to avoid duplicates |
+| `SN-Natural-Language-Search` | Semantic search for existing articles to avoid duplicates |
 | `SN-Execute-Background-Script` | Bulk candidate identification and article generation |
 
 ### REST API Reference
@@ -420,7 +420,7 @@ Parameters:
   limit: 10
 
 # 2. Check for existing KB
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: kb_knowledge
   query: "VPN connection troubleshooting"

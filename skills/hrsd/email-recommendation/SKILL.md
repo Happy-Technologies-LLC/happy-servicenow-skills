@@ -10,7 +10,7 @@ tools:
     - SN-Query-Table
     - SN-Get-Record
     - SN-Update-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Execute-Background-Script
     - SN-Add-Work-Notes
   rest:
@@ -108,7 +108,7 @@ Search for policy documentation and FAQ articles related to the case topic.
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: kb_knowledge
   query: "[case topic or keyword from short_description]"
@@ -247,7 +247,7 @@ Content-Type: application/json
 |------|-------------|
 | `SN-Get-Record` | Retrieve full HR case context |
 | `SN-Query-Table` | Query case history, emails, case types, KB articles |
-| `SN-NL-Search` | Find relevant knowledge articles by topic |
+| `SN-Natural-Language-Search` | Find relevant knowledge articles by topic |
 | `SN-Update-Record` | Update case with recommended response |
 | `SN-Add-Work-Notes` | Document the recommendation in case work notes |
 | `SN-Execute-Background-Script` | Confidentiality checks, bulk response generation |
@@ -306,7 +306,7 @@ Parameters:
   fields: number,short_description,description,hr_service,subject_person.name
 
 # 2. Find relevant KB article
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: kb_knowledge
   query: "benefits open enrollment deadlines"

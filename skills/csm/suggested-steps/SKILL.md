@@ -7,9 +7,9 @@ tags: [csm, resolution, suggested-steps, agent-assist, case-resolution, recommen
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Update-Record
   rest:
     - /api/now/table/sn_customerservice_case
@@ -57,7 +57,7 @@ Fetch the full case details to understand the issue being reported.
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_customerservice_case
   sys_id: [case_sys_id]
@@ -155,7 +155,7 @@ Find KB articles that can supplement resolution steps.
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   query: [case_short_description] [case_product]
   table: kb_knowledge
@@ -266,9 +266,9 @@ Content-Type: application/json
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Semantic search for similar cases and relevant KB articles |
+| `SN-Natural-Language-Search` | Semantic search for similar cases and relevant KB articles |
 | `SN-Query-Table` | Structured queries for historical cases, work notes, and interactions |
-| `SN-Read-Record` | Retrieve the active case details by sys_id |
+| `SN-Get-Record` | Retrieve the active case details by sys_id |
 | `SN-Update-Record` | Post suggested steps as work notes on the case |
 
 ### REST API Reference
@@ -297,7 +297,7 @@ Content-Type: application/json
 ### "No similar cases found"
 
 **Cause:** The case category/product combination is new or rare, or case data is sparse.
-**Solution:** Broaden the search by removing product or subcategory filters. Fall back to category-only matching or use `SN-NL-Search` with the case description for semantic matching.
+**Solution:** Broaden the search by removing product or subcategory filters. Fall back to category-only matching or use `SN-Natural-Language-Search` with the case description for semantic matching.
 
 ### "Suggested steps are too generic"
 
@@ -344,7 +344,7 @@ SUGGESTED STEPS (Confidence: High - 18 similar cases)
 **Input Case:** CS0056790 - "Incorrect charges on monthly invoice"
 
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   query: incorrect charges monthly invoice billing dispute
   table: sn_customerservice_case

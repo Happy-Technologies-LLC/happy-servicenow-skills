@@ -8,8 +8,8 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-Read-Record
-    - SN-NL-Search
+    - SN-Get-Record
+    - SN-Natural-Language-Search
     - SN-Create-Record
   rest:
     - /api/now/table/pm_project
@@ -58,7 +58,7 @@ Pull the core project record with key health indicators.
 
 **MCP Approach:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: pm_project
   sys_id: [PROJECT_SYS_ID]
@@ -333,8 +333,8 @@ ATTENTION REQUIRED:
 | Tool | Purpose | When to Use |
 |------|---------|-------------|
 | SN-Query-Table | Retrieve project tasks, risks, issues, resources | Data collection for reports |
-| SN-Read-Record | Get detailed project record | Core project data retrieval |
-| SN-NL-Search | Find projects by natural language description | Exploratory project lookup |
+| SN-Get-Record | Get detailed project record | Core project data retrieval |
+| SN-Natural-Language-Search | Find projects by natural language description | Exploratory project lookup |
 | SN-Create-Record | Create status report records in ServiceNow | Persisting generated reports |
 
 ## Best Practices
@@ -368,7 +368,7 @@ ATTENTION REQUIRED:
 **Scenario:** Generate weekly status report for an ERP implementation project.
 
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: pm_project
   sys_id: abc123def456

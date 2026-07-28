@@ -7,9 +7,9 @@ tags: [procurement, purchase-order, summarization, delivery-tracking, budget, re
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/proc_po
     - /api/now/table/proc_po_item
@@ -54,7 +54,7 @@ Fetch core PO details including vendor, amounts, and dates.
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: proc_po
   sys_id: [po_sys_id]
@@ -230,8 +230,8 @@ RELATED INVOICES:
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Query POs, line items, receipts, vendors, and requisitions |
-| `SN-NL-Search` | Natural language search (e.g., "find overdue purchase orders for Dell") |
-| `SN-Read-Record` | Retrieve a single PO record with all fields |
+| `SN-Natural-Language-Search` | Natural language search (e.g., "find overdue purchase orders for Dell") |
+| `SN-Get-Record` | Retrieve a single PO record with all fields |
 
 ### REST API Reference
 

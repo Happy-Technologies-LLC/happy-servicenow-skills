@@ -8,9 +8,9 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Add-Work-Notes
-    - SN-NL-Search
+    - SN-Natural-Language-Search
   rest:
     - /api/now/table/sn_si_incident
     - /api/now/table/sn_si_task
@@ -245,9 +245,9 @@ Parameters:
 | Tool | Purpose |
 |------|---------|
 | SN-Query-Table | Retrieve active incidents, tasks, audit entries, and vulnerabilities |
-| SN-Read-Record | Get detailed information on specific high-priority incidents |
+| SN-Get-Record | Get detailed information on specific high-priority incidents |
 | SN-Add-Work-Notes | Document the handover report on relevant incident records |
-| SN-NL-Search | Natural language queries for quick incident lookups |
+| SN-Natural-Language-Search | Natural language queries for quick incident lookups |
 
 ## Best Practices
 

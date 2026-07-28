@@ -7,9 +7,9 @@ tags: [document, extraction, intelligence, ocr, invoice, forms, templates, valid
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Update-Record
     - SN-Add-Work-Notes
     - SN-Create-Record
@@ -347,9 +347,9 @@ Content-Type: application/json
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Find extraction records or templates by description |
+| `SN-Natural-Language-Search` | Find extraction records or templates by description |
 | `SN-Query-Table` | Query templates, extractions, results, and field mappings |
-| `SN-Read-Record` | Retrieve a specific extraction or template record |
+| `SN-Get-Record` | Retrieve a specific extraction or template record |
 | `SN-Create-Record` | Create templates, field mappings, and extraction requests |
 | `SN-Update-Record` | Update extraction status, validate results, correct data |
 | `SN-Add-Work-Notes` | Document extraction outcomes and processing notes |

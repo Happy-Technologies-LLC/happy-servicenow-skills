@@ -7,9 +7,9 @@ tags: [procurement, sourcing, rfp, rfq, bid-analysis, vendor-evaluation, negotia
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/proc_sourcing_event
     - /api/now/table/proc_negotiation
@@ -84,7 +84,7 @@ Get full details for a single sourcing event.
 
 **Using MCP:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: proc_sourcing_event
   sys_id: [event_sys_id]
@@ -249,8 +249,8 @@ NEXT STEPS:
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Query sourcing events, negotiations, vendors, and contracts |
-| `SN-NL-Search` | Natural language search (e.g., "find open RFPs for networking equipment") |
-| `SN-Read-Record` | Retrieve full details of a single sourcing event |
+| `SN-Natural-Language-Search` | Natural language search (e.g., "find open RFPs for networking equipment") |
+| `SN-Get-Record` | Retrieve full details of a single sourcing event |
 
 ### REST API Reference
 

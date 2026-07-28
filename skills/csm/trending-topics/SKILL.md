@@ -7,9 +7,9 @@ tags: [csm, trending, analytics, patterns, sentiment, channel-analysis, case-vol
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Execute-Background-Script
   rest:
     - /api/now/table/sn_customerservice_case
@@ -296,9 +296,9 @@ RECOMMENDATIONS:
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Semantic search across case descriptions for emerging keyword patterns |
+| `SN-Natural-Language-Search` | Semantic search across case descriptions for emerging keyword patterns |
 | `SN-Query-Table` | Structured aggregate queries for volume, channel, and priority analysis |
-| `SN-Read-Record` | Deep-dive into specific trending cases for root cause analysis |
+| `SN-Get-Record` | Deep-dive into specific trending cases for root cause analysis |
 | `SN-Execute-Background-Script` | Complex aggregation and statistical calculations across large datasets |
 
 ### REST API Reference

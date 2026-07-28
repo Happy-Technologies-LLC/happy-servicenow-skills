@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Add-Work-Notes
     - SN-Update-Record
     - SN-Execute-Background-Script
@@ -59,7 +59,7 @@ Fetch the full incident record including resolution details and timing fields.
 
 **Using MCP:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_si_incident
   sys_id: [INCIDENT_SYS_ID]
@@ -264,7 +264,7 @@ Parameters:
 | Tool | Purpose |
 |------|---------|
 | SN-Query-Table | Retrieve incident history, tasks, observables, audit entries, and vulnerabilities |
-| SN-Read-Record | Get complete details on the incident under review |
+| SN-Get-Record | Get complete details on the incident under review |
 | SN-Add-Work-Notes | Document the PIR findings on the incident record |
 | SN-Update-Record | Update incident fields such as close_code or add PIR reference |
 | SN-Execute-Background-Script | Run scripts to calculate complex metrics across related records |

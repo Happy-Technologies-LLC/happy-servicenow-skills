@@ -9,7 +9,7 @@ tools:
   mcp:
     - SN-Query-Table
     - SN-Get-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Update-Record
     - SN-Get-Table-Schema
   rest:
@@ -112,7 +112,7 @@ Parameters:
 
 **Related Knowledge Articles:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   query: "<short_description>"
   table: kb_knowledge
@@ -404,7 +404,7 @@ Priority Actions:
 |------|---------|-------------|
 | SN-Get-Record | Retrieve target record details | Initial context gathering |
 | SN-Query-Table | Fetch related records, history, patterns | Cross-module data retrieval |
-| SN-NL-Search | Find knowledge articles by similarity | Knowledge recommendation |
+| SN-Natural-Language-Search | Find knowledge articles by similarity | Knowledge recommendation |
 | SN-Update-Record | Save lens insights to record | Persisting recommendations |
 | SN-Get-Table-Schema | Discover available fields and references | Understanding record structure |
 

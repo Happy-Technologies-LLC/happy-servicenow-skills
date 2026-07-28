@@ -9,7 +9,7 @@ tools:
   mcp:
     - SN-Query-Table
     - SN-Get-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Execute-Background-Script
     - SN-Add-Work-Notes
   rest:
@@ -399,7 +399,7 @@ Parameters:
 |------|-------------|
 | `SN-Query-Table` | Query tasks, SLAs, groups, and assignments |
 | `SN-Get-Record` | Retrieve individual task or group details |
-| `SN-NL-Search` | Find tasks matching natural language descriptions |
+| `SN-Natural-Language-Search` | Find tasks matching natural language descriptions |
 | `SN-Execute-Background-Script` | Complex aggregations, trend analysis, workload calculations |
 | `SN-Add-Work-Notes` | Post analysis reports and recommendations |
 

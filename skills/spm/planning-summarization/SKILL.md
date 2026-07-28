@@ -8,9 +8,8 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-Read-Record
-    - SN-NL-Search
-    - SN-Aggregate
+    - SN-Get-Record
+    - SN-Natural-Language-Search
   rest:
     - /api/now/table/dm_demand
     - /api/now/table/pm_portfolio
@@ -307,9 +306,9 @@ RECOMMENDATIONS:
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Query demands, projects, sprints, stories, releases, contracts |
-| `SN-Read-Record` | Retrieve a single portfolio, program, or project record |
-| `SN-NL-Search` | Natural language search for planning items (e.g., "find approved demands for engineering") |
-| `SN-Aggregate` | Calculate totals, averages, and counts across planning records |
+| `SN-Get-Record` | Retrieve a single portfolio, program, or project record |
+| `SN-Natural-Language-Search` | Natural language search for planning items (e.g., "find approved demands for engineering") |
+| `SN-Query-Table` | Retrieve bounded fields; calculate totals, averages, and counts locally |
 
 ### REST API Reference
 

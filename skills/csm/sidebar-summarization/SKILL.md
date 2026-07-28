@@ -7,9 +7,9 @@ tags: [csm, sidebar, summarization, agent-assist, customer-history, recommendati
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/sn_customerservice_case
     - /api/now/table/interaction
@@ -56,7 +56,7 @@ Fetch the case currently open in the agent's workspace.
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_customerservice_case
   sys_id: [case_sys_id]
@@ -162,7 +162,7 @@ Search for knowledge articles matching the case category and product.
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   query: [case_short_description]
   table: kb_knowledge
@@ -234,9 +234,9 @@ RELATED KB ARTICLES:
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Natural language lookup for cases, consumers, or knowledge articles |
+| `SN-Natural-Language-Search` | Natural language lookup for cases, consumers, or knowledge articles |
 | `SN-Query-Table` | Structured queries across case, interaction, consumer, and KB tables |
-| `SN-Read-Record` | Retrieve a single case or consumer record by sys_id |
+| `SN-Get-Record` | Retrieve a single case or consumer record by sys_id |
 
 ### REST API Reference
 
@@ -276,7 +276,7 @@ RELATED KB ARTICLES:
 ### "Knowledge articles not relevant"
 
 **Cause:** The category-based search may return generic articles.
-**Solution:** Use `SN-NL-Search` with the case short_description for semantic matching. Combine category and product filters for more targeted results.
+**Solution:** Use `SN-Natural-Language-Search` with the case short_description for semantic matching. Combine category and product filters for more targeted results.
 
 ### "SLA information missing"
 
@@ -306,7 +306,7 @@ Parameters:
 
 **Step 2 - Build sidebar from parent case:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_customerservice_case
   sys_id: [parent_sys_id]
@@ -358,7 +358,7 @@ QUEUE SUMMARY (5 cases assigned)
 **Scenario:** A P1 escalated case requires executive-level summary with full customer context.
 
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_customerservice_case
   sys_id: [case_sys_id]

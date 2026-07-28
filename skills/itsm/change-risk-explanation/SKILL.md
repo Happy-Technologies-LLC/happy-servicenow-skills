@@ -8,9 +8,9 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Update-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
   rest:
     - /api/now/table/change_request
     - /api/now/table/task_ci
@@ -56,7 +56,7 @@ Pull the change request record with all risk-relevant fields.
 
 **MCP Approach:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: change_request
   sys_id: [CHG_SYS_ID]
@@ -94,7 +94,7 @@ GET /api/now/table/task_ci
 
 For each affected CI, get its details:
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: cmdb_ci
   sys_id: [CI_SYS_ID]
@@ -377,9 +377,9 @@ Parameters:
 | Tool | Purpose | When to Use |
 |------|---------|-------------|
 | SN-Query-Table | Retrieve CIs, historical changes, relationships | Data collection and analysis |
-| SN-Read-Record | Get change request and CI details | Detailed record inspection |
+| SN-Get-Record | Get change request and CI details | Detailed record inspection |
 | SN-Update-Record | Write risk explanation to change record | Documenting risk assessment |
-| SN-NL-Search | Find similar past changes by description | Pattern matching for failure analysis |
+| SN-Natural-Language-Search | Find similar past changes by description | Pattern matching for failure analysis |
 
 ## Best Practices
 

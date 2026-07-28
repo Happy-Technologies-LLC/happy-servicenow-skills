@@ -7,7 +7,7 @@ tags: [itsm, incident, assignment, prediction, routing, pattern-matching, zero-t
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
     - SN-Update-Record
     - SN-Add-Work-Notes
@@ -55,7 +55,7 @@ Fetch the new or unassigned incident that needs routing.
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: incident
   query: "active incidents in new state where assignment group is empty"
@@ -243,7 +243,7 @@ Key metrics to track:
 
 | Tool | Purpose | When to Use |
 |------|---------|-------------|
-| `SN-NL-Search` | Find unassigned incidents in natural language | Initial candidate discovery |
+| `SN-Natural-Language-Search` | Find unassigned incidents in natural language | Initial candidate discovery |
 | `SN-Query-Table` | Query historical data, categories, groups | Pattern analysis and validation |
 | `SN-Update-Record` | Apply predicted assignment and category | Routing the incident |
 | `SN-Add-Work-Notes` | Document prediction rationale | Audit trail and transparency |

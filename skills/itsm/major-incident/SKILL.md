@@ -13,7 +13,7 @@ tools:
     - SN-Add-Comment
     - SN-Query-Table
     - SN-Assign-Incident
-    - SN-NL-Search
+    - SN-Natural-Language-Search
   rest:
     - /api/now/table/incident
     - /api/now/table/sys_journal_field
@@ -582,7 +582,7 @@ POST-INCIDENT:
 | `SN-Add-Comment` | Customer-facing communications | 3, 5 |
 | `SN-Query-Table` | Retrieve incident details, timeline | All |
 | `SN-Assign-Incident` | Assign incident commander | 1 |
-| `SN-NL-Search` | Find related incidents | 1 |
+| `SN-Natural-Language-Search` | Find related incidents | 1 |
 
 ### REST API Endpoints
 

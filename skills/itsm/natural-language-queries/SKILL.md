@@ -6,7 +6,7 @@ author: Happy Technologies LLC
 tags: [itsm, search, natural-language, queries]
 platforms: [claude-code, claude-desktop]
 tools:
-  mcp: [SN-NL-Search, SN-NL-Query-Builder, SN-Query-Table]
+  mcp: [SN-Natural-Language-Search, SN-Query-Table]
   rest: ["/api/now/table/{table}"]
   native: []
 complexity: beginner
@@ -37,7 +37,7 @@ Natural language search translates plain English queries into ServiceNow encoded
 
 **Basic NL Search:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: incident
   query: show me active high priority incidents
@@ -65,7 +65,7 @@ The NL engine supports several query patterns. Master these for effective search
 
 **Example:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: incident
   query: incidents where priority is 1 and state not equals Closed
@@ -83,7 +83,7 @@ Parameters:
 
 **Example:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: incident
   query: incidents where description contains database and short description starts with Error
@@ -101,7 +101,7 @@ Parameters:
 
 **Example:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: incident
   query: active incidents where assigned to is empty and priority is 1
@@ -120,7 +120,7 @@ Parameters:
 
 **Example:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: incident
   query: high priority incidents created last 7 days
@@ -137,7 +137,7 @@ Parameters:
 
 **Example:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: incident
   query: incidents where priority is 1 or priority is 2 and state is New
@@ -154,7 +154,7 @@ Parameters:
 
 **Example:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: incident
   query: active incidents sort by priority descending
@@ -167,7 +167,7 @@ Combine patterns for sophisticated searches.
 
 **Complex Query Example:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: incident
   query: active high priority incidents assigned to is empty created last 7 days where description contains network sort by created date descending
@@ -175,23 +175,24 @@ Parameters:
   fields: number,short_description,priority,state,sys_created_on
 ```
 
-### Step 4: Validate Queries with Query Builder
+### Step 4: Validate with a Bounded Search
 
-Before executing, validate your NL query translates correctly.
+Happy Platform MCP 5.1 does not expose a separate query-builder tool. Validate
+the intent by executing a small, field-limited natural-language search:
 
-**Validate Query:**
 ```
-Tool: SN-NL-Query-Builder
+Tool: SN-Natural-Language-Search
 Parameters:
-  natural_query: active incidents where priority is 1 and assigned to is empty
+  table_name: incident
+  query: active incidents where priority is 1 and assigned to is empty
+  fields: sys_id,number,priority,assigned_to
+  limit: 5
+  instance: dev
 ```
 
-**Returns:**
-```
-active=true^priority=1^assigned_toISEMPTY
-```
-
-Use the returned encoded query to verify accuracy before searching large datasets.
+Inspect those records before increasing the limit. If you need deterministic
+automation, construct and review the encoded query yourself, then pass it to
+`SN-Query-Table` with explicit fields, a bounded limit, and the target instance.
 
 ### Step 5: Decide NL vs Encoded Queries
 
@@ -215,13 +216,12 @@ Use the returned encoded query to verify accuracy before searching large dataset
 
 | Tool | Purpose |
 |------|---------|
-| `SN-NL-Search` | Execute natural language searches directly |
-| `SN-NL-Query-Builder` | Convert NL to encoded query for validation |
+| `SN-Natural-Language-Search` | Execute natural language searches directly |
 | `SN-Query-Table` | Execute encoded queries for precision |
 
 ### REST API (Fallback)
 
-For REST API access, first use `SN-NL-Query-Builder` to get the encoded query, then:
+For REST API access, construct and review the encoded query, then:
 
 | Endpoint | Method | Purpose |
 |----------|--------|---------|
@@ -230,7 +230,7 @@ For REST API access, first use `SN-NL-Query-Builder` to get the encoded query, t
 ## Best Practices
 
 - **Start Simple:** Begin with basic queries and add complexity gradually
-- **Validate First:** Use `SN-NL-Query-Builder` to check query translation before large searches
+- **Validate First:** Run a field-limited `SN-Natural-Language-Search` with a small limit before a larger search
 - **Specify Fields:** Always include the `fields` parameter to reduce response payload
 - **Use Limits:** Set appropriate `limit` values to avoid overwhelming results
 - **Be Specific:** More specific language yields more accurate translations
@@ -241,7 +241,7 @@ For REST API access, first use `SN-NL-Query-Builder` to get the encoded query, t
 
 **Symptom:** NL query returns different results than expected
 **Cause:** Ambiguous language or unsupported pattern
-**Solution:** Use `SN-NL-Query-Builder` to see the actual encoded query, then adjust natural language
+**Solution:** Reduce the query to one condition at a time and inspect a bounded `SN-Natural-Language-Search` result before adding complexity
 
 ### Field Name Not Recognized
 
@@ -259,7 +259,7 @@ For REST API access, first use `SN-NL-Query-Builder` to get the encoded query, t
 
 **Symptom:** OR conditions not applied correctly
 **Cause:** NL parser has limited OR support
-**Solution:** For complex OR logic, use `SN-NL-Query-Builder` then modify the encoded query manually
+**Solution:** For complex OR logic, construct and review an encoded query, then execute it with `SN-Query-Table`
 
 ## Table-Specific Mappings
 
@@ -310,7 +310,7 @@ For REST API access, first use `SN-NL-Query-Builder` to get the encoded query, t
 Find active P1 incidents:
 
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: incident
   query: active incidents with priority 1
@@ -323,7 +323,7 @@ Parameters:
 Find unassigned high priority work:
 
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: incident
   query: active incidents where priority is 1 or priority is 2 and assigned to is empty
@@ -336,7 +336,7 @@ Parameters:
 Find recent emergency changes:
 
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: change_request
   query: emergency changes created last 7 days
@@ -349,7 +349,7 @@ Parameters:
 Find network-related problems:
 
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: problem
   query: problems where description contains network and state not equals closed sort by priority
@@ -357,17 +357,19 @@ Parameters:
   limit: 10
 ```
 
-### Example 5: Query Validation
+### Example 5: Bounded Query Validation
 
-Validate a complex query before execution:
+Validate a complex query against a small result set before increasing scope:
 
 ```
-Tool: SN-NL-Query-Builder
+Tool: SN-Natural-Language-Search
 Parameters:
-  natural_query: active high priority incidents assigned to Network Team created today
+  table_name: incident
+  query: active high priority incidents assigned to Network Team created today
+  fields: sys_id,number,priority,assignment_group,sys_created_on
+  limit: 5
+  instance: dev
 ```
-
-**Returns:** `active=true^priority IN (1,2)^assignment_group=<network_team_sys_id>^sys_created_onONToday@javascript:gs.beginningOfToday()@javascript:gs.endOfToday()`
 
 ## Related Skills
 

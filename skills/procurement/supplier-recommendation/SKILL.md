@@ -7,9 +7,9 @@ tags: [procurement, supplier, vendor, recommendation, scorecard, risk, performan
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/core_company
     - /api/now/table/proc_po
@@ -66,7 +66,7 @@ Parameters:
 
 For broader search by name:
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   query: "IT hardware suppliers in the United States"
   table: core_company
@@ -265,8 +265,8 @@ RANKED SUPPLIERS:
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Query vendors, POs, receipts, invoices, contracts, and bids |
-| `SN-NL-Search` | Natural language vendor search by category or capability |
-| `SN-Read-Record` | Retrieve full vendor profile by sys_id |
+| `SN-Natural-Language-Search` | Natural language vendor search by category or capability |
+| `SN-Get-Record` | Retrieve full vendor profile by sys_id |
 
 ### REST API Reference
 

@@ -10,7 +10,7 @@ tools:
     - SN-Query-Table
     - SN-Get-Record
     - SN-Update-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
   rest:
     - /api/now/table/kb_knowledge
     - /api/now/table/kb_knowledge_base
@@ -71,7 +71,7 @@ GET /api/now/table/kb_knowledge/<article_sys_id>
 
 For searching by keyword:
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   query: "VPN connection troubleshooting"
   table: kb_knowledge
@@ -281,7 +281,7 @@ Parameters:
 | SN-Get-Record | Retrieve full article content by sys_id | Single article summarization |
 | SN-Query-Table | Fetch articles by category, keyword, or metrics | Multi-article summaries and discovery |
 | SN-Update-Record | Save summaries back to article records | Persisting generated summaries |
-| SN-NL-Search | Find articles by natural language query | When article number is unknown |
+| SN-Natural-Language-Search | Find articles by natural language query | When article number is unknown |
 
 ## Best Practices
 

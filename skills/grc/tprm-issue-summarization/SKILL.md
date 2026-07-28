@@ -11,7 +11,7 @@ tools:
     - SN-Natural-Language-Search
     - SN-Execute-Background-Script
     - SN-Discover-Table-Schema
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Add-Work-Notes
   rest:
     - /api/now/table/sn_tprm_assessment

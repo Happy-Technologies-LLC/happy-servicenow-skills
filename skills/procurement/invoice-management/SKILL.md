@@ -7,7 +7,7 @@ tags: [procurement, invoice, accounts-payable, three-way-match, po-matching, fin
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
     - SN-Update-Record
     - SN-Add-Work-Notes
@@ -218,7 +218,7 @@ Content-Type: application/json
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Query invoices, POs, receipts, and vendors |
-| `SN-NL-Search` | Natural language search for invoices by vendor or amount |
+| `SN-Natural-Language-Search` | Natural language search for invoices by vendor or amount |
 | `SN-Create-Record` | Create invoice exception cases |
 | `SN-Update-Record` | Update invoice state and match status |
 | `SN-Add-Work-Notes` | Document matching results and decisions |

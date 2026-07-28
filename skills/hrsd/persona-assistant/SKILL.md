@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Get-Record
     - SN-Create-Record
     - SN-Add-Work-Notes
@@ -330,7 +330,7 @@ Content-Type: application/json
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Retrieve profiles, services, policies, cases, COE configuration |
-| `SN-NL-Search` | Find relevant KB articles using natural language queries |
+| `SN-Natural-Language-Search` | Find relevant KB articles using natural language queries |
 | `SN-Get-Record` | Fetch detailed single records for specific lookups |
 | `SN-Create-Record` | Create HR cases with persona context pre-populated |
 | `SN-Add-Work-Notes` | Document persona classification and routing rationale |

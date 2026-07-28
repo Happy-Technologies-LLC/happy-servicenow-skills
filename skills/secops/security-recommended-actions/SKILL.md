@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Execute-Background-Script
     - SN-Add-Work-Notes
     - SN-Discover-Table-Schema
@@ -72,7 +72,7 @@ Fetch the complete incident record with threat classification fields.
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_si_incident
   sys_id: [INCIDENT_SYS_ID]
@@ -345,7 +345,7 @@ Parameters:
 
 | Operation | MCP Tool | REST Endpoint |
 |-----------|----------|---------------|
-| Read Incident | SN-Read-Record | GET /api/now/table/sn_si_incident/{sys_id} |
+| Read Incident | SN-Get-Record | GET /api/now/table/sn_si_incident/{sys_id} |
 | Query Assets | SN-Query-Table | GET /api/now/table/cmdb_ci |
 | Query IOCs | SN-Query-Table | GET /api/now/table/sn_ti_observable |
 | Query Vulnerabilities | SN-Query-Table | GET /api/now/table/sn_vul_vulnerable_item |

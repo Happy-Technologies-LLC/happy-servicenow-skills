@@ -11,7 +11,7 @@ tools:
     - SN-Natural-Language-Search
     - SN-Execute-Background-Script
     - SN-Discover-Table-Schema
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Add-Work-Notes
   rest:
     - /api/now/table/sn_hr_hs_incident
@@ -350,7 +350,7 @@ Parameters:
 **Scenario:** Investigation team needs a complete incident package for a serious injury
 
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_hr_hs_incident
   sys_id: [incident_sys_id]

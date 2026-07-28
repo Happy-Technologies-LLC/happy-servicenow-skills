@@ -13,7 +13,7 @@ tools:
     - SN-Discover-Table-Schema
     - SN-Create-Record
     - SN-Update-Record
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/sn_esg_metric
     - /api/now/table/sn_esg_disclosure

@@ -12,7 +12,7 @@ tools:
     - SN-Create-Record
     - SN-Update-Record
     - SN-Execute-Background-Script
-    - SN-NL-Search
+    - SN-Natural-Language-Search
   rest:
     - /api/now/table/em_alert
     - /api/now/table/em_event
@@ -309,7 +309,7 @@ GET /api/now/table/sa_metric_definition?sysparm_query=active=true^ORDERBYname&sy
 | `SN-Create-Record` | Create new connector instances or match rules |
 | `SN-Update-Record` | Modify connector configuration or alert states |
 | `SN-Execute-Background-Script` | CI binding analysis, bulk validation, normalization review |
-| `SN-NL-Search` | Natural language queries like "unbound alerts from Datadog" |
+| `SN-Natural-Language-Search` | Natural language queries like "unbound alerts from Datadog" |
 
 ### REST API Reference
 

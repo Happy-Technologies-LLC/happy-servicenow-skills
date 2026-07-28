@@ -11,7 +11,7 @@ tools:
     - SN-Natural-Language-Search
     - SN-Execute-Background-Script
     - SN-Discover-Table-Schema
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/sn_hr_talent_profile
     - /api/now/table/sn_hr_talent_goal

@@ -7,7 +7,7 @@ tags: [itsm, incident, sentiment, escalation, customer-satisfaction, nlp, work-n
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
     - SN-Update-Record
     - SN-Add-Work-Notes
@@ -55,7 +55,7 @@ Query active incidents, prioritizing those with recent activity or approaching S
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: incident
   query: "active incidents with priority 1 or 2 that have been updated in the last 24 hours"
@@ -264,7 +264,7 @@ Parameters:
 
 | Tool | Purpose | When to Use |
 |------|---------|-------------|
-| `SN-NL-Search` | Find incidents using natural language criteria | Initial discovery |
+| `SN-Natural-Language-Search` | Find incidents using natural language criteria | Initial discovery |
 | `SN-Query-Table` | Retrieve journal entries, emails, incident data | Core data gathering |
 | `SN-Update-Record` | Flag at-risk incidents, update urgency | Proactive intervention |
 | `SN-Add-Work-Notes` | Document sentiment analysis findings | Reports and audit trail |

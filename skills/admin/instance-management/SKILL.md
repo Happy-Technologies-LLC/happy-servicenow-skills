@@ -68,7 +68,7 @@ Parameters:
 
 ### Step 4: Route Concurrent or Critical Calls Explicitly
 
-Every live ServiceNow operation accepts an optional `instance` parameter except `SN-Register-Instance`, `SN-Set-Instance`, `SN-Get-Current-Instance`, and `SN-Docs-*`. Registration accepts no `instance` field. An explicit per-call value on supported operations does not mutate the session target.
+Every live ServiceNow operation accepts an optional `instance` parameter except `SN-Register-Instance`, `SN-Set-Instance`, `SN-Get-Current-Instance`, and the documentation tools (`SN-Docs-Families`, `SN-Docs-Status`, `SN-Docs-Sync`, `SN-Docs-Search`, and `SN-Docs-Get`). Registration accepts no `instance` field. An explicit per-call value on supported operations does not mutate the session target.
 
 ```text
 Tool: SN-Query-Table

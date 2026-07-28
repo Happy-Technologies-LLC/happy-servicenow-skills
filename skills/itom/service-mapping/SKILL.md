@@ -10,7 +10,7 @@ tools:
     - SN-Query-Table
     - SN-Get-Record
     - SN-Update-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Execute-Background-Script
   rest:
     - /api/now/table/cmdb_ci_service
@@ -319,7 +319,7 @@ GET /api/now/table/sa_pattern?sysparm_query=status=Failed^ORactive=true^failure_
 | `SN-Query-Table` | Query services, associations, patterns, relationships |
 | `SN-Get-Record` | Retrieve a single service or pattern record |
 | `SN-Update-Record` | Update service status or pattern configuration |
-| `SN-NL-Search` | Natural language searches like "services with failed patterns" |
+| `SN-Natural-Language-Search` | Natural language searches like "services with failed patterns" |
 | `SN-Execute-Background-Script` | Dependency analysis, gap detection, bulk validation |
 
 ### REST API Reference

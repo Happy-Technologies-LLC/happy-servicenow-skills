@@ -10,7 +10,7 @@ tools:
     - SN-Query-Table
     - SN-Create-Record
     - SN-Update-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Execute-Background-Script
     - SN-Discover-Table-Schema
   rest:
@@ -391,7 +391,7 @@ GET /api/now/table/sys_atf_test_result?sysparm_query=test=[test_sys_id]^ORDERBYD
 | `SN-Query-Table` | Query existing tests, step configs, suites, and results |
 | `SN-Create-Record` | Create tests, steps, suite associations |
 | `SN-Update-Record` | Update test status, activate/deactivate steps |
-| `SN-NL-Search` | Find tests or functionality by description |
+| `SN-Natural-Language-Search` | Find tests or functionality by description |
 | `SN-Execute-Background-Script` | Batch step generation, complex test data setup |
 | `SN-Discover-Table-Schema` | Explore ATF table structures and step config options |
 

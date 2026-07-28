@@ -7,9 +7,9 @@ tags: [csm, chat, recommendation, agent-assist, knowledge-base, customer-service
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/sn_customerservice_case
     - /api/now/table/interaction
@@ -52,7 +52,7 @@ Fetch the active case details and the current chat interaction to understand wha
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_customerservice_case
   sys_id: [case_sys_id]
@@ -124,7 +124,7 @@ Query the knowledge base using case keywords, category, and product to find appl
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   query: [short_description + category + product keywords]
   table: kb_knowledge
@@ -162,7 +162,7 @@ Parameters:
 
 For broader matching using natural language:
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   query: [short_description of current case]
   table: sn_customerservice_case
@@ -255,9 +255,9 @@ support portal for quick self-service."
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Natural language search for KB articles and similar cases |
+| `SN-Natural-Language-Search` | Natural language search for KB articles and similar cases |
 | `SN-Query-Table` | Structured queries for case history, interactions, KB articles |
-| `SN-Read-Record` | Retrieve a single case or interaction record by sys_id |
+| `SN-Get-Record` | Retrieve a single case or interaction record by sys_id |
 
 ### REST API Reference
 
@@ -287,7 +287,7 @@ support portal for quick self-service."
 ### "No KB articles found"
 
 **Cause:** Knowledge base may not have articles matching the case category or product
-**Solution:** Broaden the search by using only key terms from the short_description. Try `SN-NL-Search` with natural language. Also check if articles exist in a different knowledge base using `kb_knowledge_baseLIKE[name]`.
+**Solution:** Broaden the search by using only key terms from the short_description. Try `SN-Natural-Language-Search` with natural language. Also check if articles exist in a different knowledge base using `kb_knowledge_baseLIKE[name]`.
 
 ### "No similar resolved cases found"
 
@@ -322,7 +322,7 @@ Parameters:
 
 **Step 2 - Search KB:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   query: product return defective item return policy
   table: kb_knowledge

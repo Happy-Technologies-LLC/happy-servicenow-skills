@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Get-Record
     - SN-Add-Work-Notes
   rest:
@@ -207,7 +207,7 @@ Breach Status: No breaches
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Structured queries for cases, tasks, profiles, SLAs |
-| `SN-NL-Search` | Natural language searches like "open HR cases for engineering" |
+| `SN-Natural-Language-Search` | Natural language searches like "open HR cases for engineering" |
 | `SN-Get-Record` | Retrieve a single record by sys_id |
 | `SN-Add-Work-Notes` | Document the summary as a work note on the case |
 

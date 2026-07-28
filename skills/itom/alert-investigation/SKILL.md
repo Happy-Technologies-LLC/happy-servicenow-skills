@@ -10,7 +10,7 @@ tools:
     - SN-Query-Table
     - SN-Get-Record
     - SN-Update-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Execute-Background-Script
   rest:
     - /api/now/table/em_alert
@@ -189,7 +189,7 @@ Look for existing KB articles that match the alert description or CI class.
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   query: [alert_description] remediation [ci_class_name]
 ```
@@ -249,7 +249,7 @@ Content-Type: application/json
 | `SN-Get-Record` | Retrieve full alert or CI record by sys_id |
 | `SN-Query-Table` | Search alerts, changes, KB articles, CI associations |
 | `SN-Update-Record` | Document investigation findings on the alert |
-| `SN-NL-Search` | Natural language search for KB remediation articles |
+| `SN-Natural-Language-Search` | Natural language search for KB remediation articles |
 | `SN-Execute-Background-Script` | Complex cross-table joins and change lookups |
 
 ### REST API Reference
@@ -330,7 +330,7 @@ Parameters:
   limit: 15
 
 # LEAP Step 4 - PROPOSE: Search KB
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   query: database connection pool exhausted remediation Oracle
 ```

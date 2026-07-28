@@ -7,9 +7,9 @@ tags: [csm, resolution, notes, case-closure, root-cause, documentation]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/sn_customerservice_case
     - /api/now/table/sys_journal_field
@@ -54,7 +54,7 @@ Fetch the full case record including all resolution-relevant fields.
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_customerservice_case
   sys_id: [case_sys_id]
@@ -159,7 +159,7 @@ Check if a KB article exists for this issue or if one should be created.
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   query: [short_description + resolution keywords]
   table: kb_knowledge
@@ -303,9 +303,9 @@ Customer Confirmed: [Yes/No - date]
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Find related KB articles and similar resolved cases |
+| `SN-Natural-Language-Search` | Find related KB articles and similar resolved cases |
 | `SN-Query-Table` | Retrieve work notes, tasks, emails, SLA data, similar cases |
-| `SN-Read-Record` | Fetch complete case record with all resolution fields |
+| `SN-Get-Record` | Fetch complete case record with all resolution fields |
 
 ### REST API Reference
 
@@ -363,7 +363,7 @@ Customer Confirmed: [Yes/No - date]
 
 **Step 1 - Get case and work notes:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_customerservice_case
   sys_id: [case_sys_id]

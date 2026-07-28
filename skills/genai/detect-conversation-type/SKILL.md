@@ -10,7 +10,7 @@ tools:
     - SN-Query-Table
     - SN-Create-Record
     - SN-Update-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Get-Record
   rest:
     - /api/now/table/sys_cs_conversation
@@ -140,7 +140,7 @@ Some conversations contain multiple intents. Identify all:
 
 **MCP Approach:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   query: "laptop delivery delay complaint escalation"
   table: sys_cb_topic
@@ -322,7 +322,7 @@ Analyze misclassifications to identify patterns and update routing rules.
 | SN-Get-Record | Retrieve specific interaction details | Single conversation analysis |
 | SN-Create-Record | Create downstream records (cases, incidents) | Acting on classification |
 | SN-Update-Record | Enrich interaction with classification metadata | Recording classification results |
-| SN-NL-Search | Find matching topics or similar conversations | Topic routing and pattern matching |
+| SN-Natural-Language-Search | Find matching topics or similar conversations | Topic routing and pattern matching |
 
 ## Best Practices
 

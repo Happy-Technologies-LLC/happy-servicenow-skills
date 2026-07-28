@@ -9,7 +9,7 @@ tools:
   mcp:
     - SN-Query-Table
     - SN-Get-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Update-Record
     - SN-Add-Work-Notes
     - SN-Execute-Background-Script
@@ -95,7 +95,7 @@ Find relevant knowledge articles matching the incident description.
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: kb_knowledge
   query: "[keywords from incident short_description and description]"
@@ -236,7 +236,7 @@ Parameters:
 |------|-------------|
 | `SN-Get-Record` | Retrieve incident and user context |
 | `SN-Query-Table` | Search interactions, KB articles, similar incidents, known errors |
-| `SN-NL-Search` | Natural language knowledge base search |
+| `SN-Natural-Language-Search` | Natural language knowledge base search |
 | `SN-Update-Record` | Update incident state or assignment during chat |
 | `SN-Add-Work-Notes` | Document recommended replies and actions |
 | `SN-Execute-Background-Script` | Complex matching logic or bulk recommendation analysis |
@@ -296,7 +296,7 @@ Parameters:
   fields: number,short_description,caller_id.name,category
 
 # 2. Find KB article
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: kb_knowledge
   query: "password reset self-service"

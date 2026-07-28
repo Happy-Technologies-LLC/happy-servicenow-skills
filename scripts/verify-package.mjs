@@ -47,6 +47,9 @@ try {
     'src/validator.js',
     'src/cli.js',
     'scripts/verify-package.mjs',
+    'scripts/refresh-mcp-tool-contract.mjs',
+    'contracts/happy-platform-mcp-5.1.0.json',
+    'contracts/README.md',
     'skills/itsm/incident-triage/SKILL.md',
     'skills/development/fluent-sdk/vendor/now-sdk-explain.md'
   ];

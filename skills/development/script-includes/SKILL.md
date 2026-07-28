@@ -11,9 +11,6 @@ tools:
     - SN-Update-Record
     - SN-Query-Table
     - SN-Get-Record
-    - SN-Sync-Script-To-Local
-    - SN-Sync-Local-To-Script
-    - SN-Watch-Script
     - SN-Execute-Background-Script
     - SN-Get-Table-Schema
   rest:
@@ -1453,11 +1450,16 @@ IncidentService.prototype = {
 | `SN-Update-Record` | Update existing script includes |
 | `SN-Query-Table` | Find script includes |
 | `SN-Get-Record` | Get script include details |
-| `SN-Sync-Script-To-Local` | Download for local development |
-| `SN-Sync-Local-To-Script` | Upload local changes |
-| `SN-Watch-Script` | Auto-sync during development |
+| `SN-Get-Record` | Pull script and freshness metadata for local development |
+| `SN-Update-Record` | Push a reviewed script after a remote freshness check |
 | `SN-Execute-Background-Script` | Test script includes |
 | `SN-Get-Table-Schema` | Explore sys_script_include fields |
+
+Happy Platform MCP 5.1 has no automatic watch or synchronization tool. For
+local development, retrieve `script`, `sys_updated_on`, and `sys_mod_count` with
+`SN-Get-Record`; edit locally; retrieve them again to detect conflicts; then
+push only the reviewed `script` field with `SN-Update-Record`. Include the
+explicit target `instance` on each call.
 
 ### REST API
 

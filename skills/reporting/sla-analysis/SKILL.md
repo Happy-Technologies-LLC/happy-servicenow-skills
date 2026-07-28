@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Get-Record
   rest:
     - /api/now/table/task_sla
@@ -206,7 +206,7 @@ Parameters:
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Primary tool for querying task_sla and contract_sla tables |
-| `SN-NL-Search` | Natural language queries like "show breached SLAs this week" |
+| `SN-Natural-Language-Search` | Natural language queries like "show breached SLAs this week" |
 | `SN-Get-Record` | Get details of specific SLA record |
 
 ### REST API Reference
@@ -265,7 +265,7 @@ Parameters:
 
 **Step 1: Get breach summary**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: task_sla
   query: "active SLAs that have breached"

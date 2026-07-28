@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Update-Record
     - SN-Add-Work-Notes
   rest:
@@ -106,7 +106,7 @@ Extract key terms from the incident short description and description, then sear
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: kb_knowledge
   query: "published articles about VPN connection timeout error when connecting to corporate network"
@@ -251,7 +251,7 @@ Parameters:
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Structured queries for incidents, articles, usage data |
-| `SN-NL-Search` | Natural language search for topic-based article discovery |
+| `SN-Natural-Language-Search` | Natural language search for topic-based article discovery |
 | `SN-Update-Record` | Attach recommended articles to incidents/cases |
 | `SN-Add-Work-Notes` | Document recommendation rationale |
 

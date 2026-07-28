@@ -8,9 +8,8 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-Read-Record
-    - SN-NL-Search
-    - SN-Aggregate
+    - SN-Get-Record
+    - SN-Natural-Language-Search
   rest:
     - /api/now/table/pm_project
     - /api/now/table/pm_project_task
@@ -57,7 +56,7 @@ Fetch the core project record and its current status.
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: pm_project
   sys_id: [project_sys_id]
@@ -285,10 +284,10 @@ GET /api/now/table/pm_project?sysparm_query=portfolio=[portfolio_sys_id]^stateNO
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-Read-Record` | Retrieve a single project or task record by sys_id |
+| `SN-Get-Record` | Retrieve a single project or task record by sys_id |
 | `SN-Query-Table` | Query tasks, resources, risks, milestones, sprints, and stories |
-| `SN-NL-Search` | Natural language search for projects (e.g., "find at-risk projects in Q2") |
-| `SN-Aggregate` | Calculate counts, sums, and averages across project data |
+| `SN-Natural-Language-Search` | Natural language search for projects (e.g., "find at-risk projects in Q2") |
+| `SN-Query-Table` | Retrieve bounded fields; calculate counts, sums, and averages locally |
 
 ### REST API Reference
 

@@ -19,6 +19,8 @@
     "search": "node src/cli.js search",
     "publish:dry-run": "npm publish --dry-run",
     "verify:package": "node scripts/verify-package.mjs",
+    "contract:refresh": "node scripts/refresh-mcp-tool-contract.mjs",
+    "contract:check": "node scripts/refresh-mcp-tool-contract.mjs --check",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "keywords": [
@@ -72,7 +74,9 @@
   },
   "files": [
     "src/**/*",
+    "contracts/**/*",
     "scripts/verify-package.mjs",
+    "scripts/refresh-mcp-tool-contract.mjs",
     "skills/**/*",
     "templates/**/*",
     "docs/**/*",

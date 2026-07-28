@@ -7,9 +7,9 @@ tags: [csm, sentiment, analysis, customer-experience, escalation, risk-detection
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/sn_customerservice_case
     - /api/now/table/interaction
@@ -54,7 +54,7 @@ Fetch the case record and customer information to establish baseline context.
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_customerservice_case
   sys_id: [case_sys_id]
@@ -282,9 +282,9 @@ RECOMMENDED ACTIONS:
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Search for cases by sentiment-related keywords or descriptions |
+| `SN-Natural-Language-Search` | Search for cases by sentiment-related keywords or descriptions |
 | `SN-Query-Table` | Retrieve communications, case history, SLA data |
-| `SN-Read-Record` | Fetch individual case or account records |
+| `SN-Get-Record` | Fetch individual case or account records |
 
 ### REST API Reference
 

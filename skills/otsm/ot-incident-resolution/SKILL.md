@@ -7,9 +7,9 @@ tags: [otsm, ot, incident-resolution, industrial, ics, safety, scada, containmen
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/sn_ot_incident
     - /api/now/table/sn_ot_vulnerability
@@ -54,7 +54,7 @@ Fetch the OT incident record with all classification and impact fields.
 
 **Using MCP:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_ot_incident
   sys_id: [INCIDENT_SYS_ID]
@@ -250,9 +250,9 @@ LESSONS LEARNED:
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Natural language search (e.g., "find critical OT incidents in Zone 3") |
+| `SN-Natural-Language-Search` | Natural language search (e.g., "find critical OT incidents in Zone 3") |
 | `SN-Query-Table` | Structured queries for incidents, devices, vulnerabilities, and work notes |
-| `SN-Read-Record` | Retrieve specific incident or device records by sys_id |
+| `SN-Get-Record` | Retrieve specific incident or device records by sys_id |
 
 ### REST API Reference
 

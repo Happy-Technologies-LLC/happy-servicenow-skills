@@ -8,9 +8,9 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Add-Work-Notes
-    - SN-NL-Search
+    - SN-Natural-Language-Search
   rest:
     - /api/now/table/sn_si_incident
     - /api/now/table/sn_si_task
@@ -55,7 +55,7 @@ Fetch the complete incident record with all classification and timing fields.
 
 **Using MCP:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_si_incident
   sys_id: [INCIDENT_SYS_ID]
@@ -281,10 +281,10 @@ Parameters:
 
 | Tool | Purpose |
 |------|---------|
-| SN-Read-Record | Retrieve full incident details by sys_id |
+| SN-Get-Record | Retrieve full incident details by sys_id |
 | SN-Query-Table | Query tasks, observables, vulnerabilities, CIs, and work notes |
 | SN-Add-Work-Notes | Post executive and technical summaries to the incident |
-| SN-NL-Search | Natural language queries for quick incident lookup |
+| SN-Natural-Language-Search | Natural language queries for quick incident lookup |
 
 ## Best Practices
 

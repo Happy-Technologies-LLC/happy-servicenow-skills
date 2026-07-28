@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Execute-Background-Script
     - SN-Create-Record
     - SN-Discover-Table-Schema
@@ -74,7 +74,7 @@ Fetch the issue that needs remediation planning, including all context fields.
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_grc_issue
   sys_id: [ISSUE_SYS_ID]
@@ -296,7 +296,7 @@ Content-Type: application/json
 
 | Operation | MCP Tool | REST Endpoint |
 |-----------|----------|---------------|
-| Read Issue | SN-Read-Record | GET /api/now/table/sn_grc_issue/{sys_id} |
+| Read Issue | SN-Get-Record | GET /api/now/table/sn_grc_issue/{sys_id} |
 | Query Controls | SN-Query-Table | GET /api/now/table/sn_compliance_control |
 | Query Risks | SN-Query-Table | GET /api/now/table/sn_grc_risk |
 | Generate Suggestions | SN-Execute-Background-Script | POST /api/now/table/sys_trigger |

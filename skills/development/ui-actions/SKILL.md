@@ -10,8 +10,8 @@ tools:
     - SN-Create-Record
     - SN-Update-Record
     - SN-Query-Table
+    - SN-Get-Record
     - SN-Get-Table-Schema
-    - SN-Sync-Script-To-Local
     - SN-Execute-Background-Script
   rest:
     - /api/now/table/sys_ui_action
@@ -1309,27 +1309,33 @@ Parameters:
   limit: 50
 ```
 
-### Phase 12: Local Script Development
+### Phase 12: Explicit Local Script Development
 
-#### Step 12.1: Sync UI Action Script Locally
+#### Step 12.1: Pull UI Action Fields Locally
 
-**Download script for local editing:**
+Retrieve both script fields and freshness metadata:
 ```
-Tool: SN-Sync-Script-To-Local
+Tool: SN-Get-Record
 Parameters:
-  script_sys_id: [ui_action_sys_id]
-  script_field: script
-  local_path: /Users/developer/servicenow/ui_actions/escalate_incident_server.js
+  table_name: sys_ui_action
+  sys_id: [ui_action_sys_id]
+  fields: sys_id,script,onclick,sys_updated_on,sys_mod_count
   instance: dev
 ```
 
-**Download onclick script:**
+Write `script` and `onclick` to separate local files. Before pushing, retrieve
+the same fields again and stop if `sys_updated_on`, `sys_mod_count`, or either
+remote field changed. After merging any conflict locally, update only the
+reviewed fields:
+
 ```
-Tool: SN-Sync-Script-To-Local
+Tool: SN-Update-Record
 Parameters:
-  script_sys_id: [ui_action_sys_id]
-  script_field: onclick
-  local_path: /Users/developer/servicenow/ui_actions/escalate_incident_client.js
+  table_name: sys_ui_action
+  sys_id: [ui_action_sys_id]
+  data:
+    script: [reviewed_server_script]
+    onclick: [reviewed_client_script]
   instance: dev
 ```
 
@@ -1357,7 +1363,7 @@ servicenow/
 | Update UI Action | SN-Update-Record | Modify script, condition |
 | Query UI Actions | SN-Query-Table | Find by table, name |
 | Get Schema | SN-Get-Table-Schema | Understand available fields |
-| Download Script | SN-Sync-Script-To-Local | Local development |
+| Local script cycle | SN-Get-Record + SN-Update-Record | Pull, freshness check, edit, push |
 | Execute Test Script | SN-Execute-Background-Script | Debug server logic |
 
 ## Best Practices

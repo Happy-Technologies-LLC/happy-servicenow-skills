@@ -405,7 +405,7 @@ author: Happy Technologies LLC
 tags: [itsm, incident, triage, assignment]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
-  mcp: [SN-Query-Table, SN-NL-Search, SN-Assign-Incident]
+  mcp: [SN-Query-Table, SN-Natural-Language-Search, SN-Assign-Incident]
   rest: [/api/now/table/incident, /api/now/table/sys_user_group]
   native: [Bash, Read, Write]
 complexity: intermediate

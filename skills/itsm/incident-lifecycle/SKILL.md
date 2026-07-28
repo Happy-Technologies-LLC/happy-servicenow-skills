@@ -9,7 +9,7 @@ tools:
   mcp:
     - SN-Create-Incident
     - SN-Get-Incident
-    - SN-Update-Incident
+    - SN-Update-Record
     - SN-Assign-Incident
     - SN-Resolve-Incident
     - SN-Close-Incident

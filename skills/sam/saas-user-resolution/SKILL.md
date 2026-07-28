@@ -7,9 +7,9 @@ tags: [sam, saas, user-resolution, license-optimization, cost-savings, usage-ana
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/samp_sw_product
     - /api/now/table/samp_sw_install
@@ -236,9 +236,9 @@ ORPHANED USER DETAILS:
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Natural language queries (e.g., "find unused Salesforce licenses") |
+| `SN-Natural-Language-Search` | Natural language queries (e.g., "find unused Salesforce licenses") |
 | `SN-Query-Table` | Structured queries for subscription, user, and usage data |
-| `SN-Read-Record` | Retrieve specific subscription or user records by sys_id |
+| `SN-Get-Record` | Retrieve specific subscription or user records by sys_id |
 
 ### REST API Reference
 

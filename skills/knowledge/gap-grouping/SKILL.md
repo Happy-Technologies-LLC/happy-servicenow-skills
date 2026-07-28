@@ -8,8 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-NL-Search
-    - SN-Aggregate
+    - SN-Natural-Language-Search
     - SN-Create-Record
     - SN-Update-Record
     - SN-Add-Work-Notes
@@ -57,19 +56,23 @@ This skill helps you:
 
 ### Step 1: Collect Raw Gap Data from Incidents
 
-Aggregate resolved incidents without linked KB articles, grouped by category and subcategory, to identify volume-based gaps.
+Retrieve a bounded, field-limited sample of resolved incidents without linked KB
+articles and aggregate it locally to identify volume-based gaps.
 
 **Using MCP:**
 ```
-Tool: SN-Aggregate
+Tool: SN-Query-Table
 Parameters:
   table_name: incident
   query: opened_at>=javascript:gs.daysAgoStart(90)^state=6^kb_knowledgeISEMPTY^close_notesISNOTEMPTY
-  group_by: category,subcategory,assignment_group
-  aggregate: COUNT
-  order_by: COUNT
-  limit: 50
+  fields: sys_id,category,subcategory,assignment_group
+  limit: 1000
+  instance: dev
 ```
+
+Count rows locally by `(category, subcategory, assignment_group)`, sort
+descending, and retain the top 50. Paginate deliberately if the sample limit is
+reached and complete coverage is required.
 
 **Using REST API:**
 ```bash
@@ -78,18 +81,18 @@ GET /api/now/stats/incident?sysparm_query=opened_at>=javascript:gs.daysAgoStart(
 
 ### Step 2: Collect Gap Data from Failed Searches
 
-Aggregate failed knowledge search terms to find clusters of unmet user needs.
+Retrieve bounded failed-search rows and count normalized `search_term` values
+locally to find clusters of unmet user needs.
 
 **Using MCP:**
 ```
-Tool: SN-Aggregate
+Tool: SN-Query-Table
 Parameters:
   table_name: search_log
   query: sys_created_on>=javascript:gs.daysAgoStart(90)^results_count=0^search_application=knowledge
-  group_by: search_term
-  aggregate: COUNT
-  order_by: COUNT
-  limit: 40
+  fields: sys_id,search_term
+  limit: 1000
+  instance: dev
 ```
 
 **Using REST API:**
@@ -206,15 +209,16 @@ Determine which team or individual should own each gap cluster based on assignme
 
 **Using MCP:**
 ```
-Tool: SN-Aggregate
+Tool: SN-Query-Table
 Parameters:
   table_name: incident
   query: opened_at>=javascript:gs.daysAgoStart(90)^state=6^category=network^kb_knowledgeISEMPTY
-  group_by: assignment_group
-  aggregate: COUNT
-  order_by: COUNT
-  limit: 10
+  fields: sys_id,assignment_group
+  limit: 1000
+  instance: dev
 ```
+
+Count the bounded rows locally by `assignment_group`, then keep the top 10.
 
 **Using REST API:**
 ```bash
@@ -302,8 +306,8 @@ GET /api/now/table/kb_knowledge?sysparm_query=sys_created_on>=javascript:gs.days
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Query gaps, submissions, feedback, articles |
-| `SN-NL-Search` | Search for existing coverage by topic |
-| `SN-Aggregate` | Aggregate incidents and search logs for volume analysis |
+| `SN-Natural-Language-Search` | Search for existing coverage by topic |
+| `SN-Query-Table` | Retrieve bounded, field-limited rows for local aggregation |
 | `SN-Create-Record` | Create action plan records as knowledge submissions |
 | `SN-Update-Record` | Update submission status and progress notes |
 | `SN-Add-Work-Notes` | Document clustering decisions and rationale |

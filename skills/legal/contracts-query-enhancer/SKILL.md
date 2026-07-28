@@ -11,7 +11,7 @@ tools:
     - SN-Natural-Language-Search
     - SN-Execute-Background-Script
     - SN-Discover-Table-Schema
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/ast_contract
     - /api/now/table/clm_contract_doc

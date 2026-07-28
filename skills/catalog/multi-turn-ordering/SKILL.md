@@ -10,7 +10,7 @@ tools:
     - SN-Query-Table
     - SN-Create-Record
     - SN-Update-Record
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Execute-Background-Script
     - SN-Discover-Table-Schema
   rest:
@@ -370,7 +370,7 @@ Parameters:
 | `SN-Query-Table` | Query catalog items, variables, categories, topics |
 | `SN-Create-Record` | Create topics, topic details, and catalog configurations |
 | `SN-Update-Record` | Activate and publish topics, update item settings |
-| `SN-NL-Search` | Find catalog items matching natural language queries |
+| `SN-Natural-Language-Search` | Find catalog items matching natural language queries |
 | `SN-Execute-Background-Script` | Batch-create conversation nodes and test flows |
 | `SN-Discover-Table-Schema` | Explore Virtual Agent and catalog table schemas |
 

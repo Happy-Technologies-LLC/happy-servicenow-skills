@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Create-Record
     - SN-Update-Record
     - SN-Add-Work-Notes
@@ -108,7 +108,7 @@ Before creating a new article, verify no existing article covers the same topic.
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: kb_knowledge
   query: "published articles about Outlook calendar sync errors on mobile devices"
@@ -315,7 +315,7 @@ Parameters:
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Retrieve source records, KB bases, categories |
-| `SN-NL-Search` | Check for existing articles on the topic |
+| `SN-Natural-Language-Search` | Check for existing articles on the topic |
 | `SN-Create-Record` | Create new KB article and link records |
 | `SN-Update-Record` | Update existing articles with new content |
 | `SN-Add-Work-Notes` | Document article creation on source records |

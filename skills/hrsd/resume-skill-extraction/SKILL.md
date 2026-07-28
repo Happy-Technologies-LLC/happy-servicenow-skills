@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Get-Record
     - SN-Update-Record
   rest:
@@ -268,7 +268,7 @@ Content-Type: application/json
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Query candidates, requisitions, skills taxonomy, competencies |
-| `SN-NL-Search` | Natural language search for matching candidates or roles |
+| `SN-Natural-Language-Search` | Natural language search for matching candidates or roles |
 | `SN-Get-Record` | Retrieve full candidate record with resume content |
 | `SN-Update-Record` | Write extracted skill data back to candidate profiles |
 

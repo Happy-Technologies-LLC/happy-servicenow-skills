@@ -7,7 +7,7 @@ tags: [genai, virtual-agent, conversation, evaluation, quality, coherence, hallu
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
     - SN-Update-Record
     - SN-Add-Work-Notes
@@ -279,7 +279,7 @@ Key quality metrics:
 | Tool | Purpose | When to Use |
 |------|---------|-------------|
 | `SN-Query-Table` | Retrieve conversations, messages, topics, actions | Core evaluation data gathering |
-| `SN-NL-Search` | Find conversations by natural language criteria | Targeted investigation |
+| `SN-Natural-Language-Search` | Find conversations by natural language criteria | Targeted investigation |
 | `SN-Update-Record` | Flag conversations with quality issues | Marking for review |
 | `SN-Add-Work-Notes` | Document evaluation findings | Audit trail |
 | `SN-Get-Table-Schema` | Explore conversation-related table structures | Setup and discovery |

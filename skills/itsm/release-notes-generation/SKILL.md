@@ -7,7 +7,7 @@ tags: [itsm, release-notes, change-request, release-management, documentation, s
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
     - SN-Update-Record
     - SN-Add-Work-Notes
@@ -322,7 +322,7 @@ Parameters:
 | Tool | Purpose | When to Use |
 |------|---------|-------------|
 | `SN-Query-Table` | Retrieve changes, stories, defects, release data | Core data gathering |
-| `SN-NL-Search` | Find related items using natural language | Supplementary discovery |
+| `SN-Natural-Language-Search` | Find related items using natural language | Supplementary discovery |
 | `SN-Create-Record` | Publish release notes as KB article | Documentation |
 | `SN-Update-Record` | Update release record with notes status | Tracking and audit |
 | `SN-Add-Work-Notes` | Document generation process | Audit trail |

@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Update-Record
     - SN-Add-Work-Notes
   rest:
@@ -71,7 +71,7 @@ Duplicates often use different phrasing. Search for common synonyms and alternat
 
 **Using MCP:**
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: kb_knowledge
   query: "published knowledge articles about resetting passwords or changing credentials or account lockout"
@@ -215,7 +215,7 @@ Parameters:
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Structured queries for articles, usage data, feedback |
-| `SN-NL-Search` | Natural language search for topic-based duplicate discovery |
+| `SN-Natural-Language-Search` | Natural language search for topic-based duplicate discovery |
 | `SN-Update-Record` | Retire duplicates, update authoritative articles |
 | `SN-Add-Work-Notes` | Document deduplication decisions and rationale |
 

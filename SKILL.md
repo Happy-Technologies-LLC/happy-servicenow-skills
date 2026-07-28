@@ -132,14 +132,16 @@ Each skill includes:
 
 ## MCP Tool Coverage
 
-These skills provide full parity with the platform MCP Server tools:
+The packaged v5.1 contract contains exactly 55 live MCP tools. Docs-only startup
+exposes six tools: the five documentation tools plus `SN-Register-Instance`.
+Catalog examples use supported names from that versioned contract, including:
 - Query and CRUD operations (SN-Query-Table, SN-Create-Record, etc.)
 - Update set management (SN-Set-Update-Set, SN-Clone-Update-Set)
 - Script execution (SN-Execute-Background-Script)
-- Natural language interface (SN-NL-Search, SN-NL-Query-Builder)
+- Natural language interface (`SN-Natural-Language-Search`) and precise encoded queries through `SN-Query-Table`
 - Batch operations (SN-Batch-Create, SN-Batch-Update)
 - Workflow creation (SN-Create-Workflow, SN-Create-Activity)
-- And 35+ more tools
+- Incident, problem, change, catalog, schema, instance, and documentation tools
 
 ## Contributing
 

@@ -9,8 +9,8 @@ tools:
   mcp:
     - SN-Query-Table
     - SN-Update-Record
-    - SN-Read-Record
-    - SN-NL-Search
+    - SN-Get-Record
+    - SN-Natural-Language-Search
   rest:
     - /api/now/table/rm_story
     - /api/now/table/rm_epic
@@ -53,7 +53,7 @@ Fetch the story record to understand the requirement before writing acceptance c
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: rm_story
   sys_id: [story_sys_id]
@@ -274,10 +274,10 @@ GET /api/now/table/rm_story?sysparm_query=epic=[epic_sys_id]^acceptance_criteria
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-Read-Record` | Retrieve a single story or epic by sys_id |
+| `SN-Get-Record` | Retrieve a single story or epic by sys_id |
 | `SN-Query-Table` | Query stories, epics, and related records |
 | `SN-Update-Record` | Write acceptance criteria back to the story |
-| `SN-NL-Search` | Natural language search for stories needing criteria |
+| `SN-Natural-Language-Search` | Natural language search for stories needing criteria |
 
 ### REST API Reference
 

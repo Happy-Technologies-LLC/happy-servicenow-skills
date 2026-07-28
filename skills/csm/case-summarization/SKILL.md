@@ -7,9 +7,9 @@ tags: [csm, case, summarization, customer-service, timeline, analysis]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/sn_customerservice_case
     - /api/now/table/interaction
@@ -50,7 +50,7 @@ Fetch the primary case record with all relevant fields.
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_customerservice_case
   sys_id: [case_sys_id]
@@ -247,9 +247,9 @@ KEY OBSERVATIONS:
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Natural language case lookup (e.g., "find open P1 cases for Acme Corp") |
+| `SN-Natural-Language-Search` | Natural language case lookup (e.g., "find open P1 cases for Acme Corp") |
 | `SN-Query-Table` | Structured queries across case, interaction, task, email tables |
-| `SN-Read-Record` | Retrieve a single record by sys_id with all fields |
+| `SN-Get-Record` | Retrieve a single record by sys_id with all fields |
 
 ### REST API Reference
 

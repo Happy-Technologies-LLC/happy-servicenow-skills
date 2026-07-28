@@ -7,7 +7,7 @@ tags: [itsm, incident, triage, assignment, priority, itil]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
     - SN-Assign-Incident
     - SN-Update-Record
@@ -27,7 +27,7 @@ estimated_time: 5-15 minutes
 Query for active incidents that are unassigned or in "New" state.
 
 ```
-Tool: SN-NL-Search
+Tool: SN-Natural-Language-Search
 Parameters:
   table_name: incident
   query: "active high priority incidents where assigned to is empty"

@@ -7,9 +7,9 @@ tags: [psds, chat, summarization, public-sector, citizen, interaction, service-d
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/interaction
     - /api/now/table/sn_psds_case
@@ -54,7 +54,7 @@ Fetch the primary interaction record for the chat session.
 
 **Using MCP:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: interaction
   sys_id: [INTERACTION_SYS_ID]
@@ -113,7 +113,7 @@ Get the parent case that the chat interaction is linked to.
 
 **Using MCP:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: sn_psds_case
   sys_id: [PARENT_CASE_SYS_ID]
@@ -263,9 +263,9 @@ Close Notes: [agent's closing remarks]
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Natural language search (e.g., "find today's chat interactions for benefits inquiries") |
+| `SN-Natural-Language-Search` | Natural language search (e.g., "find today's chat interactions for benefits inquiries") |
 | `SN-Query-Table` | Structured queries for interactions, cases, messages, and services |
-| `SN-Read-Record` | Retrieve specific interaction or case records by sys_id |
+| `SN-Get-Record` | Retrieve specific interaction or case records by sys_id |
 
 ### REST API Reference
 
@@ -320,7 +320,7 @@ Close Notes: [agent's closing remarks]
 
 **Step 1 - Get interaction:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: interaction
   sys_id: abc123def789

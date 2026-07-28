@@ -7,9 +7,9 @@ tags: [fsm, sidebar, summarization, field-service, technician, mobile, context]
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/wm_order
     - /api/now/table/wm_task
@@ -55,7 +55,7 @@ Fetch the task record that the technician is currently viewing.
 
 **Using MCP:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: wm_task
   sys_id: [TASK_SYS_ID]
@@ -73,7 +73,7 @@ Get the parent work order for broader context.
 
 **Using MCP:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: wm_order
   sys_id: [WORK_ORDER_SYS_ID]
@@ -225,9 +225,9 @@ CHECKLIST:
 
 | Tool | When to Use |
 |------|-------------|
-| `SN-NL-Search` | Natural language lookup (e.g., "find my assigned tasks for today") |
+| `SN-Natural-Language-Search` | Natural language lookup (e.g., "find my assigned tasks for today") |
 | `SN-Query-Table` | Structured queries for task, asset, company, and SLA data |
-| `SN-Read-Record` | Direct record retrieval by sys_id for task or work order |
+| `SN-Get-Record` | Direct record retrieval by sys_id for task or work order |
 
 ### REST API Reference
 
@@ -283,7 +283,7 @@ CHECKLIST:
 
 **Step 1 - Get task:**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: wm_task
   sys_id: abc123def456

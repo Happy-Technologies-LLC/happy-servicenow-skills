@@ -9,7 +9,7 @@ tools:
   mcp:
     - SN-Discover-Table-Schema
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Create-Record
     - SN-Update-Record
     - SN-Add-Work-Notes
@@ -122,7 +122,7 @@ Write final intake rationale with scoring factors and escalation decision.
 |---|---|
 | `SN-Discover-Table-Schema` | Validate table names and field availability |
 | `SN-Query-Table` | Retrieve candidate, profile, and historical risk data |
-| `SN-Read-Record` | Inspect individual candidate details |
+| `SN-Get-Record` | Inspect individual candidate details |
 | `SN-Create-Record` | Create follow-up tasks/issues for escalated candidates |
 | `SN-Update-Record` | Update candidate state and priority |
 | `SN-Add-Work-Notes` | Capture audit-ready intake rationale |

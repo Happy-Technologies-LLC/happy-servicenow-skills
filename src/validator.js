@@ -11,6 +11,12 @@ import matter from 'gray-matter';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SKILLS_DIR = join(__dirname, '..', 'skills');
+const REPOSITORY_ROOT = join(__dirname, '..');
+const MCP_TOOL_CONTRACT = JSON.parse(await readFile(
+  join(REPOSITORY_ROOT, 'contracts', 'happy-platform-mcp-5.1.0.json'),
+  'utf8'
+));
+const SUPPORTED_MCP_TOOLS = new Set(MCP_TOOL_CONTRACT.tools);
 
 // Required frontmatter fields
 const REQUIRED_FIELDS = ['name', 'version', 'description'];
@@ -66,8 +72,10 @@ export class SkillValidator {
 
     // Validate tools specification
     if (frontmatter.tools) {
-      this.validateTools(frontmatter.tools);
+      this.validateTools(frontmatter.tools, path);
     }
+
+    this.validateBodyTools(body, path);
 
     return this.getResult(path);
   }
@@ -155,7 +163,7 @@ export class SkillValidator {
    * Validate tools specification
    * @param {Object} tools - Tools configuration
    */
-  validateTools(tools) {
+  validateTools(tools, path) {
     const validToolTypes = ['mcp', 'rest', 'native', 'cli'];
 
     for (const [type, toolList] of Object.entries(tools)) {
@@ -165,8 +173,53 @@ export class SkillValidator {
 
       if (!Array.isArray(toolList)) {
         this.errors.push(`tools.${type} must be an array`);
+      } else if (type === 'mcp') {
+        for (const toolName of toolList) {
+          if (typeof toolName === 'string' && /^SN-[A-Za-z0-9-]+$/.test(toolName) && !SUPPORTED_MCP_TOOLS.has(toolName)) {
+            this.errors.push(`${path}: Unsupported MCP tool: ${toolName}`);
+          }
+        }
       }
     }
+  }
+
+  /**
+   * Validate operative MCP references in a Markdown body. Deliberately match
+   * only exact SN-style names, not prefixes or wildcard families. Ambiguous
+   * prose labels should be written out rather than shaped like tool names.
+   * @param {string} body - Markdown body
+   * @param {string} path - Source path for diagnostics
+   */
+  validateBodyTools(body, path) {
+    const toolNames = new Set();
+    for (const match of body.matchAll(/\b(SN-[A-Za-z0-9-]*[A-Za-z0-9])\b/g)) toolNames.add(match[1]);
+
+    for (const toolName of toolNames) {
+      if (!SUPPORTED_MCP_TOOLS.has(toolName)) {
+        this.errors.push(`${path}: Unsupported MCP tool: ${toolName}`);
+      }
+    }
+  }
+
+  /** Validate operative tool references in non-skill Markdown documents. */
+  static async validateContractDocuments() {
+    const docsRoot = join(REPOSITORY_ROOT, 'docs');
+    const docsEntries = await readdir(docsRoot, { recursive: true });
+    const documents = [
+      'SKILL.md',
+      'README.md',
+      ...docsEntries
+        .filter(entry => entry.endsWith('.md'))
+        .map(entry => `docs/${entry}`)
+    ].sort();
+    const results = [];
+    for (const documentPath of documents) {
+      const content = await readFile(join(REPOSITORY_ROOT, documentPath), 'utf8');
+      const validator = new SkillValidator();
+      validator.validateBodyTools(content, documentPath);
+      results.push(validator.getResult(documentPath));
+    }
+    return results;
   }
 
   /**
@@ -213,7 +266,7 @@ export class SkillValidator {
    * Supports both old format (skill.md) and new skills.sh format (skill/SKILL.md)
    * @returns {Promise<ValidationResult[]>}
    */
-  static async validateAll() {
+  static async validateAll({ includeContractDocuments = true } = {}) {
     const results = [];
     const categories = await readdir(SKILLS_DIR, { withFileTypes: true });
 
@@ -255,6 +308,10 @@ export class SkillValidator {
           }
         }
       }
+    }
+
+    if (includeContractDocuments) {
+      results.push(...await SkillValidator.validateContractDocuments());
     }
 
     return results;

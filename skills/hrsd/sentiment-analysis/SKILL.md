@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-NL-Search
+    - SN-Natural-Language-Search
     - SN-Get-Record
     - SN-Add-Work-Notes
     - SN-Update-Record
@@ -281,7 +281,7 @@ Parameters:
 | Tool | When to Use |
 |------|-------------|
 | `SN-Query-Table` | Query cases, profiles, surveys, interactions, journal entries |
-| `SN-NL-Search` | Natural language search for cases with specific sentiment keywords |
+| `SN-Natural-Language-Search` | Natural language search for cases with specific sentiment keywords |
 | `SN-Get-Record` | Retrieve detailed single records for deep-dive analysis |
 | `SN-Add-Work-Notes` | Document sentiment findings on case records |
 | `SN-Update-Record` | Update profile risk indicators or sentiment scores |

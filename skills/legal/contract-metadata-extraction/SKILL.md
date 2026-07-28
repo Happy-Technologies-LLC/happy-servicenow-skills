@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Update-Record
     - SN-Create-Record
     - SN-Execute-Background-Script
@@ -73,7 +73,7 @@ Get the base contract record with existing metadata.
 
 **Using MCP (Claude Code/Desktop):**
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: ast_contract
   sys_id: [contract_sys_id]
@@ -299,7 +299,7 @@ Parameters:
 
 | Operation | MCP Tool | REST Endpoint |
 |-----------|----------|---------------|
-| Read Contract | SN-Read-Record | GET /api/now/table/ast_contract/{sys_id} |
+| Read Contract | SN-Get-Record | GET /api/now/table/ast_contract/{sys_id} |
 | Query Documents | SN-Query-Table | GET /api/now/table/clm_contract_doc |
 | Query Obligations | SN-Query-Table | GET /api/now/table/clm_obligation |
 | Query Attachments | SN-Query-Table | GET /api/now/table/sys_attachment |
@@ -351,7 +351,7 @@ Search for fields containing "law", "jurisdiction", or "govern" in the element n
 **Scenario:** Legal assistant uploads a new vendor agreement and needs metadata extracted
 
 ```
-Tool: SN-Read-Record
+Tool: SN-Get-Record
 Parameters:
   table_name: ast_contract
   sys_id: abc123def456

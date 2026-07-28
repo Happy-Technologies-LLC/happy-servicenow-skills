@@ -8,7 +8,7 @@ platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
     - SN-Query-Table
-    - SN-Read-Record
+    - SN-Get-Record
     - SN-Execute-Background-Script
     - SN-Discover-Table-Schema
   rest:
@@ -390,7 +390,7 @@ Parameters:
 | Operation | MCP Tool | REST Endpoint |
 |-----------|----------|---------------|
 | Query Issues | SN-Query-Table | GET /api/now/table/sn_grc_issue |
-| Read Single Issue | SN-Read-Record | GET /api/now/table/sn_grc_issue/{sys_id} |
+| Read Single Issue | SN-Get-Record | GET /api/now/table/sn_grc_issue/{sys_id} |
 | Run Validation Scripts | SN-Execute-Background-Script | POST /api/now/table/sys_trigger |
 | Discover Schema | SN-Discover-Table-Schema | GET /api/now/table/sys_dictionary |
 | Query Controls | SN-Query-Table | GET /api/now/table/sn_compliance_control |
