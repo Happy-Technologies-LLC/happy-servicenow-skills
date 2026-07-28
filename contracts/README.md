@@ -22,3 +22,8 @@ precision. Verify it against the sibling source with:
 ```bash
 npm run contract:nl-check
 ```
+
+`task4-skill-version-baseline.json` snapshots the historical skill paths and
+versions used by the Task 4 migration tests. Keeping this baseline in the
+package makes the version assertions deterministic in shallow source checkouts;
+the default test suite does not require the referenced Git commits to exist.

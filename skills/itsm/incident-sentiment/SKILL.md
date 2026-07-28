@@ -1,6 +1,6 @@
 ---
 name: incident-sentiment
-version: 1.0.2
+version: 1.0.3
 description: Analyze incident sentiment from work notes, customer communications, and activity entries to track escalation risk and customer satisfaction
 author: Happy Technologies LLC
 tags: [itsm, incident, sentiment, escalation, customer-satisfaction, nlp, work-notes, analytics]
@@ -58,14 +58,14 @@ Query active incidents, prioritizing those with recent activity or approaching S
 Tool: SN-Query-Table
 Parameters:
   table_name: incident
-  query: active=true^priorityIN1,2^sys_updated_onONLast 24 hours@javascript:gs.daysAgoStart(1)@javascript:gs.daysAgoEnd(0)
+  query: active=true^priorityIN1,2^sys_updated_on>=javascript:gs.hoursAgo(24)
   fields: sys_id,number,short_description,priority,state,assigned_to,assignment_group,sla_due,sys_updated_on
   limit: 30
 ```
 
 **Using REST API:**
 ```bash
-GET /api/now/table/incident?sysparm_query=active=true^priorityIN1,2^sys_updated_onONLast 24 hours@javascript:gs.daysAgoStart(1)@javascript:gs.daysAgoEnd(0)&sysparm_fields=sys_id,number,short_description,priority,state,assigned_to,assignment_group,sla_due,sys_updated_on&sysparm_limit=30
+GET /api/now/table/incident?sysparm_query=active=true^priorityIN1,2^sys_updated_on>=javascript:gs.hoursAgo(24)&sysparm_fields=sys_id,number,short_description,priority,state,assigned_to,assignment_group,sla_due,sys_updated_on&sysparm_limit=30
 ```
 
 ### Step 2: Retrieve Work Notes and Comments

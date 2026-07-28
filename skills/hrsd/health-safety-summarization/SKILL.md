@@ -1,6 +1,6 @@
 ---
 name: health-safety-summarization
-version: 1.0.2
+version: 1.0.3
 description: Summarize Health and Safety incidents with injury details, root cause analysis, OSHA reporting requirements, corrective actions, and workplace hazard tracking
 author: Happy Technologies LLC
 tags: [hrsd, health-safety, incident, osha, injury, hazard, investigation, corrective-action, workplace-safety]
@@ -331,7 +331,7 @@ Check for fields like `type`, `category`, or `classification` that categorize in
 Tool: SN-Query-Table
 Parameters:
   table_name: sn_hr_hs_incident
-  query: sys_created_on>=javascript:gs.daysAgoStart(30)^incident_typeINnear_miss,first_aid
+  query: sys_created_on>=javascript:gs.daysAgoStart(30)
   limit: 50
 ```
 

@@ -1,6 +1,6 @@
 ---
 name: chat-recommendation
-version: 1.0.2
+version: 1.0.3
 description: Generate recommended chat responses for CSM agents based on case context, knowledge base matches, customer history, and similar resolved cases
 author: Happy Technologies LLC
 tags: [csm, chat, recommendation, agent-assist, knowledge-base, customer-service]
@@ -164,7 +164,7 @@ For broader matching with an encoded query:
 ```
 Tool: SN-Query-Table
 Parameters:
-  query: category=<category>^subcategory=<subcategory>^stateIN6,7^resolution_codeISNOTEMPTY^ORDERBYDESCclosed_at
+  query: short_descriptionLIKE[key_terms]^stateIN6,7^resolution_codeISNOTEMPTY^ORDERBYDESCclosed_at
   table_name: sn_customerservice_case
   limit: 5
 ```
