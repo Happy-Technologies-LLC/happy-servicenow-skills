@@ -11,7 +11,7 @@ tools:
     - SN-Create-Record
     - SN-Update-Record
     - SN-Get-Table-Schema
-    - SN-Read-Record
+    - SN-Get-Record
   rest:
     - /api/now/table/sys_script_include
     - /api/now/table/sys_rest_api
@@ -307,7 +307,7 @@ Parameters:
 
 ### Step 6: Configure Authentication
 
-Set up OAuth 2.0 for secure agent authentication.
+Set up OAuth 2.0 for secure agent authentication. Provision authentication material through an approved local credential manager or deployment secret store outside the model context. Never ask an agent to collect it, place it in a tool call, generate it in documentation, or add it to shell arguments or client JSON.
 
 **MCP Approach:**
 ```
@@ -336,18 +336,11 @@ Parameters:
 ```
 
 **Authentication Flow:**
-```
-1. Agent requests access token:
-   POST /oauth_token.do
-   grant_type=client_credentials
-   client_id=mcp_agent_client
-   client_secret=[secret]
 
-2. Agent includes token in MCP requests:
-   Authorization: Bearer [access_token]
-
-3. ServiceNow validates token and applies user context
-```
+1. An administrator registers the client metadata in ServiceNow.
+2. An approved local credential helper performs the selected OAuth exchange outside the conversation and model context.
+3. The integration transport supplies the resulting authentication state without logging it.
+4. ServiceNow validates the request and applies the integration user's ACL context.
 
 ### Step 7: Implement Access Controls
 
@@ -450,43 +443,9 @@ MCP INTERACTION LOG:
 
 Validate the MCP server with agent platforms.
 
-**Test Tool Listing:**
-```bash
-curl -X GET https://[instance].service-now.com/api/x_mcp/mcp_server/tools/list \
-  -H "Authorization: Bearer [token]" \
-  -H "Accept: application/json"
-```
+**Test Tool Listing:** Connect through an MCP client whose transport authentication is already configured by the local runtime, then inspect its advertised tool list.
 
-**Test Tool Execution:**
-```bash
-curl -X POST https://[instance].service-now.com/api/x_mcp/mcp_server/tools/call \
-  -H "Authorization: Bearer [token]" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "sn_query_records",
-    "arguments": {
-      "table": "incident",
-      "query": "priority=1^state=2",
-      "fields": "number,short_description,priority,state",
-      "limit": 5
-    }
-  }'
-```
-
-**MCP Client Configuration (claude_desktop_config.json):**
-```json
-{
-  "mcpServers": {
-    "servicenow": {
-      "url": "https://[instance].service-now.com/api/x_mcp/mcp_server",
-      "transport": "streamable-http",
-      "headers": {
-        "Authorization": "Bearer [token]"
-      }
-    }
-  }
-}
-```
+**Test Tool Execution:** Invoke a low-risk, read-only schema or query tool through that MCP client. Verify allowlisting, ACL enforcement, rate limiting, sanitized logging, and response formatting. If a raw transport probe is indispensable, use an organization-approved local credential helper and keep all authentication state outside the command line and generated documentation.
 
 ## Tool Usage
 
@@ -496,7 +455,7 @@ curl -X POST https://[instance].service-now.com/api/x_mcp/mcp_server/tools/call 
 | SN-Update-Record | Modify API configurations, update scripts | Iterating on MCP implementation |
 | SN-Query-Table | Find existing APIs, ACLs, OAuth configs | Discovery and validation |
 | SN-Get-Table-Schema | Discover table fields for tool schemas | Schema generation |
-| SN-Read-Record | Review specific API or script details | Debugging and verification |
+| SN-Get-Record | Review specific API or script details | Debugging and verification |
 
 ## Best Practices
 

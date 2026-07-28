@@ -1,287 +1,173 @@
 ---
 name: mcp-server-installation
-version: 1.0.0
-description: Install and configure Happy Platform MCP for ServiceNow, including npm/source setup, single or multi-instance credentials, agent connection, and smoke testing
+version: 1.1.0
+description: Install Happy Platform MCP v5.1 and configure secure, keychain-backed ServiceNow instance access
 author: Happy Technologies LLC
-tags: [development, mcp, installation, servicenow, happy-platform-mcp, claude-desktop, agents, configuration, authentication]
+tags: [development, mcp, installation, servicenow, configuration, authentication]
 platforms: [claude-code, claude-desktop, cursor, any]
 tools:
+  mcp: [SN-Register-Instance, SN-Set-Instance, SN-Get-Current-Instance, SN-Query-Table, SN-Natural-Language-Search]
   cli:
-    - npx happy-platform-mcp
-    - npm install
-    - npm install -g happy-platform-mcp
-    - git clone
-    - curl
-  native:
-    - Bash
-    - Read
-    - Write
+    - happy-platform-mcp instance add
+    - happy-platform-mcp instance list
+    - happy-platform-mcp instance update
+    - happy-platform-mcp instance remove
+    - happy-platform-mcp instance test
+    - happy-platform-mcp instance migrate
+  native: [Bash, Read]
 complexity: intermediate
 estimated_time: 10-30 minutes
 ---
 
-# Happy Platform MCP Installation
+# Happy Platform MCP v5.1 Installation
 
 ## Overview
 
-This skill installs and connects [Happy Platform MCP](https://github.com/Happy-Technologies-LLC/happy-platform-mcp), the ServiceNow Model Context Protocol server used by Happy Platform Skills.
-
-Use it when a user asks to:
-
-- Install `happy-platform-mcp`
-- Configure ServiceNow MCP credentials
-- Add Happy Platform MCP to Claude Desktop or another MCP-capable agent
-- Set up single-instance or multi-instance ServiceNow access
-- Verify MCP tools such as `SN-Query-Table`, `SN-NL-Search`, or `SN-Execute-Background-Script`
-- Migrate from the older `servicenow-mcp-server` package name
-
-For designing or building a custom MCP server inside ServiceNow, use `development/mcp-server` instead. For ServiceNow metadata-as-code with NowSDK Fluent, use `development/fluent-sdk`.
+Install Happy Platform MCP v5.1, register one or more ServiceNow instances, and connect an MCP host without exposing authentication material to the model, MCP messages, logs, shell history, or client JSON. Keep the MCP-first policy: use live `SN-*` tools for ServiceNow work after local setup; use raw REST only when no MCP tool can perform the operation and the caller already has a locally managed credential helper.
 
 ## Prerequisites
 
-- Node.js 18 or newer
-- One or more ServiceNow instances with REST API access
-- A ServiceNow user or OAuth client with the roles needed for the intended tools
-- An MCP-capable client, such as Claude Desktop or an agent runtime that supports stdio MCP servers
-- Permission to edit the local agent MCP configuration
+- Node.js >= 20
+- Happy Platform MCP `5.1.0` or a compatible later 5.x release
+- A local interactive terminal for masked prompts
+- An OS keychain available to the current user
+- An MCP-capable client and appropriate ServiceNow access
 
 ## Procedure
 
-### Step 1: Choose Install Mode
+### Step 1: Install the Server
 
-Use npm for most users:
-
-```bash
-npx -y happy-platform-mcp
-```
-
-Use a global install when the user wants a pinned local command:
+Use npm for a normal installation:
 
 ```bash
-npm install -g happy-platform-mcp
-happy-platform-mcp
+npm install -g happy-platform-mcp@5.1.0
+happy-platform-mcp --version
 ```
 
-Use source install when developing or debugging the server:
+An MCP host can instead launch the package with `npx -y happy-platform-mcp@5.1.0`. Do not add authentication material to its arguments or environment block.
+
+### Step 2: Choose an Authentication Mode
+
+Run `happy-platform-mcp instance add` locally. It gathers required values through interactive masked prompts and puts credential material in the OS keychain. The model must never ask the user to paste, echo, log, document, or send that material in an MCP call.
+
+| Mode | Choose when | Local setup behavior |
+|---|---|---|
+| Basic | A named integration user is required | Prompts locally for the user identity and its credential |
+| OAuth `client_credentials` | A non-interactive service integration is required | Prompts locally for client metadata and the client credential |
+| OAuth password | A legacy resource-owner flow is explicitly required | Prompts locally for user and client credentials; prefer a stronger flow when possible |
+| Public `authorization_code` with PKCE | Per-user browser sign-in is available | Direct zero-static-secret path; the browser flow stores refresh state in the OS keychain |
+
+Use the local CLI lifecycle:
 
 ```bash
-git clone https://github.com/Happy-Technologies-LLC/happy-platform-mcp.git
-cd happy-platform-mcp
-npm install
+happy-platform-mcp instance add
+happy-platform-mcp instance list
+happy-platform-mcp instance test dev
+happy-platform-mcp instance update dev
+happy-platform-mcp instance remove dev
+happy-platform-mcp instance migrate
 ```
 
-If the user has the old package installed, migrate it:
+`instance update` changes metadata only. Authentication changes require remove then re-add. Use `happy-platform-mcp instance credential set dev` only to rotate an already-registered instance or complete an existing metadata-only registration; it cannot bootstrap a new instance name.
 
-```bash
-npm uninstall -g servicenow-mcp-server
-npm install -g happy-platform-mcp
-```
+### Step 3: Understand Registry Storage
 
-### Step 2: Configure ServiceNow Credentials
+The default version 1 user registry is `~/.config/happy-platform-mcp/instances.json`. It contains non-secret metadata and canonical `credentialRef` values only. Credentials remain in the OS keychain. Do not manually add plaintext values to the registry.
 
-For a single instance, configure environment variables in the MCP client config:
-
-```json
-{
-  "SERVICENOW_INSTANCE_URL": "https://your-instance.service-now.com",
-  "SERVICENOW_USERNAME": "your-username",
-  "SERVICENOW_PASSWORD": "your-password"
-}
-```
-
-For OAuth, add the auth type and client credentials:
-
-```json
-{
-  "SERVICENOW_INSTANCE_URL": "https://your-instance.service-now.com",
-  "SERVICENOW_AUTH_TYPE": "oauth",
-  "SERVICENOW_CLIENT_ID": "your-client-id",
-  "SERVICENOW_CLIENT_SECRET": "your-client-secret"
-}
-```
-
-For multi-instance routing from a source install, copy and edit the instance config:
-
-```bash
-cp config/servicenow-instances.json.example config/servicenow-instances.json
-```
-
-Use this shape:
-
-```json
-{
-  "instances": [
-    {
-      "name": "dev",
-      "url": "https://dev123456.service-now.com",
-      "username": "admin",
-      "password": "your-password",
-      "default": true
-    },
-    {
-      "name": "prod",
-      "url": "https://prod789012.service-now.com",
-      "authType": "oauth",
-      "grantType": "client_credentials",
-      "clientId": "your-oauth-client-id",
-      "clientSecret": "your-oauth-client-secret"
-    }
-  ]
-}
-```
-
-Never commit real credentials. Keep `.env`, `servicenow-instances.json`, and local agent config files out of shared repositories unless they are sanitized examples.
-
-### Step 3: Connect Claude Desktop
-
-Edit `~/Library/Application Support/Claude/claude_desktop_config.json` on macOS.
-
-For npm-based stdio:
+`HAPPY_CONFIG_PATH` overrides the registry location and supports absolute paths, relative paths, and `~`. Set it before running the CLI and provide the same value to the MCP host. This is safe host configuration because it identifies metadata, not a credential.
 
 ```json
 {
   "mcpServers": {
     "happy-platform-mcp": {
       "command": "npx",
-      "args": ["-y", "happy-platform-mcp"],
+      "args": ["-y", "happy-platform-mcp@5.1.0"],
       "env": {
-        "SERVICENOW_INSTANCE_URL": "https://your-instance.service-now.com",
-        "SERVICENOW_USERNAME": "your-username",
-        "SERVICENOW_PASSWORD": "your-password"
+        "HAPPY_CONFIG_PATH": "~/.config/happy-platform-mcp/instances.json"
       }
     }
   }
 }
 ```
 
-For source-based stdio:
+The package-local `config/servicenow-instances.json` is a read-only legacy migration input, never the writable v5.1 registry. With the automatic package-legacy-to-user-registry path, `happy-platform-mcp instance migrate` moves credentials into the OS keychain and leaves the legacy source untouched. If an override points at the same plaintext source and destination, migration refuses before writing; select a distinct target or recreate each instance with `instance add`. Never teach manual plaintext registry editing.
+
+### Step 4: Start Normally or in Docs-Only Mode
+
+When neither a registry/config nor legacy environment credentials exist, stdio automatically falls back to docs-only mode. To force that mode explicitly, configure:
 
 ```json
 {
-  "mcpServers": {
-    "happy-platform-mcp": {
-      "command": "node",
-      "args": ["/absolute/path/to/happy-platform-mcp/src/stdio-server.js"],
-      "cwd": "/absolute/path/to/happy-platform-mcp"
-    }
-  }
-}
-```
-
-Restart Claude Desktop after editing the file.
-
-### Step 4: Connect Other Agents
-
-Use stdio transport unless the client explicitly asks for HTTP/SSE:
-
-```json
-{
-  "command": "npx",
-  "args": ["-y", "happy-platform-mcp"],
   "env": {
-    "SERVICENOW_INSTANCE_URL": "https://your-instance.service-now.com",
-    "SERVICENOW_USERNAME": "your-username",
-    "SERVICENOW_PASSWORD": "your-password"
+    "HAPPY_MCP_DOCS_ONLY": "true"
   }
 }
 ```
 
-If configuring Codex, Cursor, or another client, inspect that client's current MCP config format first and preserve existing servers. Do not overwrite unrelated MCP entries.
+Use `HAPPY_MCP_DOCS_ONLY=true`; the v5.1 `--docs-only` flag does not reliably override an existing registry. Docs-only mode exposes the documentation and safe registration tools without creating a live ServiceNow client.
 
-### Step 5: Verify the Server
+### Step 5: Use Safe MCP Registration
 
-For source installs using HTTP/SSE transport:
+`SN-Register-Instance` is metadata-only and rejects secret fields. It normally persists metadata and performs a live reload. A server that started in docs-only mode must restart before live ServiceNow tools become available.
 
-```bash
-npm run dev
-curl http://localhost:3000/health
-curl http://localhost:3000/instances
+There is a v5.1 bootstrap constraint: credential-backed registration checks for credential references before it writes new metadata, while `instance credential set` requires an already-registered name. Therefore:
+
+- Use local `instance add` for Basic, `client_credentials`, and OAuth password.
+- Direct `SN-Register-Instance` is reliable for public `authorization_code`, which has no static client credential.
+- Credential-backed direct registration is also possible with externally preprovisioned deterministic keychain refs.
+- Never pass a credential or token to `SN-Register-Instance`.
+
+Example public registration:
+
+```text
+Tool: SN-Register-Instance
+Parameters:
+  name: public-dev
+  url: https://example.service-now.com
+  authType: oauth
+  grantType: authorization_code
+  clientId: registered-public-client-id
+  makeDefault: true
 ```
 
-For stdio agent installs, restart the agent and confirm ServiceNow tools are listed. Then run a read-only smoke test:
+### Step 6: Verify and Route
 
-```json
-{
-  "tool": "SN-Query-Table",
-  "arguments": {
-    "table_name": "incident",
-    "query": "active=true",
-    "fields": "number,short_description,state",
-    "limit": 1
-  }
-}
+After restarting the MCP host, list instances with parameterless `SN-Set-Instance`, inspect the session with `SN-Get-Current-Instance`, and run a low-risk read:
+
+```text
+Tool: SN-Query-Table
+Parameters:
+  instance: dev
+  table_name: incident
+  query: active=true
+  fields: number,short_description,state
+  limit: 1
 ```
 
-For multi-instance configurations, test explicit routing:
-
-```json
-{
-  "tool": "SN-Query-Table",
-  "arguments": {
-    "instance": "dev",
-    "table_name": "sys_user",
-    "query": "active=true",
-    "fields": "user_name,name",
-    "limit": 1
-  }
-}
-```
-
-### Step 6: Confirm Skill Integration
-
-After the MCP server is working, use these skills with the live tools:
-
-- `itsm/incident-triage` for incident routing
-- `admin/script-execution` for background scripts and fix scripts
-- `admin/update-set-management` for update set operations
-- `development/fluent-sdk` for hybrid NowSDK plus MCP development
+`SN-Set-Instance` changes the current session's implicit target for sequential work. For concurrent work, critical operations, or any operation that could race a session switch, pass the explicit per-call `instance` value.
 
 ## Best Practices
 
-- Start with a read-only user or a non-production instance, then expand roles as needed.
-- Prefer OAuth client credentials for shared production integrations.
-- Use clear instance names such as `dev`, `test`, `uat`, and `prod`.
-- Keep destructive tools restricted to trusted users and non-production defaults.
-- Validate with `SN-Query-Table` before testing create, update, script, or update set tools.
-- Keep the MCP package current unless a deployment requires a pinned version.
+- Start read-only and in a non-production instance.
+- Keep instance names clear and verify the current target before writes.
+- Keep credentials inside masked local prompts and the OS keychain.
+- Use explicit routing for destructive, production, concurrent, or critical operations.
+- Run `happy-platform-mcp instance test <name>` before enabling write workflows.
+- Preserve the MCP-first policy and use `SN-Get-Table-Schema` before unfamiliar table operations.
 
 ## Troubleshooting
 
-### Package Command Fails
-
-**Symptom:** `npx happy-platform-mcp` cannot find or start the package.
-
-**Cause:** Node.js is missing, too old, or npm cannot fetch the package.
-
-**Solution:** Verify `node --version` is 18 or newer, then retry with `npx -y happy-platform-mcp`. If needed, install globally with `npm install -g happy-platform-mcp`.
-
-### Agent Does Not Show Tools
-
-**Symptom:** The MCP server appears configured, but no `SN-*` tools are available.
-
-**Cause:** The agent was not restarted, the config JSON is invalid, or the command path is wrong.
-
-**Solution:** Validate the JSON, restart the agent, and use absolute paths for source installs.
-
-### Authentication Fails
-
-**Symptom:** Tools return 401 or invalid credentials errors.
-
-**Cause:** Incorrect username/password, OAuth client details, grant type, or ServiceNow roles.
-
-**Solution:** Verify credentials against the instance URL, confirm the OAuth Application Registry values, and test with a low-risk read query.
-
-### Multi-Instance Routing Fails
-
-**Symptom:** Passing `"instance": "prod"` does not route to the expected instance.
-
-**Cause:** The instance name is missing, misspelled, or the config file is not being loaded from the server working directory.
-
-**Solution:** Check `config/servicenow-instances.json`, ensure exactly one default instance, and set `cwd` to the source repo when using source-based stdio.
+| Issue | Resolution |
+|---|---|
+| CLI reports an old Node runtime | Install Node 20 or later and repeat the command |
+| An instance name is missing | Run `happy-platform-mcp instance list`, then use `instance add` locally |
+| Authentication mode must change | Run `instance remove <name>`, then `instance add` and choose the new mode |
+| Metadata exists but authentication fails | Run `instance credential set <name>` locally, then `instance test <name>` |
+| Only docs tools appear | Remove forced docs-only mode if present and restart after a usable registration exists |
+| Migration refuses the path | Use the automatic legacy-to-default-user path or select a distinct metadata-only target |
 
 ## Related Skills
 
-- `development/mcp-server` - Design or build MCP server capabilities
-- `development/fluent-sdk` - Use NowSDK Fluent with MCP runtime verification
-- `admin/instance-management` - Work across multiple ServiceNow instances
-- `admin/script-execution` - Execute server-side scripts through MCP
+- `admin/instance-management` - Runtime routing and environment safety
+- `development/servicenow-docs-mcp` - Documentation search and docs-only behavior
+- `development/mcp-server` - Build a custom MCP-compatible integration

@@ -166,13 +166,7 @@ Parameters:
 | sysparm_fields | Query | Fields to return |
 | sysparm_limit | Query | Max records |
 
-**Example:**
-\`\`\`bash
-curl -X GET \
-  'https://instance.service-now.com/api/now/table/incident?sysparm_query=active=true&sysparm_limit=10' \
-  -H 'Authorization: Basic <token>' \
-  -H 'Accept: application/json'
-\`\`\`
+    **Safe fallback guidance:** Prefer an equivalent MCP tool example. If raw REST is genuinely required, describe the endpoint and request shape without authentication material. Refer readers to an organization-approved local credential helper; never put credentials, tokens, authentication headers, or secret placeholders in commands, JSON, MCP arguments, logs, or generated documentation.
 ```
 
 ## Testing Your Skill
@@ -244,7 +238,7 @@ Any additional context or considerations.
 
 - Use triple backticks with language identifier
 - For tool calls, use plain text (no language)
-- For REST/curl, use `bash`
+- For secret-safe REST request shapes, use `bash`; omit all authentication material
 - For JavaScript, use `javascript`
 
 ### Tables

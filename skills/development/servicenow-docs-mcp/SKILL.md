@@ -7,6 +7,7 @@ tags: [development, mcp, servicenow-docs, documentation, search, sqlite, fts, ve
 platforms: [claude-code, claude-desktop, chatgpt, cursor, any]
 tools:
   mcp:
+    - SN-Register-Instance
     - SN-Docs-Families
     - SN-Docs-Get
     - SN-Docs-Search
@@ -44,10 +45,18 @@ For installing the MCP server itself, use `development/mcp-server-installation`.
 ## Prerequisites
 
 - Happy Platform MCP source checkout
-- Node.js version supported by the MCP server
+- Node.js >= 20
 - Network access to `https://github.com/ServiceNow/ServiceNowDocs` for live mode or sync
 - Optional `better-sqlite3` support only when local indexing is enabled
 - Optional embedding provider only when vector search is enabled
+
+### v5.1 Docs-Only Bootstrap
+
+When no registry/config and no legacy environment credentials are present, the stdio server automatically falls back to docs-only mode. Force this mode with `HAPPY_MCP_DOCS_ONLY=true`. The v5.1 `--docs-only` flag does not reliably override a registry that already exists and must not be used for this workflow.
+
+Docs-only mode exposes the five `SN-Docs-*` tools plus `SN-Register-Instance`. `SN-Register-Instance` is metadata-only and rejects secret fields. A normal live server reloads the registry after a successful registration; restart a process that started in docs-only mode before expecting live ServiceNow tools.
+
+Credential-backed bootstrap has a v5.1 ordering constraint: registration expects a credential reference, but the local credential-set command expects the instance name to exist. Use local interactive `happy-platform-mcp instance add` for Basic, OAuth `client_credentials`, and OAuth password registrations. Direct registration is reliable for public `authorization_code`, or when an administrator has created externally preprovisioned deterministic keychain refs. Never ask a user or agent to put credential material in the tool call.
 
 ## Procedure
 
