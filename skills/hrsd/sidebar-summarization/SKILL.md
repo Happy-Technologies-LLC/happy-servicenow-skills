@@ -1,6 +1,6 @@
 ---
-name: sidebar-summarization
-version: 1.0.2
+name: hrsd-sidebar-summarization
+version: 1.0.3
 description: Generate sidebar discussion summaries for HR cases with key decision points, stakeholder input, and next actions
 author: Happy Technologies LLC
 tags: [hrsd, summarization, sidebar, discussion, decisions, next-actions, hr-cases, collaboration]

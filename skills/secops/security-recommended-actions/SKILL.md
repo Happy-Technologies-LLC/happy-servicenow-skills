@@ -1,6 +1,6 @@
 ---
 name: security-recommended-actions
-version: 1.0.2
+version: 1.0.3
 description: Generate recommended actions for security incidents based on threat type, severity, affected assets, and playbook alignment. Include containment, eradication, and recovery steps
 author: Happy Technologies LLC
 tags: [secops, security, incident-response, recommended-actions, containment, eradication, recovery, playbook]
@@ -409,6 +409,6 @@ Parameters:
 
 - `secops/incident-summarization` - Summarize the incident alongside recommended actions
 - `secops/post-incident-analysis` - Assess whether recommended actions were properly executed
-- `secops/post-incident-analysis` - Conduct detailed analysis after actions are completed
+- `secops/vulnerability-deduplication` - Consolidate duplicate vulnerabilities before prioritizing actions
 - `secops/correlation-insights` - Identify related incidents that may share response actions
 - `secops/shift-handover` - Include pending actions in shift handover reports

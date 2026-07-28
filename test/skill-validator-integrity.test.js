@@ -1,7 +1,8 @@
 import { afterEach, describe, expect, test } from '@jest/globals';
-import { mkdir, mkdtemp, rm, writeFile } from 'fs/promises';
+import { mkdir, mkdtemp, readFile, readdir, rm, symlink, writeFile } from 'fs/promises';
 import { join } from 'path';
 import { tmpdir } from 'os';
+import matter from 'gray-matter';
 import { SkillValidator } from '../src/validator.js';
 
 const temporaryRoots = [];
@@ -95,8 +96,17 @@ describe('canonical skill integrity contract', () => {
       { sourcePath: 'skills/demo/sample-skill/SKILL.md' }
     );
     expect(result.errors.join('\n')).toMatch(
-      /skills\/demo\/sample-skill\/SKILL\.md:2:.*different-name.*sample-skill/
+      /skills\/demo\/sample-skill\/SKILL\.md:2:.*different-name.*sample-skill.*demo-sample-skill/
     );
+  });
+
+  test('accepts a category-prefixed name derived from the skill path', () => {
+    const result = new SkillValidator().validate(
+      skill({ name: 'demo-sample-skill' }),
+      'demo/sample-skill',
+      { sourcePath: 'skills/demo/sample-skill/SKILL.md' }
+    );
+    expect(result.errors).toEqual([]);
   });
 
   test.each([
@@ -170,6 +180,19 @@ describe('canonical skill integrity contract', () => {
     expect(result.errors.join('\n')).toMatch(/SKILL\.md:8:.*tools/i);
   });
 
+  test.each(['complexity:', 'complexity: null', 'complexity: ""'])(
+    'rejects an invalid present complexity value: %s',
+    complexityLine => {
+      const content = skill().replace('complexity: beginner', complexityLine);
+      const result = new SkillValidator().validate(
+        content,
+        'demo/sample-skill',
+        { sourcePath: 'skills/demo/sample-skill/SKILL.md' }
+      );
+      expect(result.errors.join('\n')).toMatch(/SKILL\.md:\d+:.*invalid complexity/i);
+    }
+  );
+
   test.each(['Overview', 'Prerequisites', 'Procedure'])(
     'requires a nonempty ## %s section',
     sectionName => {
@@ -210,13 +233,15 @@ describe('canonical skill integrity contract', () => {
 
   test('accepts existing local links and category, relative, and slug related-skill forms', async () => {
     const skillsRoot = await temporarySkillsRoot();
-    await writeSkill(skillsRoot, 'demo/target-skill', skill({ name: 'target-skill' }));
+    await writeSkill(skillsRoot, 'demo/relative-target', skill({ name: 'relative-target' }));
+    await writeSkill(skillsRoot, 'demo/category-target', skill({ name: 'category-target' }));
+    await writeSkill(skillsRoot, 'demo/slug-target', skill({ name: 'slug-target' }));
     await writeSkill(skillsRoot, 'demo/sample-skill', skill({
       sections: [
-        '## Overview\n\nRead the [target skill](../target-skill/SKILL.md).',
+        '## Overview\n\nRead the [target skill](../relative-target/SKILL.md).',
         '## Prerequisites\n\n- Read access',
         '## Procedure\n\n1. Query the records and verify the result.',
-        '## Related Skills\n\n- `target-skill`\n- `demo/target-skill`\n- [Target](../target-skill/SKILL.md)'
+        '## Related Skills\n\n- `slug-target` -- Same-category target\n- `demo/category-target` - Full-path target\n- [Target](../relative-target/SKILL.md)'
       ]
     }));
 
@@ -274,5 +299,114 @@ describe('canonical skill integrity contract', () => {
     expect(result.errors.join('\n')).toMatch(
       /SKILL\.md:\d+:.*Related Skills Markdown link does not resolve to a catalog skill.*notes\.md/i
     );
+  });
+
+  test('rejects duplicate frontmatter names across the catalog', async () => {
+    const skillsRoot = await temporarySkillsRoot();
+    await writeSkill(skillsRoot, 'demo/shared-name', skill({ name: 'shared-name' }));
+    await writeSkill(skillsRoot, 'other/shared-name', skill({ name: 'shared-name' }));
+
+    const results = await SkillValidator.validateAll({
+      skillsDir: skillsRoot,
+      includeContractDocuments: false
+    });
+
+    expect(results).toHaveLength(2);
+    for (const result of results) {
+      expect(result.errors.join('\n')).toMatch(/frontmatter name.*shared-name.*globally unique/i);
+    }
+  });
+
+  test('rejects unsafe, malformed, absolute, escaping, and symlinked local links', async () => {
+    const skillsRoot = await temporarySkillsRoot();
+    const outsideRoot = await mkdtemp(join(tmpdir(), 'skill-validator-outside-'));
+    temporaryRoots.push(outsideRoot);
+    const outsideFile = join(outsideRoot, 'outside.md');
+    await mkdir(join(skillsRoot, 'demo', 'sample-skill'), { recursive: true });
+    await writeFile(outsideFile, '# Outside\n');
+    await symlink(outsideFile, join(skillsRoot, 'demo', 'sample-skill', 'linked-outside.md'));
+    await writeSkill(skillsRoot, 'demo/sample-skill', skill({
+      sections: [
+        [
+          '## Overview',
+          '',
+          '[Absolute](/etc/passwd)',
+          '[Escape](../../../../outside.md)',
+          '[Symlink](linked-outside.md)',
+          '[JavaScript](javascript:alert(1))',
+          '[Data](data:text/plain,unsafe)',
+          '[File](file:///etc/passwd)',
+          '[Encoded](java%73cript:alert(1))',
+          '[Malformed](bad%E0%A4%A.md)'
+        ].join('\n'),
+        '## Prerequisites\n\n- Read access',
+        '## Procedure\n\n1. Validate every local reference.'
+      ]
+    }));
+
+    const [result] = await SkillValidator.validateAll({
+      skillsDir: skillsRoot,
+      includeContractDocuments: false
+    });
+    const errors = result.errors.join('\n');
+    expect(errors).toMatch(/absolute local Markdown link.*\/etc\/passwd/i);
+    expect(errors).toMatch(/local Markdown link escapes.*\.\.\/\.\.\/\.\.\/\.\.\/outside\.md/i);
+    expect(errors).toMatch(/local Markdown link resolves outside.*linked-outside\.md/i);
+    expect(errors).toMatch(/unsafe Markdown link scheme.*javascript:/i);
+    expect(errors).toMatch(/unsafe Markdown link scheme.*data:/i);
+    expect(errors).toMatch(/unsafe Markdown link scheme.*file:/i);
+    expect(errors).toMatch(/unsafe Markdown link scheme.*java%73cript:/i);
+    expect(errors).toMatch(/malformed percent-encoding.*bad%E0%A4%A\.md/i);
+  });
+
+  test('requires Related Skills to be unique catalog targets other than the current skill', async () => {
+    const skillsRoot = await temporarySkillsRoot();
+    await writeSkill(skillsRoot, 'demo/target-skill', skill({ name: 'target-skill' }));
+    await writeSkill(skillsRoot, 'demo/sample-skill', skill({
+      sections: [
+        '## Overview\n\nExplain the goal.',
+        '## Prerequisites\n\n- Read access',
+        '## Procedure\n\n1. Validate every related skill.',
+        [
+          '## Related Skills',
+          '',
+          '- `demo/sample-skill`',
+          '- `target-skill`',
+          '- `demo/target-skill`',
+          '- [External](https://example.com/skill)',
+          '- [Anchor](#overview)',
+          '- https://example.com/plain-skill',
+          '- #plain-anchor'
+        ].join('\n')
+      ]
+    }));
+
+    const result = (await SkillValidator.validateAll({
+      skillsDir: skillsRoot,
+      includeContractDocuments: false
+    })).find(candidate => candidate.path === 'demo/sample-skill');
+    const errors = result.errors.join('\n');
+    expect(errors).toMatch(/Related Skills target must not reference itself.*demo\/sample-skill/i);
+    expect(errors).toMatch(/Duplicate Related Skills target.*demo\/target-skill/i);
+    expect(errors).toMatch(/Related Skills.*catalog skill.*https:\/\/example\.com\/skill/i);
+    expect(errors).toMatch(/Related Skills.*catalog skill.*#overview/i);
+    expect(errors).toMatch(/Related Skills.*catalog skill.*https:\/\/example\.com\/plain-skill/i);
+    expect(errors).toMatch(/Related Skills.*catalog skill.*#plain-anchor/i);
+  });
+
+  test('the published catalog has 184 globally unique path-derived names', async () => {
+    const skillsRoot = join(process.cwd(), 'skills');
+    const entries = await readdir(skillsRoot, { recursive: true });
+    const skillFiles = entries.filter(entry => entry.endsWith('/SKILL.md'));
+    const rows = await Promise.all(skillFiles.map(async entry => {
+      const skillPath = entry.replace(/\/SKILL\.md$/, '');
+      const [category, leaf] = skillPath.split('/');
+      const name = matter(await readFile(join(skillsRoot, entry), 'utf8')).data.name;
+      return { name, allowed: [leaf, `${category}-${leaf}`] };
+    }));
+
+    expect(rows).toHaveLength(184);
+    expect(new Set(rows.map(row => row.name)).size).toBe(184);
+    for (const row of rows) expect(row.allowed).toContain(row.name);
   });
 });

@@ -124,7 +124,8 @@ Category names use industry-standard abbreviations:
 ### Directory and File Naming
 
 - Use a lowercase kebab-case directory containing `SKILL.md`: `my-skill-name/SKILL.md`
-- Make the frontmatter `name` exactly match the directory slug
+- Use either the directory slug or `<category>-<directory-slug>` for frontmatter
+  `name`, and ensure the resulting name is globally unique in the catalog
 - Keep names concise but descriptive
 - Focus on what the skill *does*, not which platform it targets
 

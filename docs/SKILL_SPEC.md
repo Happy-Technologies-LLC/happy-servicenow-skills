@@ -1,6 +1,6 @@
 # Happy ServiceNow Skills Specification
 
-Version: 1.1.0
+Version: 1.2.0
 
 This document defines the specification for creating skills in the Happy ServiceNow AI Skills library.
 
@@ -27,7 +27,7 @@ Content here...
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `name` | string | Skill identifier matching its directory slug |
+| `name` | string | Globally unique identifier derived from its catalog path |
 | `version` | string | Exact release semantic version (`major.minor.patch`) |
 | `description` | string | Nonempty one-line description under 200 characters |
 
@@ -55,7 +55,9 @@ Content here...
 
 ### name
 
-- Must exactly match the skill directory name
+- Must be either the leaf directory slug or `<category>-<leaf-directory-slug>`
+- Must be globally unique across the catalog; use the category-prefixed form
+  when the leaf slug would collide
 - Use lowercase kebab-case (letters, digits, and single hyphens)
 - Should be descriptive but concise
 
@@ -139,6 +141,8 @@ tools:
 
 ### complexity
 
+When present, `complexity` must be one of the following nonempty string values:
+
 Valid values:
 - `beginner` - Simple, single-step procedures
 - `intermediate` - Multi-step with some decisions
@@ -148,6 +152,9 @@ Valid values:
 ## Body Specification
 
 ### Required Sections
+
+Required section names are matched case-insensitively. Use the title-case forms
+below as the canonical spelling for readability and consistency.
 
 ```markdown
 ## Overview
@@ -259,9 +266,13 @@ created directory is a validation error.
 
 - Local Markdown links are resolved relative to the containing `SKILL.md` and
   must point to an existing file or directory.
+- Local links must remain inside the packaged repository root after both lexical
+  and real-path resolution. Absolute filesystem paths, symlink escapes,
+  malformed percent encoding, and `javascript:`, `data:`, or `file:` links are errors.
 - Entries under `## Related Skills` may use a full `category/skill` path, a
   same-category `skill` slug, or a relative Markdown link to another skill.
-- Every Related Skills target must resolve to a skill in the catalog.
+- Every Related Skills target must resolve to a different skill in the catalog;
+  anchors, external URLs, self-references, and duplicate targets are invalid.
 - External `http`, `https`, and other URI links are not checked for network
   availability by the local validator.
 
@@ -318,7 +329,7 @@ Query records from any ServiceNow table.
 
 ### Complete Skill
 
-See `templates/skill-template.md` for a full example.
+See `templates/skill-template/TEMPLATE.md` for a full example.
 
 ## Changelog
 
@@ -328,3 +339,7 @@ See `templates/skill-template.md` for a full example.
 ### 1.1.0 (2026-07-27)
 - Aligned metadata, section, directory, link, and Related Skills requirements
   with automated validation.
+
+### 1.2.0 (2026-07-27)
+- Added globally unique path-derived names, safe local-link containment, strict
+  Related Skills integrity, and present-value complexity validation.

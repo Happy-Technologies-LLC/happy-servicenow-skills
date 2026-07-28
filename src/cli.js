@@ -191,9 +191,7 @@ program
   .description('Validate skill files')
   .action(async (skillPath) => {
     if (skillPath) {
-      const skill = await SkillLoader.load(skillPath);
-      const validator = new SkillValidator();
-      const result = validator.validate(skill.sourceContent, skillPath);
+      const result = await SkillValidator.validateOne(skillPath);
 
       console.log(`\n${result.summary}\n`);
       result.errors.forEach(e => console.log(chalk.red(`  ❌ ${e}`)));

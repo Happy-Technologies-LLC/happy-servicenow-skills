@@ -1,6 +1,6 @@
 ---
-name: case-summarization
-version: 1.0.2
+name: hrsd-case-summarization
+version: 1.0.3
 description: Summarize HR cases with timeline, assigned team, employee details, case type classification, SLA status, and COE routing
 author: Happy Technologies LLC
 tags: [hrsd, hr-case, summarization, sla, coe, triage, employee-services]

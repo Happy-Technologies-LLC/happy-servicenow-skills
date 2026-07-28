@@ -1,6 +1,6 @@
 ---
 name: data-classification
-version: 1.0.1
+version: 1.0.2
 description: Data security and classification - identifying sensitive fields, implementing data masking, PII/PHI discovery, and applying classification labels
 author: Happy Technologies LLC
 tags: [security, data-classification, pii, phi, masking, privacy, gdpr, compliance]
@@ -848,7 +848,7 @@ Parameters:
 - `security/acl-management` - Restricting access to classified data
 - `security/audit-compliance` - Auditing access to sensitive data
 - `security/incident-response` - Responding to data breaches
-- `security/audit-compliance` - Managing data retention
+- `grc/risk-identification` - Identify risks associated with sensitive data handling
 
 ## References
 

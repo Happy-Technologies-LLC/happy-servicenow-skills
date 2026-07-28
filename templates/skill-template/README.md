@@ -44,7 +44,7 @@ Skill directory names must follow these rules:
 
 | Field | Status | Description |
 |-------|--------|-------------|
-| `name` | Required | Skill identifier that exactly matches the containing directory |
+| `name` | Required | Globally unique leaf slug, or `<category>-<leaf-slug>` when needed |
 | `version` | Required | Semantic version (e.g., `1.0.0`) |
 | `description` | Required | One-line summary of the skill |
 | `author` | Recommended | Your name or organization |

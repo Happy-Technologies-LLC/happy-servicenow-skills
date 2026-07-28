@@ -22,6 +22,9 @@ This guide walks you through creating your own skills for the library.
    ---
    ```
 
+   The `name` must be globally unique and path-derived: use either `my-skill`
+   or `<category>-my-skill` when another category already uses that leaf name.
+
 3. Write the content following the template structure
 
 4. Validate:
