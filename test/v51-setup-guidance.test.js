@@ -22,13 +22,33 @@ function fencedExamples(markdown) {
     .map(match => match[1]);
 }
 
-function unsafeSecretExamples(markdown) {
-  const secretOption = /--(?:password|client-secret|(?:access-|api-)?token|api-key|apikey)(?:=\S+|[ \t]+\S+)/i;
-  const credentialHeader = /(?:^|\s)(?:-H\s+|--header\s+)?["']?(?:Authorization|X-API-Key)["']?\s*:/im;
-
-  return fencedExamples(markdown).filter(example =>
-    secretOption.test(example) || credentialHeader.test(example)
+function inlineCodeSnippets(markdown) {
+  const prose = markdown.replace(/^```[^\n]*\n[\s\S]*?^```[ \t]*$/gm, '');
+  return prose.split('\n').flatMap(line =>
+    [...line.matchAll(/(?<!`)`([^`\n]+)`(?!`)/g)]
+      .map(match => ({ snippet: match[1], line }))
   );
+}
+
+function containsSecretCommand(example) {
+  const secretOption = /--(?:password|client-secret|(?:access-|api-)?token|api-key|apikey)(?:=\S+|[ \t]+\S+)/i;
+  const curlUserOption = /\bcurl\b[\s\S]*?(?:^|[ \t])(?:-u|--user)(?:=\S+|[ \t]+\S+)/im;
+  const headerOption = /(?:-H|--header)(?:=|[ \t]+)["']?(?:Authorization|X-API-Key)["']?\s*:/i;
+  const rawCredentialHeader = /(?:^|\s)["']?(?:Authorization|X-API-Key)["']?\s*:/im;
+  return [secretOption, curlUserOption, headerOption, rawCredentialHeader]
+    .some(pattern => pattern.test(example));
+}
+
+function unsafeSecretExamples(markdown) {
+  const unsafe = fencedExamples(markdown).filter(containsSecretCommand);
+
+  for (const { snippet, line } of inlineCodeSnippets(markdown)) {
+    if (!containsSecretCommand(snippet)) continue;
+    const policyWarning = /\b(?:do not|don't|never|must not|avoid)\b/i.test(line);
+    if (!policyWarning) unsafe.push(snippet);
+  }
+
+  return unsafe;
 }
 
 function positiveDocsOnlyRecommendations(markdown) {
@@ -40,9 +60,12 @@ function positiveDocsOnlyRecommendations(markdown) {
 
   const prose = markdown.replace(/^```[^\n]*\n[\s\S]*?^```[ \t]*$/gm, '');
   for (const line of prose.split('\n').filter(candidate => /--docs-only\b/i.test(candidate))) {
-    const explicitlyNegative = /\b(?:do not|don't|never|must not|avoid)\b|\b(?:unreliable|broken)\b|\b(?:does not|doesn't|cannot|can't|not reliably)\b/i.test(line);
-    const recommendsUse = /\b(?:use|run|recommend|launch|start|invoke|pass|configure|add|set)\b/i.test(line);
-    if (recommendsUse && !explicitlyNegative) recommendations.push(line);
+    const clauses = line.split(/\s*(?:[.;]|\bbut\b|\bhowever\b|\byet\b|\bnevertheless\b)\s*/i);
+    for (const clause of clauses.filter(candidate => /--docs-only\b/i.test(candidate))) {
+      const explicitlyNegative = /\b(?:do not|don't|never|must not|avoid)\b|\b(?:unreliable|broken)\b|\b(?:does not|doesn't|cannot|can't|not reliably)\b/i.test(clause);
+      const recommendsUse = /\b(?:use|run|recommend|launch|start|invoke|pass|configure|add|set)\b/i.test(clause);
+      if (recommendsUse && !explicitlyNegative) recommendations.push(clause);
+    }
   }
 
   return recommendations;
@@ -51,7 +74,6 @@ function positiveDocsOnlyRecommendations(markdown) {
 describe('Happy Platform MCP v5.1 setup guidance', () => {
   test.each(Object.entries(contents))('%s contains no secret-bearing examples', (_name, markdown) => {
     const forbidden = [
-      /curl[^\n]*(?:\s-u\s|--user\b)/i,
       /["'](?:password|clientSecret|client_secret|access_token|token)["']\s*:/i,
       /["'][^"'\n]*(?:PASSWORD|CLIENT_SECRET|ACCESS_TOKEN|API_TOKEN)[^"'\n]*["']\s*:/i,
       /^\s*(?:password|clientSecret|client_secret|access_token|token)\s*:/im,
@@ -75,7 +97,10 @@ describe('Happy Platform MCP v5.1 setup guidance', () => {
     ['access token argument', '```bash\nprobe --access-token=VALUE\n```'],
     ['API token argument', '```bash\nprobe --api-token VALUE\n```'],
     ['API key argument', '```bash\nprobe --api-key=VALUE\n```'],
+    ['multiline curl short user option', ['```bash', 'curl https://example.invalid \\', '  -u user:VALUE', '```'].join('\n')],
+    ['multiline curl long user option', ['```bash', 'curl https://example.invalid \\', '  --user=user:VALUE', '```'].join('\n')],
     ['authorization header', '```bash\ncurl -H "Authorization: Bearer VALUE" https://example.invalid\n```'],
+    ['equals authorization header', '```bash\ncurl --header="Authorization: Bearer VALUE" https://example.invalid\n```'],
     ['API key header', '```bash\ncurl -H "X-API-Key: VALUE" https://example.invalid\n```']
   ])('detects unsafe fenced %s', (_name, markdown) => {
     expect(unsafeSecretExamples(markdown)).toHaveLength(1);
@@ -84,6 +109,18 @@ describe('Happy Platform MCP v5.1 setup guidance', () => {
   test('allows prose that explains forbidden credential patterns', () => {
     const policy = 'Never use --password VALUE or generate an Authorization: header in documentation.';
     expect(unsafeSecretExamples(policy)).toEqual([]);
+  });
+
+  test('allows an inline policy warning about a secret option', () => {
+    expect(unsafeSecretExamples('Never run `probe --password VALUE`; use a masked prompt.')).toEqual([]);
+  });
+
+  test.each([
+    ['secret option', 'Run `happy-platform-mcp instance add --password VALUE` now.'],
+    ['curl user option', 'Run `curl -u user:VALUE https://example.invalid` now.'],
+    ['credential header', 'Run `curl --header="Authorization: Bearer VALUE" https://example.invalid` now.']
+  ])('detects an inline %s outside a fence', (_name, markdown) => {
+    expect(unsafeSecretExamples(markdown)).toHaveLength(1);
   });
 
   test('installation documents the supported local CLI and storage model', () => {
@@ -108,15 +145,15 @@ describe('Happy Platform MCP v5.1 setup guidance', () => {
     expect(contents.installation).toMatch(/authorization_code[^\n]+zero-static-secret/i);
   });
 
-  test('docs-only and registration guidance reflects v5.1 behavior and caveats', () => {
-    const guidance = `${contents.installation}\n${contents.docsOnly}`;
+  test.each(['installation', 'docsOnly'])('%s independently documents docs-only and registration behavior', name => {
+    const guidance = contents[name];
     expect(guidance).toContain('HAPPY_MCP_DOCS_ONLY=true');
     expect(positiveDocsOnlyRecommendations(guidance)).toEqual([]);
     expect(guidance).toMatch(/automatic(?:ally)?[^\n]*docs-only/i);
     expect(guidance).toMatch(/metadata-only[^\n]*SN-Register-Instance|SN-Register-Instance[^\n]*metadata-only/i);
     expect(guidance).toMatch(/rejects? secret fields?/i);
-    expect(guidance).toMatch(/live reload/i);
-    expect(guidance).toMatch(/restart[^\n]*docs-only/i);
+    expect(guidance).toMatch(/live[^\n]*reload/i);
+    expect(guidance).toMatch(/restart[^\n]*docs-only|docs-only[^\n]*restart/i);
     expect(guidance).toMatch(/externally preprovisioned deterministic keychain refs?/i);
   });
 
@@ -133,6 +170,11 @@ describe('Happy Platform MCP v5.1 setup guidance', () => {
     expect(positiveDocsOnlyRecommendations(policy)).toEqual([]);
   });
 
+  test('rejects a mixed warning and positive docs-only recommendation', () => {
+    const mixed = 'The `--docs-only` flag is unreliable, but run `happy-platform-mcp --docs-only` anyway.';
+    expect(positiveDocsOnlyRecommendations(mixed)).toHaveLength(1);
+  });
+
   test('instance routing uses the live v5.1 tools and concurrency semantics', () => {
     expect(contents.instances).not.toContain('SN-List-Instances');
     expect(contents.instances).toContain('SN-Set-Instance');
@@ -140,6 +182,16 @@ describe('Happy Platform MCP v5.1 setup guidance', () => {
     expect(contents.instances).toMatch(/parameterless[^\n]*SN-Set-Instance|SN-Set-Instance[^\n]*parameterless/i);
     expect(contents.instances).toMatch(/session(?:'s)?[^\n]*implicit target/i);
     expect(contents.instances).toMatch(/explicit[^\n]*instance[^\n]*(?:concurrent|critical)/i);
+    expect(contents.instances).toMatch(/optional[^\n]*instance[^\n]*except[^\n]*SN-Register-Instance[^\n]*SN-Set-Instance[^\n]*SN-Get-Current-Instance[^\n]*SN-Docs/i);
+  });
+
+  test('registration examples never include a per-call instance field', () => {
+    const registrationExamples = fencedExamples(contents.installation)
+      .filter(example => /Tool:\s*SN-Register-Instance/.test(example));
+    expect(registrationExamples.length).toBeGreaterThan(0);
+    for (const example of registrationExamples) {
+      expect(example).not.toMatch(/^\s*instance\s*:/im);
+    }
   });
 
   test('touched MCP tool names use the live v5.1 aliases', () => {

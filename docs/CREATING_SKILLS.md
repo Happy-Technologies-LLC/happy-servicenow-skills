@@ -166,7 +166,7 @@ Parameters:
 | sysparm_fields | Query | Fields to return |
 | sysparm_limit | Query | Max records |
 
-    **Safe fallback guidance:** Prefer an equivalent MCP tool example. If raw REST is genuinely required, describe the endpoint and request shape without authentication material. Refer readers to an organization-approved local credential helper; never put credentials, tokens, authentication headers, or secret placeholders in commands, JSON, MCP arguments, logs, or generated documentation.
+**Safe fallback guidance:** Prefer an equivalent MCP tool example. If raw REST is genuinely required, describe the endpoint and request shape without authentication material. Refer readers to an organization-approved local credential helper; never put credentials, tokens, authentication headers, or secret placeholders in commands, JSON, MCP arguments, logs, or generated documentation.
 ```
 
 ## Testing Your Skill
