@@ -22,15 +22,34 @@ function fencedExamples(markdown) {
     .map(match => match[1]);
 }
 
+function governingContext(prefix) {
+  const boundaries = [...prefix.matchAll(/[.;!?]|\b(?:but|however|yet|nevertheless|instead)\b/gi)]
+    .map(match => ({ index: match.index, end: match.index + match[0].length }));
+  const hardBoundaryEnd = boundaries.at(-1)?.end ?? 0;
+  const commas = [...prefix.matchAll(/,/g)];
+
+  for (const [position, comma] of commas.entries()) {
+    const following = prefix.slice(comma.index + 1).trimStart();
+    const beginsImperative = /^(?:run|use|invoke|execute|call|pass|launch|start|configure|add|set|send)\b/i.test(following);
+    if (!beginsImperative) continue;
+
+    const previousComma = commas[position - 1];
+    const parenthetical = previousComma && previousComma.index >= hardBoundaryEnd
+      && /^(?:under|in|with|without|for|when|where|if|unless|except|as|despite|during|after|before)\b/i
+        .test(prefix.slice(previousComma.index + 1, comma.index).trim());
+    if (!parenthetical) boundaries.push({ index: comma.index, end: comma.index + 1 });
+  }
+
+  const lastBoundary = boundaries.sort((left, right) => left.index - right.index).at(-1);
+  return prefix.slice(lastBoundary?.end ?? 0);
+}
+
 function inlineCodeSnippets(markdown) {
   const prose = markdown.replace(/^```[^\n]*\n[\s\S]*?^```[ \t]*$/gm, '');
   return prose.split('\n').flatMap(line => {
     return [...line.matchAll(/(?<!`)`([^`\n]+)`(?!`)/g)].map(match => {
       const prefix = line.slice(0, match.index);
-      const boundaries = [...prefix.matchAll(/[.;,!?]|\b(?:but|however|yet|nevertheless|instead)\b/gi)];
-      const lastBoundary = boundaries.at(-1);
-      const contextStart = lastBoundary ? lastBoundary.index + lastBoundary[0].length : 0;
-      return { snippet: match[1], context: prefix.slice(contextStart) };
+      return { snippet: match[1], context: governingContext(prefix) };
     });
   });
 }
@@ -124,6 +143,13 @@ describe('Happy Platform MCP v5.1 setup guidance', () => {
 
   test('allows a directly negated inline command', () => {
     expect(unsafeSecretExamples('Do not run `probe --password VALUE`.')).toEqual([]);
+  });
+
+  test.each([
+    ['negative list', 'Never run, copy, or document `probe --password VALUE`.'],
+    ['negative parenthetical', 'Do not, under any circumstances, run `probe --password VALUE`.']
+  ])('preserves governing negation across a %s', (_name, markdown) => {
+    expect(unsafeSecretExamples(markdown)).toEqual([]);
   });
 
   test.each([
