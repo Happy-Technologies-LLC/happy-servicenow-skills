@@ -4,7 +4,9 @@
 
 Version 1.2.1 is the final compatibility repair. It restores the documented
 loader entry point and forwards the legacy CLI through public exports from
-`happy-platform-skills`. It must be published separately from the root package.
+`happy-platform-skills`. Because that public CLI export first ships in 2.4.0,
+the shim requires `happy-platform-skills@^2.4.0`; 2.3.x is not compatible. The
+shim must be published separately from the root package.
 
 ## Migration
 

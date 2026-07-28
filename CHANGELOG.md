@@ -21,7 +21,8 @@ All notable changes to Happy Platform Skills are documented here.
 - Updated package metadata, documentation, and migration compatibility for the
   2.4.0 release.
 - Prepared `happy-servicenow-skills@1.2.1` as a separate final compatibility
-  release for the repaired loader export and legacy CLI forwarding.
+  release for the repaired loader export and legacy CLI forwarding, with a
+  `happy-platform-skills@^2.4.0` compatibility floor.
 
 ### Fixed
 

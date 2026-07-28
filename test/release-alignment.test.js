@@ -36,5 +36,6 @@ describe('release-facing documentation', () => {
     expect(releasing).toContain('npm audit --omit=dev');
     expect(releasing).toMatch(/Unreleased.*YYYY-MM-DD/s);
     expect(releasing).toMatch(/cannot be reused|cannot reuse/i);
+    expect(releasing).toMatch(/migration\/happy-servicenow-skills[\s\S]*npm publish --dry-run/);
   });
 });

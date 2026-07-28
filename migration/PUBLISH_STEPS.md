@@ -21,10 +21,12 @@ From the repository root:
 npm test -- --runInBand test/migration-shim.test.js
 cd migration/happy-servicenow-skills
 npm pack --dry-run
+npm publish --dry-run
 ```
 
 The tarball must report version 1.2.1 and include `index.js`, `loader.js`,
-`cli.js`, `README.md`, and `package.json`.
+`cli.js`, `README.md`, and `package.json`. The publish dry run must complete
+without npm metadata-correction warnings.
 
 ## Publish and deprecate
 

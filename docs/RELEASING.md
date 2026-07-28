@@ -95,6 +95,7 @@ only after `happy-platform-skills@2.4.0` is available from npm:
 ```bash
 cd migration/happy-servicenow-skills
 npm pack --dry-run
+npm publish --dry-run
 npm whoami
 npm publish --access public
 npm deprecate happy-servicenow-skills@1.2.1 "Renamed to happy-platform-skills; install happy-platform-skills instead."
